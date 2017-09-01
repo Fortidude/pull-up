@@ -1,0 +1,4 @@
+pullup_api_exercise_list:
+      path:     /list
+      defaults: { _controller: pullup.exercise.controller:listAction, _format: 'json'  }
+      methods: [GET]

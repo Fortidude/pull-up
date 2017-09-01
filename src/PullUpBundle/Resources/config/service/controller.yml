@@ -21,3 +21,10 @@ services:
             - "@pullup.current_user"
             - "@pullup.training_pull_up.service"
             - "@pullup.command_bus"
+
+
+    pullup.exercise.controller:
+        class: PullUpBundle\Controller\ExerciseController
+        arguments:
+            - "@pullup.exercise.repository.doctrine"
+            - "@pullup.command_bus"

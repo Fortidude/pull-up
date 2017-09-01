@@ -1,0 +1,42 @@
+PullUpDomain\Entity\Exercise:
+    type: entity
+    table: exercise
+    repositoryClass: PullUpBundle\Repository\ExerciseRepository
+    id:
+        id:
+            type: uuid
+            generator:
+                strategy: CUSTOM
+            customIdGenerator:
+                class: Ramsey\Uuid\Doctrine\UuidGenerator
+
+    fields:
+        name:
+            column: name
+            type: string
+            length: 255
+            unique: true
+
+        createdAt:
+            column: created_at
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+
+        updatedAt:
+            column: updated_at
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+
+    manyToOne:
+        createdBy:
+            targetEntity: PullUpDomain\Entity\User
+            joinColumn:
+                name: created_by
+                referencedColumnName: id
+            gedmo:
+                blameable:
+                    on: create

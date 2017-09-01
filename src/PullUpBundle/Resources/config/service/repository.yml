@@ -1,27 +1,42 @@
 services:
-      pullup.user.repository.doctrine:
-          class: PullUpBundle\Repository\UserRepository
-          arguments:
-              - "@doctrine.orm.entity_manager"
-          public: false
+    pullup.user.repository.doctrine:
+        class: PullUpBundle\Repository\UserRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: false
 
-      pullup.user.repository:
-        alias: pullup.user.repository.doctrine
+    pullup.user.repository:
+      alias: pullup.user.repository.doctrine
 
-      pullup.first_form.repository.doctrine:
-          class: PullUpBundle\Repository\FirstFormRepository
-          arguments:
-              - "@doctrine.orm.entity_manager"
-          public: false
+    ######
 
-      pullup.first_form.repository:
-        alias: pullup.first_form.repository.doctrine
+    pullup.first_form.repository.doctrine:
+        class: PullUpBundle\Repository\FirstFormRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: false
 
-      pullup.training_pull_up.repository.doctrine:
-          class: PullUpBundle\Repository\TrainingPullUpRepository
-          arguments:
-              - "@doctrine.orm.entity_manager"
-          public: false
+    pullup.first_form.repository:
+      alias: pullup.first_form.repository.doctrine
 
-      pullup.training_pull_up.repository:
-        alias: pullup.training_pull_up.repository.doctrine
+    ######
+
+    pullup.training_pull_up.repository.doctrine:
+        class: PullUpBundle\Repository\TrainingPullUpRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: false
+
+    pullup.training_pull_up.repository:
+      alias: pullup.training_pull_up.repository.doctrine
+
+    ######
+
+    pullup.exercise.repository.doctrine:
+        class: PullUpBundle\Repository\ExerciseRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: false
+
+    pullup.exercise.repository:
+      alias: pullup.exercise.repository.doctrine
