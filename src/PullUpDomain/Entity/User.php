@@ -20,6 +20,8 @@ class User extends BaseUser
     protected $updatedAt;
     protected $expiresAt;
 
+    protected $daysPerCircuit = 7;
+
     protected $firstForm;
     protected $trainingPullUps;
 

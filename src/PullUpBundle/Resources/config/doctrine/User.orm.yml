@@ -26,6 +26,13 @@ PullUpDomain\Entity\User:
             type: string
             length: 255
 
+        daysPerCircuit:
+            column: days_per_circuit
+            type: integer
+            length: 3
+            options:
+                default: 7
+
         createdAt:
             column: created_at
             type: datetime
