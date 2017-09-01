@@ -31,7 +31,7 @@ class ExerciseController
     }
 
     /**
-     * @Rest\View(serializerGroups={"exercise_list"})
+     * @Rest\View(serializerGroups={"exercise_list", "exercise_variant_list"})
      * @return array
      */
     public function listAction()

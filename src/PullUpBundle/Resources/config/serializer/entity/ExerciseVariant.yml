@@ -1,16 +1,12 @@
-PullUpDomain\Entity\Exercise:
+PullUpDomain\Entity\ExerciseVariant:
     exclusion_policy: ALL
     properties:
         name:
-            groups: [logger, exercise_item, exercise_list]
+            groups: [logger, exercise_variant_item, exercise_variant_list]
             expose: true
 
         description:
-            groups: [logger, exercise_item, exercise_list]
-            expose: true
-
-        exerciseVariants:
-            groups: [exercise_variant_list]
+            groups: [logger, exercise_variant_item, exercise_variant_list]
             expose: true
 
     virtual_properties:

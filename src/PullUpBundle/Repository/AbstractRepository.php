@@ -51,7 +51,7 @@ abstract class AbstractRepository
             $em->clear();
             gc_collect_cycles();
         } catch (UniqueConstraintViolationException $e) {
-
+            throw $e;
         }
     }
 
