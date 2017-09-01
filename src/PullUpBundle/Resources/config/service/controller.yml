@@ -1,0 +1,23 @@
+services:
+    pullup.token.controller:
+        class: PullUpBundle\Controller\TokenController
+
+    pullup.user.controller:
+        class: PullUpBundle\Controller\UserController
+        arguments:
+            - "@pullup.profile_manager"
+            - "@pullup.command_bus"
+
+    pullup.profile.controller:
+        class: PullUpBundle\Controller\ProfileController
+        arguments:
+            - "@pullup.profile_manager"
+            - "@pullup.current_user"
+            - "@pullup.command_bus"
+
+    pullup.training_pull_up.controller:
+        class: PullUpBundle\Controller\TrainingPullUpController
+        arguments:
+            - "@pullup.current_user"
+            - "@pullup.training_pull_up.service"
+            - "@pullup.command_bus"

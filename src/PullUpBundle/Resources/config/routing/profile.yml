@@ -1,0 +1,4 @@
+pullup_api_profile_current:
+      path:     /current
+      defaults: { _controller: pullup.profile.controller:currentAction, _format: 'json'  }
+      methods: [GET]

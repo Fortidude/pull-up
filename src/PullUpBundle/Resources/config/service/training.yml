@@ -1,0 +1,5 @@
+services:
+    pullup.training_pull_up.service:
+        class: PullUpBundle\Service\Training\TrainingPullUpManager
+        arguments:
+            - "@pullup.training_pull_up.repository"

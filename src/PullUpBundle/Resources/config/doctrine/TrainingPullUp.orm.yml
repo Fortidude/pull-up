@@ -1,0 +1,58 @@
+PullUpDomain\Entity\TrainingPullUp:
+    type: entity
+    table: training_pull_up
+    repositoryClass: PullUpBundle\Repository\TrainingPullUpRepository
+    id:
+        id:
+            type: uuid
+            generator:
+                strategy: CUSTOM
+            customIdGenerator:
+                class: Ramsey\Uuid\Doctrine\UuidGenerator
+
+    fields:
+        route:
+            column: route
+            type: integer
+            length: 3
+
+        type:
+            column: type
+            type: string
+            length: 16
+
+        level:
+            column: level
+            type: integer
+            length: 2
+
+        reps:
+            column: reps
+            type: integer
+            length: 2
+
+        additionalInformation:
+            column: additional_information
+            type: text
+            nullable: true
+
+        createdAt:
+            column: created_at
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            column: updated_at
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+
+    manyToOne:
+        user:
+            targetEntity: PullUpDomain\Entity\User
+            inversedBy: trainingPullUps
+            joinColumn:
+                name: user_id
+                referencedColumnName: id

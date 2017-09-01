@@ -1,0 +1,60 @@
+PullUpDomain\Entity\User:
+    type: entity
+    table: user
+    repositoryClass: PullUpBundle\Repository\UserRepository
+    id:
+        id:
+            type: uuid
+            generator:
+                strategy: CUSTOM
+            customIdGenerator:
+                class: Ramsey\Uuid\Doctrine\UuidGenerator
+
+    fields:
+
+        facebookId:
+            column: facebook_id
+            type: bigint
+
+        name:
+            column: name
+            type: string
+            length: 24
+
+        avatar:
+            column: avatar
+            type: string
+            length: 255
+
+        createdAt:
+            column: created_at
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            column: updated_at
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+
+        expiresAt:
+            type: datetime
+            options:
+                default: "2020-12-31 23:59:59"
+
+    oneToOne:
+        firstForm:
+            targetEntity: PullUpDomain\Entity\FirstForm
+            inversedBy: user
+            cascade: [persist]
+            joinColumn:
+                name: first_form_id
+                referencedColumnName: id
+
+    oneToMany:
+        trainingPullUps:
+            targetEntity: PullUpDomain\Entity\TrainingPullUp
+            mappedBy: user
+            cascade: [persist]

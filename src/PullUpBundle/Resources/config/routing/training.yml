@@ -1,0 +1,19 @@
+pullup_api_training_pull_up_first_form_get:
+      path:     /first-form
+      defaults: { _controller: pullup.training_pull_up.controller:getFirstFormAction, _format: 'json'  }
+      methods: [GET]
+
+pullup_api_training_pull_up_first_form_post:
+      path:     /first-form
+      defaults: { _controller: pullup.training_pull_up.controller:postFirstFormAction, _format: 'json'  }
+      methods: [POST]
+
+pullup_api_training_pull_up_current_get:
+      path:     /current
+      defaults: { _controller: pullup.training_pull_up.controller:getCurrentTrainingAction, _format: 'json'  }
+      methods: [GET]
+
+pullup_api_training_pull_up_current_post:
+      path:     /current
+      defaults: { _controller: pullup.training_pull_up.controller:postCurrentTrainingAction, _format: 'json'  }
+      methods: [POST]

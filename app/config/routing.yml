@@ -1,0 +1,16 @@
+api_login_check:
+    host: "{domain}"
+    path: /login_check
+    requirements:
+        domain: "%domain%"
+    defaults:
+        domain: '%domain%'
+
+
+pullup_api:
+    resource: "@PullUpBundle/Resources/config/routing.yml"
+    host: "{domain}"
+    requirements:
+        domain: "%domain%"
+    defaults:
+        domain: '%domain%'

@@ -1,0 +1,82 @@
+PullUpDomain\Entity\FirstForm:
+    type: entity
+    table: first_form
+    repositoryClass: PullUpBundle\Repository\FirstFormRepository
+    id:
+        id:
+            type: uuid
+            generator:
+                strategy: CUSTOM
+            customIdGenerator:
+                class: Ramsey\Uuid\Doctrine\UuidGenerator
+
+    fields:
+        age:
+            column: age
+            type: integer
+            length: 3
+
+        weight:
+            column: weight
+            type: integer
+            length: 3
+
+        bodyFat:
+            column: body_fat
+            type: integer
+            length: 2
+
+        practiceAlready:
+            column: practice_already
+            type: boolean
+
+        practiceLong:
+            column: practice_long
+            type: integer
+            length: 2
+
+        frequencyTraining:
+            column: frequency_training
+            type: integer
+            length: 2
+
+        canDoPullUp:
+            column: can_do_pull_up
+            type: boolean
+
+        resistancePullUp:
+            column: resistance_pull_up
+            type: boolean
+
+        amountPullUp:
+            column: amount_pull_up
+            type: integer
+            length: 3
+
+        resistancePullUpType:
+            column: resistance_pull_up_type
+            type: integer
+            length: 3
+
+        resistancePullUpAmount:
+            column: resistance_pull_up_amount
+            type: integer
+            length: 3
+
+        createdAt:
+            column: created_at
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            column: updated_at
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+
+    oneToOne:
+        user:
+            targetEntity: PullUpDomain\Entity\User
+            mappedBy: firstForm

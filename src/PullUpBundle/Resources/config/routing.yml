@@ -1,0 +1,17 @@
+pullup_api_get_token:
+    path:     /getToken
+    defaults: { _controller: pullup.token.controller:getTokenAction }
+    methods: [POST]
+
+pullup_api_user:
+    resource: "@PullUpBundle/Resources/config/routing/user.yml"
+    prefix:   /
+
+pullup_api_training:
+    resource: "@PullUpBundle/Resources/config/routing/training.yml"
+    prefix:   /secured/training
+
+pullup_api_profile:
+    resource: "@PullUpBundle/Resources/config/routing/profile.yml"
+    prefix:   /secured/profile
+

@@ -1,0 +1,42 @@
+imports:
+    - resource: service/controller.yml
+    - resource: service/repository.yml
+    - resource: service/handler.yml
+    - resource: service/subscriber.yml
+    - resource: service/training.yml
+
+services:
+    pullup.command_bus:
+        class: PullUpBundle\CommandBus\SimpleBus
+        arguments:
+            - "@command_bus"
+
+    pullup.profile_authentication_manager:
+        class: PullUpBundle\Service\Profile\AuthenticationManager
+        arguments:
+            - "@lexik_jwt_authentication.jwt_manager"
+
+    pullup.profile_manager:
+        class: PullUpBundle\Service\Profile\ProfileManager
+        arguments:
+            - "@fos_user.util.password_updater"
+            - "@fos_user.util.canonical_fields_updater"
+            - "@fos_user.object_manager"
+            - "@pullup.user.repository"
+
+    pullup.current_user.factory:
+        class: PullUpBundle\Service\Profile\CurrentUserFactory
+        arguments:
+          - "@security.token_storage"
+
+    pullup.current_user:
+        class:   PullUpDomain\Entity\User
+        factory: ["@pullup.current_user.factory", getUser]
+
+    pullup.validation_converter:
+        class: PullUpBundle\ParamConverter\DataValidConverter
+        arguments:
+            - "@serializer"
+            - "@validator"
+        tags:
+            - { name: request.param_converter, priority: -2, converter: validation_converter }

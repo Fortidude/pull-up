@@ -1,0 +1,62 @@
+PullUpDomain\Entity\User:
+    exclusion_policy: ALL
+    properties:
+        email:
+            groups: [logger, user_item, user_list]
+            expose: true
+            
+        username:
+            groups: [logger, user_item, user_list]
+            expose: true
+        name:
+            groups: [logger, user_item, user_list]
+            expose: true
+        sex:
+            groups: [logger, user_item, user_list]
+            expose: true
+        email:
+            groups: [logger, user_item, user_list]
+            expose: true
+        avatar:
+            groups: [user_item, user_list]
+            expose: true
+        enabled:
+            groups: [logger, user_item, user_list]
+            expose: true
+        createdAt:
+            groups: [logger, user_item, user_list]
+            expose: true
+        updatedAt:
+            groups: [logger, user_item, user_list]
+            expose: true
+        expiresAt:
+            groups: [logger, user_item, user_list]
+            expose: true
+        facebookId:
+           groups: [logger, user_item, user_list]
+           expose: true
+
+    virtual_properties:
+        getId:
+            serialized_name: id
+            type: string
+            groups: [logger, user_item, user_list]
+            expose: true
+
+        isAdmin:
+            serialized_name: is_admin
+            type: boolean
+            groups: [logger, user_item, user_list]
+            expose: true
+
+        isEnabled:
+            serialized_name: is_enabled
+            type: boolean
+            groups: [logger, user_item, user_list]
+            expose: true
+
+        isFirstFormFilled:
+            serialized_name: first_form_finished
+            type: boolean
+            groups: [logger, user_item, user_list]
+            expose: true

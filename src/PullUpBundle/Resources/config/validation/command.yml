@@ -1,0 +1,4 @@
+PullUpService\Command\RegisterCommand:
+    properties:
+        accessToken:
+            - NotBlank: ~
