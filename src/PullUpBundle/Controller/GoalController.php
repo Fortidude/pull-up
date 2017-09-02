@@ -57,4 +57,16 @@ class GoalController
         $this->commandBus->handle($command);
         return ['status' => true];
     }
+
+    /**
+     * @ParamConverter("command", converter="validation_converter")
+     *
+     * @param Command\CreateGoalSetCommand $command
+     * @return array
+     */
+    public function createSetAction(Command\CreateGoalSetCommand $command)
+    {
+        $this->commandBus->handle($command);
+        return ['status' => true];
+    }
 }

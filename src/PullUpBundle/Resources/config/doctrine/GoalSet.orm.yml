@@ -1,0 +1,61 @@
+PullUpDomain\Entity\GoalSet:
+    type: entity
+    table: goal_set
+    repositoryClass: PullUpBundle\Repository\GoalSetRepository
+    id:
+        id:
+            type: uuid
+            generator:
+                strategy: CUSTOM
+            customIdGenerator:
+                class: Ramsey\Uuid\Doctrine\UuidGenerator
+
+    fields:
+        reps:
+            column: reps
+            type: integer
+            length: 10
+            nullable: true
+
+        weight:
+            column: weight
+            type: integer
+            length: 10
+            nullable: true
+
+        time:
+            column: time
+            type: integer
+            length: 10
+            nullable: true
+
+        date:
+            column: date
+            type: datetime
+
+        createdAt:
+            column: created_at
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+
+        updatedAt:
+            column: updated_at
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+
+    manyToOne:
+        goal:
+            targetEntity: PullUpDomain\Entity\Goal
+            inversedBy: sets
+            joinColumn:
+                name: goal_id
+                referencedColumnName: id
+        user:
+            targetEntity: PullUpDomain\Entity\User
+            joinColumn:
+                name: user_id
+                referencedColumnName: id

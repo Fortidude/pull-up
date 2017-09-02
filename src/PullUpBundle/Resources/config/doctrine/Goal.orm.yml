@@ -75,3 +75,9 @@ PullUpDomain\Entity\Goal:
             joinColumn:
                 name: user_id
                 referencedColumnName: id
+
+    oneToMany:
+        sets:
+            targetEntity: PullUpDomain\Entity\GoalSet
+            mappedBy: goal
+            cascade: [persist]

@@ -34,3 +34,13 @@ services:
           - '%kernel.logs_dir%'
         tags:
             - { name: command_handler, handles: PullUpService\Command\CreateGoalCommand }
+
+    pullup.create_goal_set.handler:
+        class: PullUpService\Handler\CreateGoalSetHandler
+        arguments:
+          - '@pullup.goal.repository'
+          - '@pullup.goal_set.repository'
+          - '@pullup.current_user'
+          - '%kernel.logs_dir%'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\CreateGoalSetCommand }

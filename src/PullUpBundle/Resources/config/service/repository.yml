@@ -51,3 +51,14 @@ services:
 
     pullup.goal.repository:
       alias: pullup.goal.repository.doctrine
+
+    ######
+
+    pullup.goal_set.repository.doctrine:
+        class: PullUpBundle\Repository\GoalSetRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: false
+
+    pullup.goal_set.repository:
+      alias: pullup.goal_set.repository.doctrine

@@ -18,6 +18,8 @@ class Goal
     protected $requiredTime;
     protected $requiredReps;
 
+    protected $sets;
+
     protected $createdAt;
     protected $updatedAt;
 
@@ -72,9 +74,10 @@ class Goal
         return $entity;
     }
 
-    public function addSet()
+    public function addSet(\DateTime $date, int $reps = null, int $weight = null, int $time = null)
     {
-
+        $this->sets[] = GoalSet::create($this, $this->user, $date, $reps ?: 0, $weight ?: 0, $time ?: 0);
+        return $this;
     }
 
     public function getProgress()

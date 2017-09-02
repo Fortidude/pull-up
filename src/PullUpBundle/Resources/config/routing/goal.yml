@@ -7,3 +7,8 @@ pullup_api_goal_create:
       path:     /create
       defaults: { _controller: pullup.goal.controller:createAction, _format: 'json'  }
       methods: [POST]
+
+pullup_api_goal_set_create:
+      path:     /set/create
+      defaults: { _controller: pullup.goal.controller:createSetAction, _format: 'json'  }
+      methods: [POST]
