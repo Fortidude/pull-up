@@ -38,5 +38,4 @@ class ExerciseController
     {
         return $this->repository->getList();
     }
-
 }

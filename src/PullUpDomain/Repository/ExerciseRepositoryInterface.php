@@ -11,6 +11,12 @@ interface ExerciseRepositoryInterface
      */
     public function getList();
 
+    /**
+     * @param string $string
+     * @return Exercise
+     */
+    public function getByNameOrId(string $string);
+
     public function add(Exercise $entity);
     public function remove(Exercise $entity);
 }

@@ -28,6 +28,40 @@ class ExerciseRepository extends AbstractRepository implements ExerciseRepositor
     }
 
     /**
+     * @param string $name
+     * @return Exercise
+     */
+    public function getByName(string $name) : Exercise
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $qb->select('e, ev')
+            ->from('PullUpDomainEntity:Exercise', 'e')
+            ->join('e.exerciseVariants', 'ev')
+            ->where('e.name = :name')
+            ->setParameter('name', $name)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
+
+    /**
+     * @param string $string
+     * @return Exercise
+     */
+    public function getByNameOrId(string $string) : Exercise
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $qb->select('e, ev')
+            ->from('PullUpDomainEntity:Exercise', 'e')
+            ->join('e.exerciseVariants', 'ev')
+            ->where('e.name = :string OR e.id = :string')
+            ->setParameter('string', $string)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
+
+    /**
      * @param Exercise $entity
      */
     public function add(Exercise $entity)

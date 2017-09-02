@@ -22,9 +22,15 @@ services:
             - "@pullup.training_pull_up.service"
             - "@pullup.command_bus"
 
-
     pullup.exercise.controller:
         class: PullUpBundle\Controller\ExerciseController
         arguments:
             - "@pullup.exercise.repository.doctrine"
+            - "@pullup.command_bus"
+
+    pullup.goal.controller:
+        class: PullUpBundle\Controller\GoalController
+        arguments:
+            - "@pullup.goal.repository.doctrine"
+            - "@pullup.current_user"
             - "@pullup.command_bus"

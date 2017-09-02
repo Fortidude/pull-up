@@ -55,6 +55,14 @@ class Exercise
         return $this;
     }
 
+    /**
+     * @return ArrayCollection|ExerciseVariant[]
+     */
+    public function getExerciseVariants()
+    {
+        return $this->exerciseVariants;
+    }
+
     public function getName()
     {
         return $this->name;

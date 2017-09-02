@@ -40,3 +40,14 @@ services:
 
     pullup.exercise.repository:
       alias: pullup.exercise.repository.doctrine
+
+    ######
+
+    pullup.goal.repository.doctrine:
+        class: PullUpBundle\Repository\GoalRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: false
+
+    pullup.goal.repository:
+      alias: pullup.goal.repository.doctrine
