@@ -5,6 +5,12 @@ namespace PullUpDomain\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 
+/**
+ * @TODO BaseUser out
+ *
+ * Class User
+ * @package PullUpDomain\Entity
+ */
 class User extends BaseUser
 {
     protected $id;
@@ -30,6 +36,10 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
+
+        /**
+         * @TODO ArrayCollection as interface?
+         */
         $this->trainingPullUps = new ArrayCollection();
     }
 
