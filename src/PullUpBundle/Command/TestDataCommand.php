@@ -20,7 +20,16 @@ class TestDataCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->createSomeExercise();
+        $this->test();
+        //$this->createSomeExercise();
+    }
+
+    private function test()
+    {
+        $user = $this->getContainer()->get('fos_user.user_manager')->findUserBy([]);
+        //$result = $this->getContainer()->get('pullup.training_pull_up.repository')->getLastFinishedRouteNumber($user);
+        $result = $this->getContainer()->get('pullup.training_pull_up.service')->getCurrent($user);
+        dump($result);
     }
 
     private function createSomeExercise()

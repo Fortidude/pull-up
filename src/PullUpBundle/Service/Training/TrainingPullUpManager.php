@@ -43,6 +43,7 @@ class TrainingPullUpManager implements TrainingPullUpManagerInterface
             return $trainingService->getFirst();
         }
 
+        $lastDoneTraining = $trainingService->getByType($lastDone->getType());
         $training = $trainingService->getNext($lastDone->getType(), $lastDone->getReps());
         if ($training['type'] == 'five') {
             $hardestType = null;
@@ -53,11 +54,14 @@ class TrainingPullUpManager implements TrainingPullUpManagerInterface
                 $hardestType = $this->trainingPullUpRepository->getStatisticallyHarderTrainingType();
             }
 
-            $training = $trainingService->getByType($hardestType, $lastDone->getReps());
+            $hardestTraining = $trainingService->getByType($hardestType, $lastDone->getReps());
+            $hardestTraining['type'] = 'five';
+            $hardestTraining['interval'] = $training['interval'];
+            $training = $hardestTraining;
         }
 
         if ($this->interval !== false) {
-            $interval = ($this->interval instanceof \DateInterval) ? $this->interval : $training['interval'];
+            $interval = ($this->interval instanceof \DateInterval) ? $this->interval : $lastDoneTraining['interval'];
             if (!$lastDone->isNextAvailable($interval)) {
                 return $trainingService->getNextIsNotAvailableYetCauseOfInterval($lastDone->getCreatedAt(), $interval);
             }

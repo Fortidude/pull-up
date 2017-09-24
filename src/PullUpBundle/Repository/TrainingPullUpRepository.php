@@ -82,6 +82,25 @@ class TrainingPullUpRepository extends AbstractRepository implements TrainingPul
 
     /**
      * @param User $user
+     * @return int
+     */
+    public function getLastFinishedRouteNumber(User $user)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $qb->select('COUNT(t)')
+            ->from('PullUpDomainEntity:TrainingPullUp', 't')
+            ->where('t.user = :userId')
+            ->andWhere('t.type = :type')
+            ->orderBy('t.createdAt', 'DESC')
+            ->setParameter('userId', $user->getId())
+            ->setParameter('type', 'five')
+            ->getQuery();
+
+        return (int)$query->getSingleScalarResult();
+    }
+
+    /**
+     * @param User $user
      * @return TrainingPullUp|null
      */
     public function getLastDone(User $user)
@@ -92,6 +111,31 @@ class TrainingPullUpRepository extends AbstractRepository implements TrainingPul
             ->where('t.user = :userId')
             ->orderBy('t.createdAt', 'DESC')
             ->setParameter('userId', $user->getId())
+            ->setMaxResults(1)
+            ->getQuery();
+
+        $results = $query->getResult();
+
+        return isset($results[0]) ? $results[0] : null;
+    }
+
+    /**
+     * @param User $user
+     * @param int $route
+     * @return TrainingPullUp
+     */
+    public function getFirstByRoute(User $user, $route)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $qb->select('t')
+            ->from('PullUpDomainEntity:TrainingPullUp', 't')
+            ->where('t.user = :userId')
+            ->andWhere('t.route == :route')
+            ->andWhere('t.type == :type')
+            ->orderBy('t.createdAt', 'DESC')
+            ->setParameter('userId', $user->getId())
+            ->setParameter('route', $route)
+            ->setParameter('type', 'first')
             ->setMaxResults(1)
             ->getQuery();
 

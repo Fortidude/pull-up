@@ -55,7 +55,7 @@ class TrainingPullUp
     public function getFirst()
     {
         return [
-            'interval' => new \DateInterval('P1D'),
+            'interval' => $this->getIntervalBeetwenTrainings(),
             'type' => 'one',
             'texts' => [
                 "Maksymalny wysiłek!",
@@ -66,7 +66,7 @@ class TrainingPullUp
             'form' => [
                 [
                     'key' => 1,
-                    'type' => 'input',
+                    'type' => 'number',
                     'ref' => 'set_1',
                     'label' => "Set pierwszy",
                     'placeholder' => '?',
@@ -74,7 +74,7 @@ class TrainingPullUp
                 ],
                 [
                     'key' => 2,
-                    'type' => 'input',
+                    'type' => 'number',
                     'ref' => 'set_2',
                     'label' => "Set drugi",
                     'placeholder' => '?',
@@ -90,7 +90,7 @@ class TrainingPullUp
                 ],
                 [
                     'key' => 4,
-                    'type' => 'input',
+                    'type' => 'number',
                     'ref' => 'set_4',
                     'label' => "Set czwarty",
                     'placeholder' => '?',
@@ -98,7 +98,7 @@ class TrainingPullUp
                 ],
                 [
                     'key' => 5,
-                    'type' => 'input',
+                    'type' => 'number',
                     'ref' => 'set_5',
                     'label' => "Set piąty",
                     'placeholder' => '?',
@@ -126,7 +126,7 @@ class TrainingPullUp
     public function getSecond($max)
     {
         return [
-            'interval' => new \DateInterval('P1D'),
+            'interval' => $this->getIntervalBeetwenTrainings(),
             'type' => 'two',
             'texts' => [
                 "Piramidki!",
@@ -141,7 +141,7 @@ class TrainingPullUp
             'form' => [
                 [
                     'key' => 1,
-                    'type' => 'input',
+                    'type' => 'number',
                     'ref' => 'reps',
                     'label' => "Ilość powtórzeń w najwyższej serii",
                     'placeholder' => "np. {$max}",
@@ -167,7 +167,7 @@ class TrainingPullUp
         $perSeries = (int)($max * 0.5);
 
         return [
-            'interval' => new \DateInterval('P1D'),
+            'interval' => $this->getIntervalBeetwenTrainings(),
             'type' => 'three',
             'texts' => [
                 "Zmienny chwyt!",
@@ -191,14 +191,14 @@ class TrainingPullUp
             'form' => [
                 [
                     'key' => 1,
-                    'type' => 'input',
+                    'type' => 'number',
                     'ref' => 'reps_last_set',
                     'label' => "Ilość powtórzeń w ostatniej serii (dziewiątej, szerokie)",
                     'placeholder' => "np. 8",
                     'value' => ''
                 ],
                 [
-                    'key' => 1,
+                    'key' => 2,
                     'type' => 'select',
                     'ref' => 'level',
                     'showIf' => [
@@ -218,7 +218,7 @@ class TrainingPullUp
         $minimal = (int)($perSeries * 0.5);
 
         return [
-            'interval' => new \DateInterval('P1D'),
+            'interval' => $this->getIntervalBeetwenTrainings(),
             'type' => 'four',
             'texts' => [
                 'Maksymalna ilość setów!',
@@ -230,14 +230,14 @@ class TrainingPullUp
             'form' => [
                 [
                     'key' => 1,
-                    'type' => 'input',
+                    'type' => 'number',
                     'ref' => 'reps',
                     'label' => "Ilość wykonanych setów:",
                     'placeholder' => "np. 8",
                     'value' => ''
                 ],
                 [
-                    'key' => 1,
+                    'key' => 2,
                     'type' => 'select',
                     'ref' => 'level',
                     'label' => "Poziom trudności?",
@@ -251,7 +251,7 @@ class TrainingPullUp
     public function getFifth($max)
     {
         return [
-            'interval' => new \DateInterval('P3D'),
+            'interval' => new \DateInterval('P2DT12H'),
             'type' => 'five'
         ];
     }
@@ -316,5 +316,13 @@ class TrainingPullUp
             'series' => [],
             'form' => []
         ];
+    }
+
+    /**
+     * @return \DateInterval
+     */
+    private function getIntervalBeetwenTrainings()
+    {
+        return new \DateInterval('PT12H');
     }
 }
