@@ -1,0 +1,29 @@
+PullUpDomain\Entity\TrainingPullUp:
+    exclusion_policy: ALL
+    properties:
+        route:
+            groups: [logger, pullup_item, pullup_list]
+            expose: true
+
+        type:
+            groups: [logger, pullup_item, pullup_list]
+            expose: true
+
+        reps:
+            groups: [logger, pullup_item, pullup_list]
+            expose: true
+
+        level:
+            groups: [logger, pullup_item, pullup_list]
+            expose: true
+
+    virtual_properties:
+        getAdditionalInformation:
+            serialized_name: additional_information
+            groups: [logger, pullup_item, pullup_list]
+            expose: true
+
+        getCreatedAtFormatted:
+            serialized_name: created_at
+            groups: [logger, pullup_item, pullup_list]
+            expose: true

@@ -39,8 +39,7 @@ class SubmitTrainingPullUpHandler
         $this->validate($data);
 
         $route = $this->calendarRepository->getLastFinishedRouteNumber($this->user) + 1;
-
-        if ($data['type'] === 'first' && isset($data['set_1'])) {
+        if ($data['type'] === 'one' && isset($data['set_1'])) {
             $maxRepsThisRoute = $data['set_1'];
         } else {
             $firstDone = $this->calendarRepository->getFirstByRoute($this->user, $route);

@@ -2,6 +2,7 @@
 
 namespace PullUpBundle\Controller;
 
+use PullUpBundle\Service\Training\TrainingPullUpHistory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use FOS\RestBundle\Controller\Annotations as Rest;
 
@@ -23,19 +24,24 @@ class TrainingPullUpController
     /** @var TrainingPullUpManager */
     protected $trainingPullUpManager;
 
+    /** @var TrainingPullUpHistory */
+    protected $trainingPullUpHistory;
+
     /** @var SimpleBus */
     protected $commandBus;
 
     /**
-     * TrainingController constructor.
+     * TrainingPullUpController constructor.
      * @param User $user
      * @param TrainingPullUpManager $trainingPullUpManager
+     * @param TrainingPullUpHistory $trainingPullUpHistory
      * @param SimpleBus $commandBus
      */
-    public function __construct(User $user, TrainingPullUpManager $trainingPullUpManager, SimpleBus $commandBus)
+    public function __construct(User $user, TrainingPullUpManager $trainingPullUpManager, TrainingPullUpHistory $trainingPullUpHistory, SimpleBus $commandBus)
     {
         $this->user = $user;
         $this->trainingPullUpManager = $trainingPullUpManager;
+        $this->trainingPullUpHistory = $trainingPullUpHistory;
         $this->commandBus = $commandBus;
     }
 
@@ -79,5 +85,15 @@ class TrainingPullUpController
     {
         $this->commandBus->handle($command);
         return ['status' => true];
+    }
+
+    /**
+     * @Rest\View(serializerGroups={"user_item", "profile", "pullup_list"})
+     *
+     * @return array
+     */
+    public function getHistoryAction()
+    {
+        return $this->trainingPullUpHistory->getHistory($this->user);
     }
 }

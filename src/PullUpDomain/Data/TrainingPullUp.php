@@ -142,7 +142,7 @@ class TrainingPullUp
                 [
                     'key' => 1,
                     'type' => 'number',
-                    'ref' => 'reps',
+                    'ref' => 'max_reps_done',
                     'label' => "Ilość powtórzeń w najwyższej serii",
                     'placeholder' => "np. {$max}",
                     'value' => ''
@@ -152,7 +152,7 @@ class TrainingPullUp
                     'type' => 'select',
                     'ref' => 'level',
                     'showIf' => [
-                        ['field' => 'reps', 'value' => 1, 'type' => 'minLength'],
+                        ['field' => 'max_reps_done', 'value' => 1, 'type' => 'minLength'],
                     ],
                     'label' => "Poziom trudności?",
                     'choices' => [1 => 'bardzo łatwe', 3 => "jest siła!", 6 => "czuje ogromne zmęczenie", 9 => 'nie zrobiłem nawet połowy'],
@@ -192,7 +192,7 @@ class TrainingPullUp
                 [
                     'key' => 1,
                     'type' => 'number',
-                    'ref' => 'reps_last_set',
+                    'ref' => 'reps',
                     'label' => "Ilość powtórzeń w ostatniej serii (dziewiątej, szerokie)",
                     'placeholder' => "np. 8",
                     'value' => ''
@@ -202,7 +202,7 @@ class TrainingPullUp
                     'type' => 'select',
                     'ref' => 'level',
                     'showIf' => [
-                        ['field' => 'reps_last_set', 'value' => 1, 'type' => 'minLength'],
+                        ['field' => 'reps', 'value' => 1, 'type' => 'minLength'],
                     ],
                     'label' => "Poziom trudności?",
                     'choices' => [1 => 'bardzo łatwe', 3 => "jest siła!", 6 => "czuje ogromne zmęczenie"],
@@ -231,7 +231,7 @@ class TrainingPullUp
                 [
                     'key' => 1,
                     'type' => 'number',
-                    'ref' => 'reps',
+                    'ref' => 'sets_amount',
                     'label' => "Ilość wykonanych setów:",
                     'placeholder' => "np. 8",
                     'value' => ''
@@ -240,6 +240,9 @@ class TrainingPullUp
                     'key' => 2,
                     'type' => 'select',
                     'ref' => 'level',
+                    'showIf' => [
+                        ['field' => 'sets_amount', 'value' => 1, 'type' => 'minLength'],
+                    ],
                     'label' => "Poziom trudności?",
                     'choices' => [1 => 'bardzo łatwe', 3 => "jest siła!", 6 => "czuje ogromne zmęczenie"],
                     'value' => 0

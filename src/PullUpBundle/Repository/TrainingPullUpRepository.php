@@ -26,6 +26,9 @@ class TrainingPullUpRepository extends AbstractRepository implements TrainingPul
             ->from('PullUpDomainEntity:TrainingPullUp', 't')
             ->where('t.user = :userId')
             ->setParameter('userId', $user->getId())
+           // ->orderBy('t.id', 'DESC')
+            ->orderBy('t.route', 'DESC')
+            ->addOrderBy('t.createdAt', 'ASC')
             ->getQuery();
 
         return $query
@@ -130,12 +133,12 @@ class TrainingPullUpRepository extends AbstractRepository implements TrainingPul
         $query = $qb->select('t')
             ->from('PullUpDomainEntity:TrainingPullUp', 't')
             ->where('t.user = :userId')
-            ->andWhere('t.route == :route')
-            ->andWhere('t.type == :type')
+            ->andWhere('t.route = :route')
+            ->andWhere('t.type = :type')
             ->orderBy('t.createdAt', 'DESC')
             ->setParameter('userId', $user->getId())
             ->setParameter('route', $route)
-            ->setParameter('type', 'first')
+            ->setParameter('type', 'one')
             ->setMaxResults(1)
             ->getQuery();
 

@@ -20,6 +20,7 @@ services:
         arguments:
             - "@pullup.current_user"
             - "@pullup.training_pull_up.service"
+            - "@pullup.training_pull_up.service_history"
             - "@pullup.command_bus"
 
     pullup.exercise.controller:
