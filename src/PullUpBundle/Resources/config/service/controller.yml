@@ -2,6 +2,9 @@ services:
     pullup.token.controller:
         class: PullUpBundle\Controller\TokenController
 
+    pullup.index.controller:
+        class: PullUpBundle\Controller\IndexController
+
     pullup.user.controller:
         class: PullUpBundle\Controller\UserController
         arguments:
