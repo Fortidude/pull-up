@@ -3,6 +3,7 @@
 namespace PullUpBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\UserBundle\Model\UserManagerInterface;
@@ -24,11 +25,12 @@ class ProfileController
     protected $commandBus;
 
     /**
-     * UserController constructor.
+     * ProfileController constructor.
      * @param UserManagerInterface $repository
+     * @param UserInterface $user
      * @param SimpleBus $commandBus
      */
-    public function __construct(UserManagerInterface $repository, User $user,  SimpleBus $commandBus)
+    public function __construct(UserManagerInterface $repository, UserInterface $user,  SimpleBus $commandBus)
     {
         $this->repository = $repository;
         $this->user = $user;

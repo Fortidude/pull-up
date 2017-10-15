@@ -145,3 +145,14 @@ lexik_jwt_authentication:
         authorization_header: ~
         cookie: ~
         query_parameter: ~
+
+
+nelmio_api_doc:
+    name: 'PullUp Application API documentation'
+    sandbox:
+        accept_type: application/json
+        body_format:
+            formats:
+                - json
+        request_format:
+            method: format_param

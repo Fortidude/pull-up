@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
             new Gfreeau\Bundle\GetJWTBundle\GfreeauGetJWTBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
 
             new PullUpBundle\PullUpBundle()
         ];

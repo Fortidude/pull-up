@@ -15,6 +15,20 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
         parent::__construct($em);
     }
 
+    public function getByUserAndId(User $user, $id)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $qb->select('g')
+            ->from('PullUpDomainEntity:Goal', 'g')
+            ->where('g.id = :goalId')
+            ->andWhere('g.user = :userId')
+            ->setParameter('goalId', $id)
+            ->setParameter('userId', $user->getId())
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
+
     /**
      * @param User $user
      * @return Goal[]
@@ -22,9 +36,12 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
     public function getListByUser(User $user)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $query = $qb->select('g')
+        $query = $qb->select('g, e, ev')
             ->from('PullUpDomainEntity:Goal', 'g')
+            ->leftJoin('g.exercise', 'e')
+            ->leftJoin('g.exerciseVariant', 'ev')
             ->where('g.user = :userId')
+            ->andWhere('g.removed = false')
             ->setParameter('userId', $user->getId())
             ->getQuery();
 

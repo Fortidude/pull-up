@@ -3,6 +3,7 @@
 namespace PullUpBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 

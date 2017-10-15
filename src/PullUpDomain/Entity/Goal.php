@@ -20,6 +20,8 @@ class Goal
 
     protected $sets;
 
+    protected $removed;
+
     protected $createdAt;
     protected $updatedAt;
 
@@ -71,7 +73,21 @@ class Goal
         $entity->requiredWeight = $requiredWeight;
         $entity->requiredTime = $requiredTime;
 
+        $entity->removed = false;
+
         return $entity;
+    }
+
+    public function update(int $requiredSets = null, int $requiredReps = null, int $requiredWeight = null, int $requiredTime = null)
+    {
+        if (!$requiredSets && !$requiredReps && !$requiredWeight && !$requiredTime) {
+            throw new \Exception("none type were selected");
+        }
+
+        $this->requiredSets = $requiredSets;
+        $this->requiredReps = $requiredReps;
+        $this->requiredWeight = $requiredWeight;
+        $this->requiredTime = $requiredTime;
     }
 
     public function addSet(\DateTime $date, int $reps = null, int $weight = null, int $time = null)
@@ -80,8 +96,54 @@ class Goal
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getRequiredType()
+    {
+        if ($this->requiredSets) {
+            return 'sets';
+        } elseif ($this->requiredReps) {
+            return 'reps';
+        } elseif ($this->requiredWeight) {
+            return 'weight';
+        } elseif ($this->requiredTime) {
+            return 'time';
+        } else {
+            return 'error';
+        }
+    }
+
+    /**
+     * @return int
+     */
+    public function getRequiredAmount()
+    {
+        if ($this->requiredSets) {
+            return $this->requiredSets;
+        } elseif ($this->requiredReps) {
+            return $this->requiredReps;
+        } elseif ($this->requiredWeight) {
+            return $this->requiredWeight;
+        } elseif ($this->requiredTime) {
+            return $this->requiredTime;
+        } else {
+            return 0;
+        }
+    }
+
     public function getProgress()
     {
 
+    }
+
+    public function remove()
+    {
+        $this->removed = true;
+    }
+
+    public function restore()
+    {
+        $this->removed = false;
     }
 }

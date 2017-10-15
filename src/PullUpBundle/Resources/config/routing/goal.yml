@@ -3,9 +3,24 @@ pullup_api_goal_list:
       defaults: { _controller: pullup.goal.controller:listAction, _format: 'json'  }
       methods: [GET]
 
+pullup_api_goal_planner:
+      path:     /planner/list
+      defaults: { _controller: pullup.goal.controller:plannerListAction, _format: 'json'  }
+      methods: [GET]
+
 pullup_api_goal_create:
       path:     /create
       defaults: { _controller: pullup.goal.controller:createAction, _format: 'json'  }
+      methods: [POST]
+
+pullup_api_goal_update:
+      path:     /{id}/update
+      defaults: { _controller: pullup.goal.controller:updateAction, _format: 'json'  }
+      methods: [PUT]
+
+pullup_api_goal_disable:
+      path:     /{id}/disable
+      defaults: { _controller: pullup.goal.controller:disableAction, _format: 'json'  }
       methods: [POST]
 
 pullup_api_goal_set_create:

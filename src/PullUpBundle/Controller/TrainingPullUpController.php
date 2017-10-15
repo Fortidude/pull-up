@@ -2,12 +2,13 @@
 
 namespace PullUpBundle\Controller;
 
-use PullUpBundle\Service\Training\TrainingPullUpHistory;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use FOS\RestBundle\Controller\Annotations as Rest;
 
 use PullUpBundle\CommandBus\SimpleBus;
 use PullUpBundle\Service\Training\TrainingPullUpManager;
+use PullUpBundle\Service\Training\TrainingPullUpHistory;
 
 use PullUpDomain\Entity\User;
 use PullUpDomain\Data\FirstFormData;
@@ -32,12 +33,12 @@ class TrainingPullUpController
 
     /**
      * TrainingPullUpController constructor.
-     * @param User $user
+     * @param UserInterface $user
      * @param TrainingPullUpManager $trainingPullUpManager
      * @param TrainingPullUpHistory $trainingPullUpHistory
      * @param SimpleBus $commandBus
      */
-    public function __construct(User $user, TrainingPullUpManager $trainingPullUpManager, TrainingPullUpHistory $trainingPullUpHistory, SimpleBus $commandBus)
+    public function __construct(UserInterface $user, TrainingPullUpManager $trainingPullUpManager, TrainingPullUpHistory $trainingPullUpHistory, SimpleBus $commandBus)
     {
         $this->user = $user;
         $this->trainingPullUpManager = $trainingPullUpManager;

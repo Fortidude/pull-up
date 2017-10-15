@@ -15,7 +15,7 @@ PullUpDomain\Entity\Goal:
             column: name
             type: string
             length: 255
-            unique: true
+            unique: false
 
         description:
             column: description
@@ -45,6 +45,12 @@ PullUpDomain\Entity\Goal:
             length: 10
             nullable: true
 
+        removed:
+            column: removed
+            type: boolean
+            options:
+                default: false
+
         createdAt:
             column: created_at
             type: datetime
@@ -65,11 +71,15 @@ PullUpDomain\Entity\Goal:
             joinColumn:
                 name: exercise_id
                 referencedColumnName: id
+            cascade: [persist]
+            
         exerciseVariant:
             targetEntity: PullUpDomain\Entity\ExerciseVariant
             joinColumn:
                 name: exercise_variant_id
                 referencedColumnName: id
+            cascade: [persist]
+
         user:
             targetEntity: PullUpDomain\Entity\User
             joinColumn:

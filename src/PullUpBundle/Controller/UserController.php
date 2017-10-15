@@ -52,4 +52,9 @@ class UserController
 
         return ['status' => true];
     }
+
+    public function checkTokenAction()
+    {
+        return [];
+    }
 }

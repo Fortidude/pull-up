@@ -35,6 +35,24 @@ services:
         tags:
             - { name: command_handler, handles: PullUpService\Command\CreateGoalCommand }
 
+    pullup.update_goal.handler:
+        class: PullUpService\Handler\UpdateGoalHandler
+        arguments:
+          - '@pullup.goal.repository'
+          - '@pullup.current_user'
+          - '%kernel.logs_dir%'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\UpdateGoalCommand }
+
+    pullup.disable_goal.handler:
+        class: PullUpService\Handler\DisableGoalHandler
+        arguments:
+          - '@pullup.goal.repository'
+          - '@pullup.current_user'
+          - '%kernel.logs_dir%'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\DisableGoalCommand }
+
     pullup.create_goal_set.handler:
         class: PullUpService\Handler\CreateGoalSetHandler
         arguments:

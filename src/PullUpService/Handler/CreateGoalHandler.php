@@ -52,7 +52,7 @@ class CreateGoalHandler
             $exercise = Exercise::create($command->exercise, '');
             $exerciseVariant = ExerciseVariant::create($command->exerciseVariant, '', $exercise);
 
-            $this->exerciseRepository->add($exercise);
+            //$this->exerciseRepository->add($exercise);
         } else {
             foreach ($exercise->getExerciseVariants() as $variant) {
                 if ($variant->getName() == $command->exerciseVariant || $variant->getId() == $command->exerciseVariant) {

@@ -48,7 +48,7 @@ class ExerciseRepository extends AbstractRepository implements ExerciseRepositor
      * @param string $string
      * @return Exercise
      */
-    public function getByNameOrId(string $string) : Exercise
+    public function getByNameOrId(string $string)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $query = $qb->select('e, ev')

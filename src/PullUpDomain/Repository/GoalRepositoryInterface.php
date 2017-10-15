@@ -9,6 +9,13 @@ interface GoalRepositoryInterface
 {
     /**
      * @param User $user
+     * @param $id
+     * @return Goal
+     */
+    public function getByUserAndId(User $user, $id);
+
+    /**
+     * @param User $user
      * @return Goal[]
      */
     public function getListByUser(User $user);

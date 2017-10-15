@@ -3,6 +3,7 @@
 security:
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
+        Symfony\Component\Security\Core\User\User: plaintext
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
@@ -46,6 +47,11 @@ security:
                 success_handler:          lexik_jwt_authentication.handler.authentication_success
                 failure_handler:          lexik_jwt_authentication.handler.authentication_failure
                 require_previous_session: false
+
+        api_doc:
+            pattern:   ^/doc
+            provider: in_memory
+            http_basic: ~
 
         api_user:
             pattern:   ^/secured

@@ -110,4 +110,9 @@ class User extends BaseUser
     {
         $this->trainingPullUps[] = TrainingPullUp::create($this, $route, $type, $level, $reps, $additionalInformation);
     }
+
+    public function addGoal()
+    {
+        // @todo refactoring CreateGoalHandler
+    }
 }

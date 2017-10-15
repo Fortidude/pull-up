@@ -3,7 +3,9 @@
 namespace PullUpBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Security\Core\User\UserInterface;
 
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\RestBundle\Controller\Annotations as Rest;
 
 use PullUpBundle\Repository\GoalRepository;
@@ -27,10 +29,10 @@ class GoalController
     /**
      * GoalController constructor.
      * @param GoalRepository $repository
-     * @param User $user
+     * @param UserInterface $user
      * @param SimpleBus $commandBus
      */
-    public function __construct(GoalRepository $repository, User $user, SimpleBus $commandBus)
+    public function __construct(GoalRepository $repository, UserInterface $user, SimpleBus $commandBus)
     {
         $this->repository = $repository;
         $this->user = $user;
@@ -38,10 +40,29 @@ class GoalController
     }
 
     /**
+     * @ApiDoc(
+     *  section="Goal",
+     *  description="Goal list by user"
+     * )
+     *
      * @Rest\View(serializerGroups={"goal_list", "exercise_item", "exercise_variant_item"})
      * @return array
      */
     public function listAction()
+    {
+        return $this->repository->getListByUser($this->user);
+    }
+
+    /**
+     * @ApiDoc(
+     *  section="Goal",
+     *  description="Goal planner list by user"
+     * )
+     *
+     * @Rest\View(serializerGroups={"goal_list", "exercise_item", "exercise_variant_item"})
+     * @return array
+     */
+    public function plannerListAction()
     {
         return $this->repository->getListByUser($this->user);
     }
@@ -54,6 +75,31 @@ class GoalController
      */
     public function createAction(Command\CreateGoalCommand $command)
     {
+        $this->commandBus->handle($command);
+        return ['status' => true];
+    }
+
+    /**
+     * @param string $id
+     * @param Command\UpdateGoalCommand $command
+     * @return array
+     */
+    public function updateAction($id, Command\UpdateGoalCommand $command)
+    {
+        $command->id = $id;
+
+        $this->commandBus->handle($command);
+        return ['status' => true];
+    }
+    /**
+     * @param string $id
+     * @return array
+     */
+    public function disableAction($id)
+    {
+        $command = new Command\DisableGoalCommand();
+        $command->id = $id;
+
         $this->commandBus->handle($command);
         return ['status' => true];
     }
