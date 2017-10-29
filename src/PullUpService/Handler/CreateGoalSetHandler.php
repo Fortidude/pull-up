@@ -52,6 +52,10 @@ class CreateGoalSetHandler
             }
         }
 
+        if (!$goal) {
+            throw new \Exception("Unable to find Goal with ID = \"{$command->goal}\"", 404);
+        }
+
         $dateTime = new \DateTime($command->date);
         $goal->addSet($dateTime, $command->reps, $command->weight, $command->time);
     }

@@ -55,3 +55,9 @@ PullUpDomain\Entity\Goal:
             type: string
             groups: [logger, goal_item, goal_list]
             expose: true
+
+        getLastSetValue:
+            serialized_name: last_set_value
+            type: string
+            groups: [logger, goal_item, goal_list]
+            expose: true

@@ -46,4 +46,21 @@ class GoalSet
 
         return $entity;
     }
+
+    public function getValue()
+    {
+        if ($this->reps) {
+            return $this->reps;
+        }
+
+        if ($this->weight) {
+            return $this->weight;
+        }
+
+        if ($this->time) {
+            return $this->time;
+        }
+
+        return null;
+    }
 }

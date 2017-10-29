@@ -64,7 +64,7 @@ class GoalController
      */
     public function plannerListAction()
     {
-        return $this->repository->getListByUser($this->user);
+        return $this->repository->getPlannerByUser($this->user);
     }
 
     /**

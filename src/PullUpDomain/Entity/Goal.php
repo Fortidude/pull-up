@@ -22,6 +22,7 @@ class Goal
 
     protected $removed;
 
+    protected $lastSetAdded;
     protected $createdAt;
     protected $updatedAt;
 
@@ -75,6 +76,8 @@ class Goal
 
         $entity->removed = false;
 
+        $entity->lastSetAdded = new \DateTime("now");
+
         return $entity;
     }
 
@@ -93,6 +96,7 @@ class Goal
     public function addSet(\DateTime $date, int $reps = null, int $weight = null, int $time = null)
     {
         $this->sets[] = GoalSet::create($this, $this->user, $date, $reps ?: 0, $weight ?: 0, $time ?: 0);
+        $this->lastSetAdded = new \DateTime("now");
         return $this;
     }
 
@@ -146,4 +150,28 @@ class Goal
     {
         $this->removed = false;
     }
+
+    /**
+     * @param \DateTime $first
+     * @param \DateTime|null $second
+     * @return bool
+     */
+    public function wasUpdatedBetween(\DateTime $first, \DateTime $second = null)
+    {
+        if ($this->lastSetAdded && $this->lastSetAdded <= $first && (!$second || $this->lastSetAdded > $second)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getLastSetValue()
+    {
+        if (isset($this->sets[0])) {
+            return $this->sets[0]->getValue();
+        }
+
+        return null;
+    }
+
 }

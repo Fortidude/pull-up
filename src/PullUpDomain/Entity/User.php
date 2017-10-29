@@ -26,7 +26,7 @@ class User extends BaseUser
     protected $updatedAt;
     protected $expiresAt;
 
-    protected $daysPerCircuit = 7;
+    protected $daysPerCircuit = 10;
 
     protected $firstForm;
     protected $trainingPullUps;
@@ -114,5 +114,18 @@ class User extends BaseUser
     public function addGoal()
     {
         // @todo refactoring CreateGoalHandler
+    }
+
+    /**
+     * @return int
+     */
+    public function getDaysPerCircuit(): int
+    {
+        return $this->daysPerCircuit;
+    }
+
+    public function getCurrentTrainingCircuit()
+    {
+        return [];
     }
 }

@@ -51,6 +51,11 @@ PullUpDomain\Entity\Goal:
             options:
                 default: false
 
+        lastSetAdded:
+            column: last_set_added
+            type: datetime
+            nullable: true
+
         createdAt:
             column: created_at
             type: datetime
