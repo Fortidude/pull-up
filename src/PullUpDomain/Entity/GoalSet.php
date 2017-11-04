@@ -7,7 +7,12 @@ class GoalSet
     protected $id;
 
     protected $goal;
+
+    /** @var User */
     protected $user;
+
+    /** @var Circuit */
+    protected $circuit;
 
     protected $reps;
     protected $weight;
@@ -44,6 +49,8 @@ class GoalSet
         $entity->weight = $weight;
         $entity->time = $time;
 
+        $entity->circuit = $user->getTrainingCircuitByDate($entity->date);
+
         return $entity;
     }
 
@@ -62,5 +69,22 @@ class GoalSet
         }
 
         return null;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @return mixed|Circuit
+     */
+    public function getCircuit()
+    {
+        if ($this->circuit) {
+            return $this->circuit;
+        }
+
+        return $this->circuit = $this->user->getTrainingCircuitByDate($this->date);
     }
 }

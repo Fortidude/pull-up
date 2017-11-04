@@ -10,6 +10,7 @@ use PullUpDomain\Repository\GoalRepositoryInterface;
 use PullUpDomain\Repository\GoalSetRepositoryInterface;
 
 use PullUpService\Command\CreateGoalSetCommand;
+use PullUpService\Event\GoalSetCreatedEvent;
 
 class CreateGoalSetHandler
 {
@@ -22,18 +23,22 @@ class CreateGoalSetHandler
     /** @var User */
     protected $user;
 
+    protected $eventBus;
+
     private $cachePath;
 
     public function __construct(
         GoalRepositoryInterface $goalRepository,
-        GoalSetRepositoryInterface $exerciseRepository,
+        GoalSetRepositoryInterface $goalSetRepository,
         User $user,
+        $eventBus,
         $cachePath = null
     )
     {
         $this->goalRepository = $goalRepository;
-        $this->exerciseRepository = $exerciseRepository;
+        $this->goalSetRepository = $goalSetRepository;
         $this->user = $user;
+        $this->eventBus = $eventBus;
         $this->cachePath = $cachePath;
     }
 
@@ -43,20 +48,18 @@ class CreateGoalSetHandler
             //file_put_contents($this->cachePath . '/first_form.json', json_encode($data));
         }
 
-        /** @var Goal[] $goals */
-        $goals = $this->goalRepository->getListByUser($this->user);
-        $goal = null;
-        foreach ($goals as $goalEntity) {
-            if ($goalEntity->getId() == $command->goal) {
-                $goal = $goalEntity;
-            }
-        }
-
+        /** @var Goal $goal */
+        $goal = $this->goalRepository->getByUserAndId($this->user, $command->goal);
         if (!$goal) {
             throw new \Exception("Unable to find Goal with ID = \"{$command->goal}\"", 404);
         }
 
         $dateTime = new \DateTime($command->date);
-        $goal->addSet($dateTime, $command->reps, $command->weight, $command->time);
+        $set = $goal->addSet($dateTime, $command->reps, $command->weight, $command->time);
+
+        $this->goalSetRepository->add($set);
+
+        $event = new GoalSetCreatedEvent($set->getId());
+        $this->eventBus->handle($event);
     }
 }

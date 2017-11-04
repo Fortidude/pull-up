@@ -65,3 +65,8 @@ PullUpDomain\Entity\User:
             targetEntity: PullUpDomain\Entity\TrainingPullUp
             mappedBy: user
             cascade: [persist]
+
+        circuits:
+            targetEntity: PullUpDomain\Entity\Circuit
+            mappedBy: user
+            cascade: [persist]

@@ -6,6 +6,7 @@ class Goal
 {
     protected $id;
 
+    /** @var User */
     protected $user;
     protected $exercise;
     protected $exerciseVariant;
@@ -18,6 +19,7 @@ class Goal
     protected $requiredTime;
     protected $requiredReps;
 
+    /** @var GoalSet[] */
     protected $sets;
 
     protected $removed;
@@ -95,9 +97,19 @@ class Goal
 
     public function addSet(\DateTime $date, int $reps = null, int $weight = null, int $time = null)
     {
-        $this->sets[] = GoalSet::create($this, $this->user, $date, $reps ?: 0, $weight ?: 0, $time ?: 0);
+        $set = GoalSet::create($this, $this->user, $date, $reps ?: 0, $weight ?: 0, $time ?: 0);
+        $this->sets[] = $set;
+
         $this->lastSetAdded = new \DateTime("now");
-        return $this;
+        return $set;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRequiredSetType()
+    {
+        return (bool)$this->requiredSets;
     }
 
     /**
@@ -174,4 +186,24 @@ class Goal
         return null;
     }
 
+    public function leftThisCircuit()
+    {
+        $total = $this->getRequiredAmount();
+        $done = 0;
+
+        /** @var Circuit $currentCircuit */
+        $currentCircuit = $this->user->getCurrentTrainingCircuit();
+        foreach ($this->sets as $set) {
+            if ($set->getCircuit()->getId() === $currentCircuit->getId()) {
+                if ($this->isRequiredSetType()) {
+                    $done++;
+                    continue;
+                }
+
+                $done += $set->getValue();
+            }
+        }
+
+        return $total - $done;
+    }
 }

@@ -54,6 +54,13 @@ PullUpDomain\Entity\GoalSet:
             joinColumn:
                 name: goal_id
                 referencedColumnName: id
+        circuit:
+            targetEntity: PullUpDomain\Entity\Circuit
+            inversedBy: circuits
+            cascade: [persist]
+            joinColumn:
+                name: circuit_id
+                referencedColumnName: id
         user:
             targetEntity: PullUpDomain\Entity\User
             joinColumn:

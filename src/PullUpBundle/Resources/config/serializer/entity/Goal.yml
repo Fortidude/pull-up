@@ -61,3 +61,9 @@ PullUpDomain\Entity\Goal:
             type: string
             groups: [logger, goal_item, goal_list]
             expose: true
+
+        leftThisCircuit:
+            serialized_name: left_this_circuit
+            type: string
+            groups: [logger, goal_item, goal_list]
+            expose: true

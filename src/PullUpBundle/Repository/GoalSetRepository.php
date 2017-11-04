@@ -15,6 +15,22 @@ class GoalSetRepository extends AbstractRepository implements GoalSetRepositoryI
     }
 
     /**
+     * @param $id
+     * @return GoalSet
+     */
+    public function getById($id)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $qb->select('g')
+            ->from('PullUpDomainEntity:GoalSet', 'g')
+            ->where('g.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
+
+    /**
      * @param GoalSet $entity
      */
     public function add(GoalSet $entity)

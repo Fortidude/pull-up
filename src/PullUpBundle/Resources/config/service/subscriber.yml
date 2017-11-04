@@ -1,1 +1,8 @@
 services:
+    goal_set_created_subscriber:
+        class: PullUpService\Subscriber\GoalSetCreatedSubscriber
+        arguments:
+            - "@pullup.goal_set.repository"
+            - "@pullup.circuit.repository"
+        tags:
+            - { name: event_subscriber, subscribes_to: PullUpService\Event\GoalSetCreatedEvent }

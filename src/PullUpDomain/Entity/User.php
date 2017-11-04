@@ -28,6 +28,9 @@ class User extends BaseUser
 
     protected $daysPerCircuit = 10;
 
+    /** @var Circuit[] */
+    protected $circuits;
+
     protected $firstForm;
     protected $trainingPullUps;
 
@@ -41,6 +44,7 @@ class User extends BaseUser
          * @TODO ArrayCollection as interface?
          */
         $this->trainingPullUps = new ArrayCollection();
+        $this->circuits = new ArrayCollection();
     }
 
     /**
@@ -69,6 +73,7 @@ class User extends BaseUser
         $entity->roles = ['ROLE_USER'];
         $entity->enabled = true;
         $entity->expiresAt = new \DateTime('2020-12-31 23:59:59');
+        $entity->circuits[] = Circuit::create($entity);
 
         return $entity;
     }
@@ -124,8 +129,34 @@ class User extends BaseUser
         return $this->daysPerCircuit;
     }
 
+    /**
+     * @return Circuit
+     */
     public function getCurrentTrainingCircuit()
     {
-        return [];
+        foreach ($this->circuits as $circuit) {
+            if ($circuit->isCurrent()) {
+                return $circuit;
+            }
+        }
+
+        $circuit = Circuit::create($this);
+        $this->circuits[] = $circuit;
+
+        return $circuit;
+    }
+
+    public function getTrainingCircuitByDate(\DateTime $dateTime)
+    {
+        foreach ($this->circuits as $circuit) {
+            if ($circuit->isForDate($dateTime)) {
+                return $circuit;
+            }
+        }
+
+        $circuit = Circuit::createByStartDate($this, $dateTime);
+        $this->circuits[] = $circuit;
+
+        return $circuit;
     }
 }

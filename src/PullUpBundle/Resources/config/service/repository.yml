@@ -62,3 +62,14 @@ services:
 
     pullup.goal_set.repository:
       alias: pullup.goal_set.repository.doctrine
+
+    ######
+
+    pullup.circuit.repository.doctrine:
+        class: PullUpBundle\Repository\CircuitRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: false
+
+    pullup.circuit.repository:
+      alias: pullup.circuit.repository.doctrine

@@ -59,6 +59,7 @@ services:
           - '@pullup.goal.repository'
           - '@pullup.goal_set.repository'
           - '@pullup.current_user'
+          - "@event_bus"
           - '%kernel.logs_dir%'
         tags:
             - { name: command_handler, handles: PullUpService\Command\CreateGoalSetCommand }

@@ -60,6 +60,10 @@ class CreateGoalHandler
                     break;
                 }
             }
+
+            if (!$exerciseVariant) {
+                $exerciseVariant = ExerciseVariant::create($command->exerciseVariant, '', $exercise);
+            }
         }
 
         // @TODO sprawdzenie, czy użytkownik nie dodał wcześniej celu dla tego ćwiczenia i wariantu
