@@ -15,8 +15,7 @@ PullUpDomain\Entity\ExerciseVariant:
             column: name
             type: string
             length: 255
-            unique: true
-
+            
         description:
             column: description
             type: text
