@@ -35,6 +35,9 @@ PullUpDomain\Entity\User:
         facebookId:
            groups: [logger, user_item, user_list]
            expose: true
+        daysPerCircuit:
+           groups: [logger, user_item, user_list]
+           expose: true
 
     virtual_properties:
         getId:
@@ -55,7 +58,7 @@ PullUpDomain\Entity\User:
             groups: [logger, user_item, user_list]
             expose: true
 
-        isFirstFormFilled:
+        isTrainingPullUpFirstFormFilled:
             serialized_name: first_form_finished
             type: boolean
             groups: [logger, user_item, user_list]

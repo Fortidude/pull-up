@@ -14,7 +14,7 @@ use PullUpDomain\Entity\User;
 use PullUpDomain\Data\FirstFormData;
 
 use PullUpService\Command\SubmitTrainingPullUpCommand;
-use PullUpService\Command\CreateFirstFormCommand;
+use PullUpService\Command\CreateTrainingPullUpFirstFormCommand;
 
 
 class TrainingPullUpController
@@ -57,11 +57,11 @@ class TrainingPullUpController
     /**
      * @ParamConverter("command", converter="validation_converter")
      *
-     * @param CreateFirstFormCommand $command
+     * @param CreateTrainingPullUpFirstFormCommand $command
      * @throws \Exception
      * @return array
      */
-    public function postFirstFormAction(CreateFirstFormCommand $command)
+    public function postFirstFormAction(CreateTrainingPullUpFirstFormCommand $command)
     {
         $this->commandBus->handle($command);
         return ['status' => true];

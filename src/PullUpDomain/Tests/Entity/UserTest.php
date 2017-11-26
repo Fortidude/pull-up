@@ -20,7 +20,7 @@ class UserTest extends TestCase
 
         $this->assertEquals($email, $user->getEmail());
         $this->assertTrue($user->isEnabled());
-        $this->assertFalse($user->isFirstFormFilled());
+        $this->assertFalse($user->isTrainingPullUpFirstFormFilled());
     }
 
     public function testGetCurrentTrainingCircuit()
@@ -60,5 +60,32 @@ class UserTest extends TestCase
 
         $this->assertTrue($circuit->isForDate($date));
         $this->assertFalse($circuit->isFinished());
+    }
+
+    public function testSetTrainingCircuitFinished()
+    {
+        $email = "email@test.com";
+        $circuitDays = 10;
+        $user = User::createUserByFacebook($email, "Jon", 445566);
+        $user->changeDaysAmountPerCircuit($circuitDays);
+
+        $start = new \DateTime("now");
+        $endWeek = (clone $start)->add(new \DateInterval("P7D"));
+
+        $circuit = $user->getCurrentTrainingCircuit();
+
+        $format = 'Y-m-d';
+
+        $this->assertTrue($circuit->isCurrent());
+        $this->assertEquals($start->format($format), $circuit->getStartAt()->format($format));
+        $this->assertEquals($endWeek->format($format), $circuit->getEndAt()->format($format));
+
+        $customDate = (clone $start)->add(new \DateInterval("P{$circuitDays}D"));
+        $nextCircuit = $user->getTrainingCircuitByDate($customDate);
+
+        $this->assertFalse($nextCircuit->isCurrent());
+        $this->assertFalse($nextCircuit->isFinished());
+        $this->assertEquals($circuitDays, $nextCircuit->getDuration());
+        $this->assertEquals($customDate->format($format), $nextCircuit->getStartAt()->format($format));
     }
 }

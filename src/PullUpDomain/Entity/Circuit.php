@@ -105,6 +105,14 @@ class Circuit
     }
 
     /**
+     * @return int
+     */
+    public function getDuration(): int
+    {
+        return $this->days;
+    }
+
+    /**
      * Collisions means we have some circuit for this user for that time period.
      * EX: This circuit is 10.05 to 20.05 and we have some from 15.05 do 25.05
      * Then this one should be set end_at to 14.05

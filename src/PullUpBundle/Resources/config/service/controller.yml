@@ -38,3 +38,10 @@ services:
             - "@pullup.goal.repository.doctrine"
             - "@pullup.current_user"
             - "@pullup.command_bus"
+
+    pullup.settings.controller:
+        class: PullUpBundle\Controller\SettingsController
+        arguments:
+            - "@pullup.profile_manager"
+            - "@pullup.current_user"
+            - "@pullup.command_bus"

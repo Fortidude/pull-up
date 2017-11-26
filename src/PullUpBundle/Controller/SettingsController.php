@@ -2,19 +2,17 @@
 
 namespace PullUpBundle\Controller;
 
-use PullUpService\Command\UpdateUserCircuitDaysCommand;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Security\Core\User\UserInterface;
-
 use FOS\RestBundle\Controller\Annotations as Rest;
+
+use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 
 use PullUpBundle\CommandBus\SimpleBus;
-
 use PullUpDomain\Entity\User;
+use PullUpService\Command\UpdateSettingsCommand;
 
-
-class ProfileController
+class SettingsController
 {
     /** @var UserManagerInterface */
     protected $repository;
@@ -31,7 +29,7 @@ class ProfileController
      * @param UserInterface $user
      * @param SimpleBus $commandBus
      */
-    public function __construct(UserManagerInterface $repository, UserInterface $user,  SimpleBus $commandBus)
+    public function __construct(UserManagerInterface $repository, UserInterface $user, SimpleBus $commandBus)
     {
         $this->repository = $repository;
         $this->user = $user;
@@ -39,12 +37,14 @@ class ProfileController
     }
 
     /**
-     * @Rest\View(serializerGroups={"user_item", "profile"})
-
-     * @return User
+     * @ParamConverter("command", converter="validation_converter")
+     *
+     * @param UpdateSettingsCommand $command
+     * @return array
      */
-    public function currentAction()
+    public function updateAction(UpdateSettingsCommand $command)
     {
-        return $this->user;
+        $this->commandBus->handle($command);
+        return ['status' => true];
     }
 }

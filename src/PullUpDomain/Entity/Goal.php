@@ -2,8 +2,12 @@
 
 namespace PullUpDomain\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 class Goal
 {
+    CONST NO_GOAL_SPECIFIED_NAME = "no goal specified name";
+
     protected $id;
 
     /** @var User */
@@ -22,11 +26,17 @@ class Goal
     /** @var GoalSet[] */
     protected $sets;
 
+    protected $noSpecifiedGoal;
     protected $removed;
 
     protected $lastSetAdded;
     protected $createdAt;
     protected $updatedAt;
+
+    public function __construct()
+    {
+        $this->sets = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -58,11 +68,16 @@ class Goal
         int $requiredTime = null
     ) : Goal
     {
-        if (!$requiredSets && !$requiredReps && !$requiredWeight && !$requiredTime) {
+        if (!$requiredSets && !$requiredReps && !$requiredWeight && !$requiredTime && $name !== self::NO_GOAL_SPECIFIED_NAME) {
             throw new \Exception("none type were selected");
         }
 
         $entity = new self();
+
+        if ($name === self::NO_GOAL_SPECIFIED_NAME) {
+            $entity->noSpecifiedGoal = true;
+        }
+
         $entity->name = $name;
         $entity->description = $description;
 
@@ -117,6 +132,10 @@ class Goal
      */
     public function getRequiredType()
     {
+        if ($this->noSpecifiedGoal) {
+            return '';
+        }
+
         if ($this->requiredSets) {
             return 'sets';
         } elseif ($this->requiredReps) {
@@ -135,6 +154,10 @@ class Goal
      */
     public function getRequiredAmount()
     {
+        if ($this->noSpecifiedGoal) {
+            return 0;
+        }
+
         if ($this->requiredSets) {
             return $this->requiredSets;
         } elseif ($this->requiredReps) {
@@ -179,6 +202,10 @@ class Goal
 
     public function getLastSetValue()
     {
+        if ($this->noSpecifiedGoal) {
+            return null;
+        }
+
         if (isset($this->sets[0])) {
             return $this->sets[0]->getValue();
         }
@@ -188,6 +215,10 @@ class Goal
 
     public function leftThisCircuit()
     {
+        if ($this->noSpecifiedGoal) {
+            return 0;
+        }
+
         $total = $this->getRequiredAmount();
         $done = 0;
 

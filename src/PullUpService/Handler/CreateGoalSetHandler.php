@@ -48,6 +48,10 @@ class CreateGoalSetHandler
             //file_put_contents($this->cachePath . '/first_form.json', json_encode($data));
         }
 
+        if (!$command->goal) {
+
+        }
+
         /** @var Goal $goal */
         $goal = $this->goalRepository->getByUserAndId($this->user, $command->goal);
         if (!$goal) {

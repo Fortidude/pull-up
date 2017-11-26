@@ -1,7 +1,7 @@
-PullUpDomain\Entity\FirstForm:
+PullUpDomain\Entity\TrainingPullUpFirstForm:
     type: entity
-    table: first_form
-    repositoryClass: PullUpBundle\Repository\FirstFormRepository
+    table: training_pull_up_first_form
+    repositoryClass: PullUpBundle\Repository\TrainingPullUpFirstFormRepository
     id:
         id:
             type: uuid
@@ -79,4 +79,4 @@ PullUpDomain\Entity\FirstForm:
     oneToOne:
         user:
             targetEntity: PullUpDomain\Entity\User
-            mappedBy: firstForm
+            mappedBy: trainingPullUpFirstForm

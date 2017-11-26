@@ -45,6 +45,12 @@ PullUpDomain\Entity\Goal:
             length: 10
             nullable: true
 
+        noSpecifiedGoal:
+            column: no_specified_goal
+            type: boolean
+            options:
+                default: false
+
         removed:
             column: removed
             type: boolean

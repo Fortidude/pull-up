@@ -26,12 +26,12 @@ class User extends BaseUser
     protected $updatedAt;
     protected $expiresAt;
 
-    protected $daysPerCircuit = 10;
+    protected $daysPerCircuit = 7;
 
     /** @var Circuit[] */
     protected $circuits;
 
-    protected $firstForm;
+    protected $trainingPullUpFirstForm;
     protected $trainingPullUps;
 
     protected $facebookId;
@@ -96,19 +96,19 @@ class User extends BaseUser
         return ($now < $this->expiresAt) && $this->enabled;
     }
 
-    public function isFirstFormFilled()
+    public function isTrainingPullUpFirstFormFilled()
     {
-        return $this->firstForm instanceof FirstForm;
+        return $this->trainingPullUpFirstForm instanceof TrainingPullUpFirstForm;
     }
 
-    public function fillFirstForm(array $data)
+    public function fillTrainingPullUpFirstForm(array $data)
     {
-        if ($this->isFirstFormFilled()) {
+        if ($this->isTrainingPullUpFirstFormFilled()) {
             throw new \Exception("PULL_UP_FIRST_FORM_FILLED");
         }
 
         $data['user'] = $this;
-        $this->firstForm = FirstForm::create($data);
+        $this->trainingPullUpFirstForm = TrainingPullUpFirstForm::create($data);
     }
 
     public function addTrainingPullUp($route, $type, $level, $reps, $additionalInformation = [])
@@ -127,6 +127,25 @@ class User extends BaseUser
     public function getDaysPerCircuit(): int
     {
         return $this->daysPerCircuit;
+    }
+
+    /**
+     * @param int $days
+     * @return bool
+     * @throws \Exception
+     */
+    public function changeDaysAmountPerCircuit(int $days)
+    {
+        if ($days === $this->daysPerCircuit) {
+            return false;
+        }
+
+        if ($days <= 0) {
+            throw new \Exception("DOMAIN.NEW_CIRCUIT_DURATION_INVALID");
+        }
+
+        $this->daysPerCircuit = $days;
+        return true;
     }
 
     /**

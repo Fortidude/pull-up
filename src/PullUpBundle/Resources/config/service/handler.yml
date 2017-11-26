@@ -8,13 +8,13 @@ services:
             - { name: command_handler, handles: PullUpService\Command\LoginByFacebookCommand }
 
     pullup.create_first_form.handler:
-        class: PullUpService\Handler\CreateFirstFormHandler
+        class: PullUpService\Handler\CreateTrainingPullUpFirstFormHandler
         arguments:
           - '@pullup.first_form.repository'
           - '@pullup.current_user'
           - '%kernel.logs_dir%'
         tags:
-            - { name: command_handler, handles: PullUpService\Command\CreateFirstFormCommand }
+            - { name: command_handler, handles: PullUpService\Command\CreateTrainingPullUpFirstFormCommand }
 
     pullup.submit_training_pull_up.handler:
         class: PullUpService\Handler\SubmitTrainingPullUpHandler
@@ -63,3 +63,13 @@ services:
           - '%kernel.logs_dir%'
         tags:
             - { name: command_handler, handles: PullUpService\Command\CreateGoalSetCommand }
+
+    pullup.update_settings.handler:
+        class: PullUpService\Handler\UpdateSettingsHandler
+        arguments:
+          - '@pullup.user.repository'
+          - '@pullup.current_user'
+          - "@event_bus"
+          - '%kernel.logs_dir%'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\UpdateSettingsCommand }

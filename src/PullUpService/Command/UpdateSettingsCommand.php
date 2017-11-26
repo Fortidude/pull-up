@@ -4,10 +4,10 @@ namespace PullUpService\Command;
 
 use JMS\Serializer\Annotation\Type;
 
-class CreateFirstFormCommand
+class UpdateSettingsCommand
 {
     /**
-     * @Type("string")
+     * @Type("int")
      */
-    public $data;
+    public $circuitDuration;
 }

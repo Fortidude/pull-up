@@ -2,12 +2,12 @@
 
 namespace PullUpService\Handler;
 
-use PullUpDomain\Entity\FirstForm;
+use PullUpDomain\Entity\TrainingPullUpFirstForm as FirstForm;
 use PullUpDomain\Entity\User;
-use PullUpDomain\Repository\FirstFormRepositoryInterface;
+use PullUpDomain\Repository\TrainingPullUpFirstFormRepositoryInterface as FirstFormRepositoryInterface;
 use PullUpService\Command\CreateFirstFormCommand;
 
-class CreateFirstFormHandler
+class CreateTrainingPullUpFirstFormHandler
 {
     /** @var FirstFormRepositoryInterface */
     protected $firstFormRepository;

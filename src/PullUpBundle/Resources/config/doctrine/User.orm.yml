@@ -52,12 +52,12 @@ PullUpDomain\Entity\User:
                 default: "2020-12-31 23:59:59"
 
     oneToOne:
-        firstForm:
-            targetEntity: PullUpDomain\Entity\FirstForm
+        trainingPullUpFirstForm:
+            targetEntity: PullUpDomain\Entity\TrainingPullUpFirstForm
             inversedBy: user
             cascade: [persist]
             joinColumn:
-                name: first_form_id
+                name: training_pull_up_first_form_id
                 referencedColumnName: id
 
     oneToMany:

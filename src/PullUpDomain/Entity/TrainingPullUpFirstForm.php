@@ -2,7 +2,7 @@
 
 namespace PullUpDomain\Entity;
 
-class FirstForm
+class TrainingPullUpFirstForm
 {
     protected $id;
     protected $user;
@@ -31,7 +31,7 @@ class FirstForm
 
     /**
      * @param array $data
-     * @return FirstForm
+     * @return TrainingPullUpFirstForm
      */
     public static function create(array $data)
     {
