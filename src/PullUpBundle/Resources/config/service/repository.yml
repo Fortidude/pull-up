@@ -10,14 +10,14 @@ services:
 
     ######
 
-    pullup.first_form.repository.doctrine:
-        class: PullUpBundle\Repository\FirstFormRepository
+    pullup.training_pull_up_first_form.repository.doctrine:
+        class: PullUpBundle\Repository\TrainingPullUpFirstFormRepository
         arguments:
             - "@doctrine.orm.entity_manager"
         public: false
 
-    pullup.first_form.repository:
-      alias: pullup.first_form.repository.doctrine
+    pullup.training_pull_up_first_form.repository:
+      alias: pullup.training_pull_up_first_form.repository.doctrine
 
     ######
 
