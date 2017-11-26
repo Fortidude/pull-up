@@ -19,4 +19,6 @@ interface ExerciseRepositoryInterface
 
     public function add(Exercise $entity);
     public function remove(Exercise $entity);
+
+    public function flush();
 }

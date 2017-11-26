@@ -70,7 +70,7 @@ class UserTest extends TestCase
         $user->changeDaysAmountPerCircuit($circuitDays);
 
         $start = new \DateTime("now");
-        $endWeek = (clone $start)->add(new \DateInterval("P7D"));
+        $endWeek = (clone $start)->add(new \DateInterval("P{$circuitDays}D"));
 
         $circuit = $user->getCurrentTrainingCircuit();
 
@@ -80,7 +80,8 @@ class UserTest extends TestCase
         $this->assertEquals($start->format($format), $circuit->getStartAt()->format($format));
         $this->assertEquals($endWeek->format($format), $circuit->getEndAt()->format($format));
 
-        $customDate = (clone $start)->add(new \DateInterval("P{$circuitDays}D"));
+        $updatedCircuitDays = $circuitDays + 2;
+        $customDate = (clone $start)->add(new \DateInterval("P{$updatedCircuitDays}D"));
         $nextCircuit = $user->getTrainingCircuitByDate($customDate);
 
         $this->assertFalse($nextCircuit->isCurrent());

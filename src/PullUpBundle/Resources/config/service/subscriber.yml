@@ -4,5 +4,17 @@ services:
         arguments:
             - "@pullup.goal_set.repository"
             - "@pullup.circuit.repository"
+            - "@pullup.user.repository"
+            - '%kernel.logs_dir%'
         tags:
             - { name: event_subscriber, subscribes_to: PullUpService\Event\GoalSetCreatedEvent }
+
+    goal_set_pre_create_subscriber:
+        class: PullUpService\Subscriber\GoalSetPreCreateSubscriber
+        arguments:
+            - "@pullup.goal_set.repository"
+            - "@pullup.circuit.repository"
+            - "@pullup.user.repository"
+            - '%kernel.logs_dir%'
+        tags:
+            - { name: event_subscriber, subscribes_to: PullUpService\Event\GoalSetPreCreateEvent }

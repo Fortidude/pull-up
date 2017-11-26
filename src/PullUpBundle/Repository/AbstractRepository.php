@@ -55,6 +55,10 @@ abstract class AbstractRepository
         }
     }
 
+    public function flush() {
+        $this->getEntityManager()->flush();
+    }
+
     protected function removeEntity($entity)
     {
         $em = $this->getEntityManager();

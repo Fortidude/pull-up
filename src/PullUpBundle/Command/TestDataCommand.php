@@ -3,6 +3,7 @@
 namespace PullUpBundle\Command;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use PullUpDomain\Entity\Circuit;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,8 +21,9 @@ class TestDataCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->test();
+        //$this->test();
         //$this->createSomeExercise();
+        $this->getLastCircuit();
     }
 
     private function test()
@@ -63,5 +65,23 @@ class TestDataCommand extends ContainerAwareCommand
 
             }
         }
+    }
+
+    private function getLastCircuit()
+    {
+        $circuitRepository = $this->getContainer()->get('doctrine')->getRepository('PullUpDomainEntity:Circuit');
+
+        $user = $this->getContainer()->get('fos_user.user_manager')->findUserBy([]);
+        $lastDone = $circuitRepository->getLastCircuit($user);
+
+        $interval = new \DateInterval("P{$user->getDaysPerCircuit()}D");
+        $period = new \DatePeriod($lastDone->getEndAt()->add(new \DateInterval("P1D")), $interval, new \DateTime("2017-11-26"));
+
+        foreach ($period as $startDate) {
+            $circuitBetween = Circuit::createByStartDate($user, $startDate);
+            $circuitRepository->add($circuitBetween);
+            dump($circuitBetween);
+        }
+
     }
 }

@@ -11,6 +11,7 @@ use PullUpDomain\Repository\GoalSetRepositoryInterface;
 
 use PullUpService\Command\CreateGoalSetCommand;
 use PullUpService\Event\GoalSetCreatedEvent;
+use PullUpService\Event\GoalSetPreCreateEvent;
 
 class CreateGoalSetHandler
 {
@@ -49,8 +50,12 @@ class CreateGoalSetHandler
         }
 
         if (!$command->goal) {
-
         }
+
+        $dateTime = new \DateTime($command->date);
+
+        $event = new GoalSetPreCreateEvent($this->user->getId(), $dateTime);
+        $this->eventBus->handle($event);
 
         /** @var Goal $goal */
         $goal = $this->goalRepository->getByUserAndId($this->user, $command->goal);
@@ -58,7 +63,6 @@ class CreateGoalSetHandler
             throw new \Exception("Unable to find Goal with ID = \"{$command->goal}\"", 404);
         }
 
-        $dateTime = new \DateTime($command->date);
         $set = $goal->addSet($dateTime, $command->reps, $command->weight, $command->time);
 
         $this->goalSetRepository->add($set);

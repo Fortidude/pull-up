@@ -144,6 +144,9 @@ class User extends BaseUser
             throw new \Exception("DOMAIN.NEW_CIRCUIT_DURATION_INVALID");
         }
 
+        $currentCircuit = $this->getCurrentTrainingCircuit();
+        $currentCircuit->changeDuration($days);
+
         $this->daysPerCircuit = $days;
         return true;
     }

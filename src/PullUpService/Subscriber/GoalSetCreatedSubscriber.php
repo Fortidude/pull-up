@@ -2,25 +2,30 @@
 
 namespace PullUpService\Subscriber;
 
-use PullUpDomain\Entity\User;
-use PullUpDomain\Entity\Circuit;
 use PullUpDomain\Repository\CircuitRepositoryInterface;
 use PullUpDomain\Repository\GoalSetRepositoryInterface;
 
+use PullUpDomain\Repository\UserRepositoryInterface;
 use PullUpService\Event\GoalSetCreatedEvent;
 
 class GoalSetCreatedSubscriber
 {
     protected $goalSetRepository;
     protected $circuitRepository;
+    protected $userRepository;
+    protected $cachePath;
 
     public function __construct(
         GoalSetRepositoryInterface $goalSetRepository,
-        CircuitRepositoryInterface $circuitRepository
+        CircuitRepositoryInterface $circuitRepository,
+        UserRepositoryInterface $userRepository,
+        $cachePath
     )
     {
         $this->goalSetRepository = $goalSetRepository;
         $this->circuitRepository = $circuitRepository;
+        $this->userRepository = $userRepository;
+        $this->cachePath = $cachePath;
     }
 
     public function notify(GoalSetCreatedEvent $event)

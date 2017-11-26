@@ -105,6 +105,17 @@ class Circuit
     }
 
     /**
+     * @param int $duration$startAt
+     */
+    public function changeDuration(int $duration)
+    {
+        $date = clone $this->getStartAt();
+        $date->add(new \DateInterval("P{$duration}D"));
+
+        $this->setEndAt($date);
+    }
+
+    /**
      * @return int
      */
     public function getDuration(): int
@@ -145,6 +156,9 @@ class Circuit
         return $this;
     }
 
+    /**
+     * @return User
+     */
     public function getUser()
     {
         return $this->user;

@@ -24,10 +24,34 @@ class CircuitRepository extends AbstractRepository implements CircuitRepositoryI
             ->andWhere('c.startAt < :date AND c.endAt > :date')
             ->setParameter('userId', $user->getId())
             ->setParameter('date', $dateTime)
+            ->setMaxResults(1)
             ->getQuery();
 
         return $query
-            ->getSingleResult();
+            ->getOneOrNullResult();
+    }
+
+    public function getLastCircuit(User $user, $exceptIds = [])
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $qb->select('c')
+            ->from('PullUpDomainEntity:Circuit', 'c')
+            ->where('c.user = :userId');
+
+        if ($exceptIds) {
+            $query = $query
+                ->andWhere('c.id NOT IN (:exceptIds)')
+                ->setParameter('exceptIds', $exceptIds);
+        }
+
+        $query = $query
+            ->setParameter('userId', $user->getId())
+            ->orderBy('c.endAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery();
+
+        return $query
+            ->getOneOrNullResult();
     }
 
     public function getCollisions(Circuit $circuit)

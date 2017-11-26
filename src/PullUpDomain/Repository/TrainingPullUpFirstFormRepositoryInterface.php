@@ -15,4 +15,6 @@ interface TrainingPullUpFirstFormRepositoryInterface
 
     public function add(FirstForm $entity);
     public function remove(FirstForm $entity);
+
+    public function flush();
 }

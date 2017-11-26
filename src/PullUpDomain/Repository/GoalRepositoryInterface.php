@@ -28,4 +28,6 @@ interface GoalRepositoryInterface
 
     public function add(Goal $entity);
     public function remove(Goal $entity);
+
+    public function flush();
 }

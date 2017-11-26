@@ -20,4 +20,6 @@ interface UserRepositoryInterface
 
     public function add(User $user);
     public function remove(User $user);
+
+    public function flush();
 }

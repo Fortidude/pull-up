@@ -52,6 +52,7 @@ interface TrainingPullUpRepositoryInterface
     public function getFirstByRoute(User $user, $route);
 
     public function add(TrainingPullUp $entity);
-
     public function remove(TrainingPullUp $entity);
+
+    public function flush();
 }

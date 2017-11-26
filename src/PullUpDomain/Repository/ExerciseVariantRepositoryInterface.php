@@ -20,4 +20,6 @@ interface ExerciseVariantRepositoryInterface
 
     public function add(ExerciseVariant $entity);
     public function remove(ExerciseVariant $entity);
+
+    public function flush();
 }
