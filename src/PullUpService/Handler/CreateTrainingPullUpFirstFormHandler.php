@@ -5,7 +5,7 @@ namespace PullUpService\Handler;
 use PullUpDomain\Entity\TrainingPullUpFirstForm as FirstForm;
 use PullUpDomain\Entity\User;
 use PullUpDomain\Repository\TrainingPullUpFirstFormRepositoryInterface as FirstFormRepositoryInterface;
-use PullUpService\Command\CreateFirstFormCommand;
+use PullUpService\Command\CreateTrainingPullUpFirstFormCommand as CreateFirstFormCommand;
 
 class CreateTrainingPullUpFirstFormHandler
 {
