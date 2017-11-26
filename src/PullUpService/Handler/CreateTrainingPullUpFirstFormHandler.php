@@ -32,10 +32,10 @@ class CreateTrainingPullUpFirstFormHandler
             //file_put_contents($this->cachePath . '/first_form.json', json_encode($data));
         }
 
-        if ($this->user->isFirstFormFilled()) {
+        if ($this->user->isTrainingPullUpFirstFormFilled()) {
             throw new \Exception("PULL_UP_ALREADY_FILLED");
         }
 
-        $this->user->fillFirstForm($data);
+        $this->user->fillTrainingPullUpFirstForm($data);
     }
 }
