@@ -81,6 +81,16 @@ class Circuit
         return $this->startAt;
     }
 
+    public function setStartAt(\DateTime $dateTime, int $duration)
+    {
+        $dateTime->setTime(0, 0, 0);
+        $this->startAt = $dateTime;
+
+        $this->changeDuration($duration);
+
+        return $this;
+    }
+
     /**
      * @return \DateTime()
      */
@@ -105,10 +115,11 @@ class Circuit
     }
 
     /**
-     * @param int $duration$startAt
+     * @param int $duration $startAt
      */
     public function changeDuration(int $duration)
     {
+        $duration--;
         $date = clone $this->getStartAt();
         $date->add(new \DateInterval("P{$duration}D"));
 
@@ -133,15 +144,15 @@ class Circuit
     public function checkCollisions(array $collisionCircuits = null)
     {
         if ($collisionCircuits) {
-            $date = $this->getEndAt();
+            $endDate = $this->getEndAt();
             foreach ($collisionCircuits as $collisionCircuit) {
-                if ($date > $collisionCircuit->getStartAt()) {
-                    $date = $collisionCircuit->getStartAt();
+                if ($endDate > $collisionCircuit->getStartAt()) {
+                    $endDate = $collisionCircuit->getStartAt();
                 }
             }
 
-            $date->sub(new \DateInterval("P1D"));
-            $this->setEndAt($date);
+            $endDate->sub(new \DateInterval("P1D"));
+            $this->setEndAt($endDate);
             $this->finish();
         }
     }

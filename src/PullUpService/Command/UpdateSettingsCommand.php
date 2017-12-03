@@ -9,5 +9,5 @@ class UpdateSettingsCommand
     /**
      * @Type("int")
      */
-    public $circuitDuration;
+    public $daysPerCircuit;
 }

@@ -74,6 +74,7 @@ class Goal
 
         $entity = new self();
 
+        $entity->noSpecifiedGoal = false;
         if ($name === self::NO_GOAL_SPECIFIED_NAME) {
             $entity->noSpecifiedGoal = true;
         }

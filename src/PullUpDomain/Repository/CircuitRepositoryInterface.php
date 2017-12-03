@@ -8,7 +8,20 @@ use PullUpDomain\Entity\Circuit;
 interface CircuitRepositoryInterface
 {
     public function getByUserAndDate(User $user, \DateTime $dateTime);
+
+    /**
+     * @param User $user
+     * @param array $exceptIds
+     * @return Circuit|null
+     */
     public function getLastCircuit(User $user, $exceptIds = []);
+
+    /**
+     * @param User $user
+     * @param array $exceptIds
+     * @return Circuit[]
+     */
+    public function getAllFuture(User $user, $exceptIds = []);
     public function getCollisions(Circuit $circuit);
 
     public function add(Circuit $entity);

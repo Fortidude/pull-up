@@ -54,6 +54,20 @@ class GoalSet
         return $entity;
     }
 
+    public function changeCircuit(Circuit $circuit)
+    {
+        if (!$circuit->isForDate($this->date)) {
+            throw new \Exception("DOMAIN.CIRCUIT_NOT_FOR_DATE");
+        }
+
+        $this->circuit = $circuit;
+    }
+
+    public function getDate()
+    {
+        return $this->date;
+    }
+
     public function getValue()
     {
         if ($this->reps) {

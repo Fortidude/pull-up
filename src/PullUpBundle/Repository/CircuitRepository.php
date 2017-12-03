@@ -54,6 +54,35 @@ class CircuitRepository extends AbstractRepository implements CircuitRepositoryI
             ->getOneOrNullResult();
     }
 
+    /**
+     * @param User $user
+     * @param array $exceptIds
+     * @return Circuit[]
+     */
+    public function getAllFuture(User $user, $exceptIds = [])
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $qb->select('c')
+            ->from('PullUpDomainEntity:Circuit', 'c')
+            ->where('c.user = :userId');
+
+        if ($exceptIds) {
+            $query = $query
+                ->andWhere('c.id NOT IN (:exceptIds)')
+                ->setParameter('exceptIds', $exceptIds);
+        }
+
+        $query = $query
+            ->andWhere('c.startAt > :now')
+            ->setParameter('userId', $user->getId())
+            ->setParameter('now', new \DateTime("now"))
+            ->orderBy('c.endAt', 'DESC')
+            ->getQuery();
+
+        return $query
+            ->getResult();
+    }
+
     public function getCollisions(Circuit $circuit)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();

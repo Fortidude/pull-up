@@ -7,6 +7,7 @@ use PullUpDomain\Entity\User;
 use PullUpDomain\Repository\UserRepositoryInterface;
 
 use PullUpService\Command\UpdateSettingsCommand;
+use PullUpService\Event\UserDurationPerCircuitChangedEvent;
 
 class UpdateSettingsHandler
 {
@@ -39,8 +40,9 @@ class UpdateSettingsHandler
             //file_put_contents($this->cachePath . '/first_form.json', json_encode($data));
         }
 
-        if ($this->user->changeDaysAmountPerCircuit($command->circuitDuration)) {
-            // event
+        if ($this->user->changeDaysAmountPerCircuit($command->daysPerCircuit)) {
+            $event = new UserDurationPerCircuitChangedEvent($this->user->getId());
+            $this->eventBus->handle($event);
         }
     }
 }

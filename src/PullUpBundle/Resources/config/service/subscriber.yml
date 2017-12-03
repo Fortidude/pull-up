@@ -18,3 +18,13 @@ services:
             - '%kernel.logs_dir%'
         tags:
             - { name: event_subscriber, subscribes_to: PullUpService\Event\GoalSetPreCreateEvent }
+
+    user_duration_per_circuit_changed_subscriber:
+        class: PullUpService\Subscriber\UserDurationPerCircuitChangedSubscriber
+        arguments:
+            - "@pullup.goal_set.repository"
+            - "@pullup.circuit.repository"
+            - "@pullup.user.repository"
+            - '%kernel.logs_dir%'
+        tags:
+            - { name: event_subscriber, subscribes_to: PullUpService\Event\UserDurationPerCircuitChangedEvent }

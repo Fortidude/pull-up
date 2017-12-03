@@ -36,7 +36,6 @@ class GoalSetCreatedSubscriber
         }
 
         $circuit = $entity->getCircuit();
-        $circuit->addSet($entity);
 
         $collisionCircuits = $this->circuitRepository->getCollisions($circuit);
         $circuit->checkCollisions($collisionCircuits);
