@@ -32,7 +32,7 @@ class SubmitTrainingPullUpHandler
             file_put_contents($this->cachePath . '/training.json', json_encode($data));
         }
 
-        if (!$this->user->isFirstFormFilled()) {
+        if (!$this->user->isTrainingPullUpFirstFormFilled()) {
             throw new \Exception('DOMAIN.FIRST_FORM_NOT_FILLED');
         }
 
