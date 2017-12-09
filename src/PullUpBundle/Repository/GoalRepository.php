@@ -116,13 +116,13 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
             ->from('PullUpDomainEntity:Goal', 'g')
             ->leftJoin('g.exercise', 'e')
             ->where('g.user = :userId')
-            ->where('g.exercise = :exercise');
+            ->andWhere('g.exercise = :exercise');
 
         if ($variant instanceof ExerciseVariant) {
             $qb = $qb
                 ->addSelect('ev')
                 ->leftJoin('g.exerciseVariant', 'ev')
-                ->where('g.exerciseVariant = :variant')
+                ->andWhere('g.exerciseVariant = :variant')
                 ->setParameter('variant', $variant);
         } else {
             $qb = $qb
