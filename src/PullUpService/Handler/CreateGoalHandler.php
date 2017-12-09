@@ -68,7 +68,14 @@ class CreateGoalHandler
 
         // @TODO sprawdzenie, czy użytkownik nie dodał wcześniej celu dla tego ćwiczenia i wariantu
 
-        $entity = Goal::create($command->name,
+        $name = $command->noSpecifiedGoal ? Goal::NO_GOAL_SPECIFIED_NAME : $command->name;
+        $exist = $this->goalRepository->checkIfDuplicate($this->user, $exercise, $exerciseVariant);
+        if ($exist instanceof Goal) {
+            $exist->restore();
+            return;
+        }
+
+        $entity = Goal::create($name,
             $command->description,
             $this->user,
             $exercise,

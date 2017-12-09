@@ -4,6 +4,8 @@ namespace PullUpBundle\Repository;
 
 use Doctrine\ORM\EntityManager;
 
+use PullUpDomain\Entity\Exercise;
+use PullUpDomain\Entity\ExerciseVariant;
 use PullUpDomain\Entity\Goal;
 use PullUpDomain\Entity\User;
 use PullUpDomain\Repository\GoalRepositoryInterface;
@@ -104,6 +106,34 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
             ->getQuery();
 
         return $query->getResult();
+    }
+
+    public function checkIfDuplicate(User $user, Exercise $exercise, ExerciseVariant $variant = null)
+    {
+        $qb = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('g, e, s')
+            ->from('PullUpDomainEntity:Goal', 'g')
+            ->leftJoin('g.exercise', 'e')
+            ->where('g.user = :userId')
+            ->where('g.exercise = :exercise');
+
+        if ($variant instanceof ExerciseVariant) {
+            $qb = $qb
+                ->addSelect('ev')
+                ->leftJoin('g.exerciseVariant', 'ev')
+                ->where('g.exerciseVariant = :variant')
+                ->setParameter('variant', $variant);
+        } else {
+            $qb = $qb
+                ->where('g.exerciseVariant IS NULL');
+        }
+
+        return $qb
+            ->setParameter('userId', $user->getId())
+            ->setParameter('exercise', $exercise)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     /**

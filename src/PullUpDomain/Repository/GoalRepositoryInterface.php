@@ -2,6 +2,8 @@
 
 namespace PullUpDomain\Repository;
 
+use PullUpDomain\Entity\Exercise;
+use PullUpDomain\Entity\ExerciseVariant;
 use PullUpDomain\Entity\User;
 use PullUpDomain\Entity\Goal;
 
@@ -19,6 +21,14 @@ interface GoalRepositoryInterface
      * @return Goal[]
      */
     public function getListByUser(User $user);
+
+    /**
+     * @param User $user
+     * @param Exercise $exercise
+     * @param ExerciseVariant|null $variant
+     * @return Goal | null
+     */
+    public function checkIfDuplicate(User $user, Exercise $exercise, ExerciseVariant $variant = null);
 
     /**
      * @param User $user

@@ -61,7 +61,7 @@ class Goal
         string $description,
         User $user,
         Exercise $exercise,
-        ExerciseVariant $exerciseVariant,
+        ExerciseVariant $exerciseVariant = null,
         int $requiredSets = null,
         int $requiredReps = null,
         int $requiredWeight = null,

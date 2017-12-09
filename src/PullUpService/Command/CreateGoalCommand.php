@@ -45,4 +45,9 @@ class CreateGoalCommand
      * @Type("int")
      */
     public $time;
+
+    /**
+     * @Type("int")
+     */
+    public $noSpecifiedGoal;
 }
