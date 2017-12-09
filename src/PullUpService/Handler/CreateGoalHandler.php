@@ -46,14 +46,17 @@ class CreateGoalHandler
             //file_put_contents($this->cachePath . '/first_form.json', json_encode($data));
         }
 
+        $exerciseVariantSelected = count($command->exerciseVariant) > 0;
+
         $exercise = $this->exerciseRepository->getByNameOrId($command->exercise);
         $exerciseVariant = null;
         if (!$exercise) {
             $exercise = Exercise::create($command->exercise, '');
-            $exerciseVariant = ExerciseVariant::create($command->exerciseVariant, '', $exercise);
 
-            //$this->exerciseRepository->add($exercise);
-        } else {
+            if ($exerciseVariantSelected) {
+                $exerciseVariant = ExerciseVariant::create($command->exerciseVariant, '', $exercise);
+            }
+        } elseif ($exerciseVariantSelected) {
             foreach ($exercise->getExerciseVariants() as $variant) {
                 if ($variant->getName() == $command->exerciseVariant || $variant->getId() == $command->exerciseVariant) {
                     $exerciseVariant = $variant;
@@ -68,14 +71,14 @@ class CreateGoalHandler
 
         // @TODO sprawdzenie, czy użytkownik nie dodał wcześniej celu dla tego ćwiczenia i wariantu
 
-        $name = $command->noSpecifiedGoal ? Goal::NO_GOAL_SPECIFIED_NAME : $command->name;
+        $goalName = $command->noSpecifiedGoal ? Goal::NO_GOAL_SPECIFIED_NAME : $command->name;
         $exist = $this->goalRepository->checkIfDuplicate($this->user, $exercise, $exerciseVariant);
         if ($exist instanceof Goal) {
             $exist->restore();
             return;
         }
 
-        $entity = Goal::create($name,
+        $entity = Goal::create($goalName,
             $command->description,
             $this->user,
             $exercise,
