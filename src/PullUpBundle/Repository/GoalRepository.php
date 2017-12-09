@@ -129,7 +129,7 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
                 ->andWhere('g.exerciseVariant IS NULL');
         }
 
-        return $qb
+        return $qb = $qb
             ->setParameter('userId', $user->getId())
             ->setParameter('exercise', $exercise)
             ->getQuery()
