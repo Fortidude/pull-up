@@ -112,7 +112,7 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
     {
         $qb = $this->getEntityManager()
             ->createQueryBuilder()
-            ->select('g, e, s')
+            ->select('g, e')
             ->from('PullUpDomainEntity:Goal', 'g')
             ->leftJoin('g.exercise', 'e')
             ->where('g.user = :userId')
