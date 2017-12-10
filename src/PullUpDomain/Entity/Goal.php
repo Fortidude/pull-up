@@ -134,7 +134,7 @@ class Goal
     public function getRequiredType()
     {
         if ($this->noSpecifiedGoal) {
-            return '';
+            return 'none';
         }
 
         if ($this->requiredSets) {
@@ -214,13 +214,8 @@ class Goal
         return null;
     }
 
-    public function leftThisCircuit()
+    public function doneThisCircuit()
     {
-        if ($this->noSpecifiedGoal) {
-            return 0;
-        }
-
-        $total = $this->getRequiredAmount();
         $done = 0;
 
         /** @var Circuit $currentCircuit */
@@ -235,6 +230,18 @@ class Goal
                 $done += $set->getValue();
             }
         }
+
+        return $done;
+    }
+
+    public function leftThisCircuit()
+    {
+        if ($this->noSpecifiedGoal) {
+            return 0;
+        }
+
+        $total = $this->getRequiredAmount();
+        $done = $this->doneThisCircuit();
 
         return $total - $done;
     }
