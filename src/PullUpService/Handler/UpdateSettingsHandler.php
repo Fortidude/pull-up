@@ -44,5 +44,7 @@ class UpdateSettingsHandler
             $event = new UserDurationPerCircuitChangedEvent($this->user->getId());
             $this->eventBus->handle($event);
         }
+
+        $this->user->updateUser($command->name, $command->email);
     }
 }

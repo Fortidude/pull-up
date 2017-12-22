@@ -78,6 +78,12 @@ class User extends BaseUser
         return $entity;
     }
 
+    public function updateUser($name, $email)
+    {
+        $this->name = $name;
+        $this->email = $email;
+    }
+
     public function updateAfterLogin($name, $avatar)
     {
         $this->name = $name;

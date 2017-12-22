@@ -10,4 +10,14 @@ class UpdateSettingsCommand
      * @Type("int")
      */
     public $daysPerCircuit;
+
+    /**
+     * @Type("string")
+     */
+    public $name;
+
+    /**
+     * @Type("string")
+     */
+    public $email;
 }
