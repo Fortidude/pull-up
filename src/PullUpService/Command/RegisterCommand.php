@@ -9,6 +9,11 @@ class RegisterCommand
     /**
      * @Type("string")
      */
+    public $email;
+
+    /**
+     * @Type("string")
+     */
     public $username;
 
     /**

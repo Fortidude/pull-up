@@ -61,6 +61,36 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
     }
 
     /**
+     * @param array $names
+     * @param array $excluded
+     * @return bool
+     */
+    public function checkIfExist(array $names, array $excluded = []): bool
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $qb->select('u')
+            ->from('PullUpDomainEntity:User', 'u')
+            ->where('(u.username IN (:names) OR u.email IN (:names))')
+            ->setParameter('names', $names);
+
+        if ($excluded) {
+            $query = $query
+                ->andWhere('u.id NOT IN (:ids)')
+                ->setParameter('ids', $excluded);
+        }
+
+        $result = $query
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if ($result && $result instanceof User) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @param User $user
      */
     public function add(User $user)

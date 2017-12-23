@@ -2,6 +2,7 @@
 
 namespace PullUpBundle\Controller;
 
+use PullUpDomain\Repository\GoalSetRepositoryInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -20,6 +21,9 @@ class GoalController
     /** @var GoalRepository */
     protected $repository;
 
+    /** @var GoalSetRepositoryInterface */
+    protected $goalSetRepository;
+
     /** @var User */
     protected $user;
 
@@ -29,12 +33,17 @@ class GoalController
     /**
      * GoalController constructor.
      * @param GoalRepository $repository
+     * @param GoalSetRepositoryInterface $goalSetRepository
      * @param UserInterface $user
      * @param SimpleBus $commandBus
      */
-    public function __construct(GoalRepository $repository, UserInterface $user, SimpleBus $commandBus)
+    public function __construct(GoalRepository $repository,
+                                GoalSetRepositoryInterface $goalSetRepository,
+                                UserInterface $user,
+                                SimpleBus $commandBus)
     {
         $this->repository = $repository;
+        $this->goalSetRepository = $goalSetRepository;
         $this->user = $user;
         $this->commandBus = $commandBus;
     }
@@ -91,6 +100,7 @@ class GoalController
         $this->commandBus->handle($command);
         return ['status' => true];
     }
+
     /**
      * @param string $id
      * @return array
@@ -114,5 +124,21 @@ class GoalController
     {
         $this->commandBus->handle($command);
         return ['status' => true];
+    }
+
+    /**
+     * @ApiDoc(
+     *  section="Goal",
+     *  description="Last Created Goal Set"
+     * )
+     *
+     * @Rest\View(serializerGroups={"goal_set_item", "goal_item", "exercise_item"})
+     *
+     * @return array|\PullUpDomain\Entity\GoalSet
+     */
+    public function getLastSetByUser()
+    {
+        $result = $this->goalSetRepository->getLastByUser($this->user);
+        return $result ? $result : [];
     }
 }

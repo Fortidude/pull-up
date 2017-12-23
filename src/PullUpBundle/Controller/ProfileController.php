@@ -2,7 +2,6 @@
 
 namespace PullUpBundle\Controller;
 
-use PullUpService\Command\UpdateUserCircuitDaysCommand;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -40,7 +39,6 @@ class ProfileController
 
     /**
      * @Rest\View(serializerGroups={"user_item", "profile"})
-
      * @return User
      */
     public function currentAction()

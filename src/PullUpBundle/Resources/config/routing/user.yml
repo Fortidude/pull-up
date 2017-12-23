@@ -8,6 +8,11 @@ pullup_api_user_login_by_facebook:
       defaults: { _controller: pullup.user.controller:loginByFacebookAction, _format: 'json'  }
       methods: [POST]
 
+pullup_api_user_register:
+      path:     /register
+      defaults: { _controller: pullup.user.controller:registerAction, _format: 'json'  }
+      methods: [POST]
+
 pullup_api_user_check_token:
       path:     /secured/check_token
       defaults: { _controller: pullup.user.controller:checkTokenAction, _format: 'json'  }

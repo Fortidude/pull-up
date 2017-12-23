@@ -36,6 +36,7 @@ services:
         class: PullUpBundle\Controller\GoalController
         arguments:
             - "@pullup.goal.repository.doctrine"
+            - "@pullup.goal_set.repository.doctrine"
             - "@pullup.current_user"
             - "@pullup.command_bus"
 

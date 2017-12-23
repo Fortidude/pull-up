@@ -40,7 +40,7 @@ class LoginByFacebookHandler
         $response = json_decode($rawResponse, true);
 
         if (array_key_exists('error', $response) || !array_key_exists('email', $response)) {
-            throw new \Exception("Token is not valid. {$command->accessToken}", 403);
+            throw new \Exception("Token is not valid.", 403);
         }
 
         $user = $this->userManager->findUserBy(['facebookId' => $response['id']]);
@@ -51,14 +51,14 @@ class LoginByFacebookHandler
         $avatar = isset($response['picture']) ? $response['picture']['data']['url'] : '';
 
         $user->setPlainPassword($command->accessToken);
-        $user->updateAfterLogin($response['name'], $avatar);
+        $user->updateAfterFacebookLogin($response['name'], $avatar);
 
         if ($user->getEmail() !== $response['email']) {
             $user->setEmail($response['email']);
         }
 
         $user->setLastLogin(new \DateTime("now"));
-        $this->userManager->updateUser($user);
+        $this->userManager->update($user);
 
         //$this->authenticationManager->create($user);
     }

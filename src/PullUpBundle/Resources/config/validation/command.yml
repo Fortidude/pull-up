@@ -1,4 +1,8 @@
 PullUpService\Command\RegisterCommand:
     properties:
-        accessToken:
+        email:
+            - NotBlank: ~
+        username:
+            - NotBlank: ~
+        password:
             - NotBlank: ~

@@ -5,7 +5,7 @@ namespace PullUpService\Handler;
 use PullUpDomain\Entity\User;
 use PullUpDomain\Service\AuthenticationManagerInterface;
 use PullUpDomain\Service\ProfileManagerInterface;
-use PullUpService\Command\LoginByFacebookCommand;
+use PullUpService\Command\RegisterCommand;
 
 class RegisterHandler
 {
@@ -21,8 +21,15 @@ class RegisterHandler
         $this->authenticationManager = $authenticationManager;
     }
 
-    public function handle(LoginByFacebookCommand $command)
+    public function handle(RegisterCommand $command)
     {
-       
+        $exist = $this->userManager->checkIfExist([$command->email, $command->username]);
+        if ($exist) {
+            throw new \Exception("USER_ALREADY_EXIST");
+        }
+
+        $user = User::createByClassicRegister($command->email, $command->username, $command->password);
+        $user->setLastLogin(new \DateTime("now"));
+        $this->userManager->update($user);
     }
 }

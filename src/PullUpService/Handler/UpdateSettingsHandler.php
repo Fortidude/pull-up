@@ -40,6 +40,10 @@ class UpdateSettingsHandler
           //  file_put_contents($this->cachePath . '/first_form.json', $command->name);
         }
 
+        if ($this->userRepository->checkIfExist([$command->name], [$this->user->getId()])) {
+            throw new \Exception("USER_ALREADY_EXIST");
+        }
+
         if ($this->user->changeDaysAmountPerCircuit($command->daysPerCircuit)) {
             $event = new UserDurationPerCircuitChangedEvent($this->user->getId());
             $this->eventBus->handle($event);

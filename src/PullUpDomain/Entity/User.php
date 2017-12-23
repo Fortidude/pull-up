@@ -78,12 +78,35 @@ class User extends BaseUser
         return $entity;
     }
 
+    /**
+     * @param string $email
+     * @param string $username
+     * @param string $password
+     * @return User
+     */
+    public static function createByClassicRegister(string $email, string $username, string $password): User
+    {
+        $entity = new self();
+        $entity->email = $email;
+        $entity->username = $username;
+        $entity->usernameCanonical = $username;
+        $entity->name = $username;
+        $entity->plainPassword = $password;
+        $entity->roles = ['ROLE_USER'];
+        $entity->enabled = true;
+        $entity->expiresAt = new \DateTime('2020-12-31 23:59:59');
+        $entity->circuits[] = Circuit::create($entity);
+
+        return $entity;
+    }
+
     public function updateUser($name)
     {
+        $this->username = $name;
         $this->name = $name;
     }
 
-    public function updateAfterLogin($name, $avatar)
+    public function updateAfterFacebookLogin($name, $avatar)
     {
         $this->name = $name;
         $this->avatar = $avatar;
