@@ -4,15 +4,15 @@ namespace PullUpService\Command;
 
 use JMS\Serializer\Annotation\Type;
 
-class UpdateSettingsCommand
+class RegisterCommand
 {
     /**
-     * @Type("int")
+     * @Type("string")
      */
-    public $daysPerCircuit;
+    public $username;
 
     /**
      * @Type("string")
      */
-    public $name;
+    public $password;
 }

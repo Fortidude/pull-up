@@ -37,7 +37,7 @@ class UpdateSettingsHandler
     public function handle(UpdateSettingsCommand $command)
     {
         if ($this->cachePath) {
-            //file_put_contents($this->cachePath . '/first_form.json', json_encode($data));
+          //  file_put_contents($this->cachePath . '/first_form.json', $command->name);
         }
 
         if ($this->user->changeDaysAmountPerCircuit($command->daysPerCircuit)) {
@@ -45,6 +45,6 @@ class UpdateSettingsHandler
             $this->eventBus->handle($event);
         }
 
-        $this->user->updateUser($command->name, $command->email);
+        $this->user->updateUser($command->name);
     }
 }
