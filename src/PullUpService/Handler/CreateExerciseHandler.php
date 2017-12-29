@@ -38,9 +38,9 @@ class CreateExerciseHandler
             //file_put_contents($this->cachePath . '/first_form.json', json_encode($data));
         }
 
-        $exerciseVariantSelected = count($command->variantName) > 0;
-
+        $exerciseVariantSelected = strlen($command->variantName) > 0;
         $exercise = $this->exerciseRepository->getByNameOrId($command->name);
+
         $exerciseVariant = null;
         if (!$exercise) {
             $exercise = Exercise::create($command->name, '');

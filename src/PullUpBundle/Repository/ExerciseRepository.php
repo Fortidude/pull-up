@@ -53,7 +53,7 @@ class ExerciseRepository extends AbstractRepository implements ExerciseRepositor
         $qb = $this->getEntityManager()->createQueryBuilder();
         $query = $qb->select('e, ev')
             ->from('PullUpDomainEntity:Exercise', 'e')
-            ->join('e.exerciseVariants', 'ev')
+            ->leftJoin('e.exerciseVariants', 'ev')
             ->where('e.name = :string OR e.id = :string')
             ->setParameter('string', $string)
             ->getQuery();
