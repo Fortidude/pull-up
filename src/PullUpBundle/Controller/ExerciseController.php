@@ -39,4 +39,17 @@ class ExerciseController
     {
         return $this->repository->getList();
     }
+
+    /**
+     *
+     * @ParamConverter("command", converter="validation_converter")
+     *
+     * @param Command\CreateExerciseCommand $command
+     * @return array
+     */
+    public function createAction(Command\CreateExerciseCommand $command)
+    {
+        $this->commandBus->handle($command);
+        return ['status' => true];
+    }
 }
