@@ -33,12 +33,27 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
 
     public function getPlannerByUser(User $user): array
     {
+        /**
+         * @TODO KEYS CREATED BY USER?
+         */
+
         return [];
     }
 
     public function getCalendarPlannerByUser(User $user) : array
     {
-        $results = [];
+        $results = [
+            'today' => [],
+            'yesterday' => [],
+            'two_days_ago' => [],
+            'three_days_ago' => [],
+            'four_days_ago' => [],
+            'five_days_ago' => [],
+            'six_days_ago' => [],
+            'week_ago' => [],
+            'circuit_ago' => [],
+            'older' => []
+        ];
 
         /** @var Goal[] $entities */
         $entities = $this->getListByUserQB($user)
