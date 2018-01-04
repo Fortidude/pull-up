@@ -51,6 +51,8 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
             'five_days_ago' => [],
             'six_days_ago' => [],
             'week_ago' => [],
+            'older_than_week_ago' => [],
+            'circuit_ago' => [],
             'older' => []
         ];
 
@@ -122,6 +124,14 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
             } else {
                 $results['older'][] = $entity;
             }
+        }
+
+        if (!$results['older_than_week_ago']) {
+            unset($results['older_than_week_ago']);
+        }
+        
+        if (!$results['circuit_ago']) {
+            unset($results['circuit_ago']);
         }
 
         return $results;
