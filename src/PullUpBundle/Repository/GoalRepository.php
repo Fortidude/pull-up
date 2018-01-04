@@ -51,7 +51,6 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
             'five_days_ago' => [],
             'six_days_ago' => [],
             'week_ago' => [],
-            'circuit_ago' => [],
             'older' => []
         ];
 
@@ -86,10 +85,19 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
         $weekAgo = clone $today;
         $weekAgo->sub(new \DateInterval("P7D"));
 
-        $circuitAgo = null;
         if ($user->getDaysPerCircuit() > 7) {
             $circuitAgo = clone $today;
             $circuitAgo->sub(new \DateInterval("P{$user->getDaysPerCircuit()}D"));
+        }
+
+        $circuitAgoDate = null;
+        $twoCircuitAgoDate = null;
+        if ($user->getDaysPerCircuit() > 7) {
+            $circuitAgoDate = clone $today;
+            $circuitAgoDate->sub(new \DateInterval("P{$user->getDaysPerCircuit()}D"));
+
+            $twoCircuitAgoDate = clone $circuitAgoDate;
+            $twoCircuitAgoDate->sub(new \DateInterval("P{$user->getDaysPerCircuit()}D"));
         }
 
         foreach ($entities as $entity) {
@@ -107,7 +115,9 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
                 $results['six_days_ago'][] = $entity;
             } elseif ($entity->wasUpdatedBetween($sixDaysAgo, $weekAgo)) {
                 $results['week_ago'][] = $entity;
-            } elseif ($circuitAgo && $entity->wasUpdatedBetween($weekAgo, $circuitAgo)) {
+            } elseif ($circuitAgoDate && $entity->wasUpdatedBetween($weekAgo, $circuitAgoDate)) {
+                $results['older_than_week_ago'] = $entity;
+            } elseif ($circuitAgoDate && $twoCircuitAgoDate && $entity->wasUpdatedBetween($circuitAgoDate, $twoCircuitAgoDate)) {
                 $results['circuit_ago'][] = $entity;
             } else {
                 $results['older'][] = $entity;
