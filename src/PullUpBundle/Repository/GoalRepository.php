@@ -116,7 +116,7 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
             } elseif ($entity->wasUpdatedBetween($sixDaysAgo, $weekAgo)) {
                 $results['week_ago'][] = $entity;
             } elseif ($circuitAgoDate && $entity->wasUpdatedBetween($weekAgo, $circuitAgoDate)) {
-                $results['older_than_week_ago'] = $entity;
+                $results['older_than_week_ago'][] = $entity;
             } elseif ($circuitAgoDate && $twoCircuitAgoDate && $entity->wasUpdatedBetween($circuitAgoDate, $twoCircuitAgoDate)) {
                 $results['circuit_ago'][] = $entity;
             } else {
