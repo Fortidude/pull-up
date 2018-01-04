@@ -31,6 +31,11 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
         return $query->getOneOrNullResult();
     }
 
+    public function getPlannerByUser(User $user): array
+    {
+        return [];
+    }
+
     public function getCalendarPlannerByUser(User $user) : array
     {
         $results = [];

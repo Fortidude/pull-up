@@ -35,6 +35,11 @@ interface GoalRepositoryInterface
      * @return array
      */
     public function getPlannerByUser(User $user) : array;
+    /**
+     * @param User $user
+     * @return array
+     */
+    public function getCalendarPlannerByUser(User $user) : array;
 
     public function add(Goal $entity);
     public function remove(Goal $entity);
