@@ -33,14 +33,9 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
 
     public function getPlannerByUser(User $user) : array
     {
-        $results = [
-            'today' => [],
-            'yesterday' => [],
-            'three_days_ago' => [],
-            'week_ago' => [],
-            'circuit_ago' => [],
-            'older' => []
-        ];
+        $results = [];
+
+        /** @var Goal[] $entities */
         $entities = $this->getListByUserQB($user)
             ->addOrderBy('g.lastSetAdded', 'DESC')
             ->addOrderBy('g.updatedAt', 'DESC')
@@ -52,8 +47,22 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
         $todayEvening->setTime(23, 59, 59);
         $yesterday = clone $today;
         $yesterday->sub(new \DateInterval("P1D"));
+
+        $twoDaysAgo = clone $today;
+        $twoDaysAgo->sub(new \DateInterval("P2D"));
+
         $threeDaysAgo = clone $today;
         $threeDaysAgo->sub(new \DateInterval("P3D"));
+
+        $fourDaysAgo = clone $today;
+        $fourDaysAgo->sub(new \DateInterval("P4D"));
+
+        $fiveDaysAgo = clone $today;
+        $fiveDaysAgo->sub(new \DateInterval("P5D"));
+
+        $sixDaysAgo = clone $today;
+        $sixDaysAgo->sub(new \DateInterval("P7D"));
+
         $weekAgo = clone $today;
         $weekAgo->sub(new \DateInterval("P7D"));
 
@@ -70,7 +79,13 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
                 $results['yesterday'][] = $entity;
             } elseif ($entity->wasUpdatedBetween($yesterday, $threeDaysAgo)) {
                 $results['three_days_ago'][] = $entity;
-            } elseif ($entity->wasUpdatedBetween($threeDaysAgo, $weekAgo)) {
+            } elseif ($entity->wasUpdatedBetween($threeDaysAgo, $fourDaysAgo)) {
+                $results['four_days_ago'][] = $entity;
+            } elseif ($entity->wasUpdatedBetween($fourDaysAgo, $fiveDaysAgo)) {
+                $results['five_days_ago'][] = $entity;
+            } elseif ($entity->wasUpdatedBetween($fiveDaysAgo, $sixDaysAgo)) {
+                $results['six_days_ago'][] = $entity;
+            } elseif ($entity->wasUpdatedBetween($sixDaysAgo, $weekAgo)) {
                 $results['week_ago'][] = $entity;
             } elseif ($circuitAgo && $entity->wasUpdatedBetween($weekAgo, $circuitAgo)) {
                 $results['circuit_ago'][] = $entity;
@@ -82,6 +97,10 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
         return $results;
     }
 
+    /**
+     * @param User $user
+     * @return \Doctrine\ORM\QueryBuilder
+     */
     private function getListByUserQB(User $user)
     {
         return $this->getEntityManager()
