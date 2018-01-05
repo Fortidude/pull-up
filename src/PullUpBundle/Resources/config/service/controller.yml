@@ -40,6 +40,13 @@ services:
             - "@pullup.current_user"
             - "@pullup.command_bus"
 
+    pullup.section.controller:
+        class: PullUpBundle\Controller\SectionController
+        arguments:
+            - "@pullup.section.repository"
+            - "@pullup.current_user"
+            - "@pullup.command_bus"
+
     pullup.settings.controller:
         class: PullUpBundle\Controller\SettingsController
         arguments:

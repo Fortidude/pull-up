@@ -1,0 +1,55 @@
+PullUpDomain\Entity\Section:
+    type: entity
+    table: section
+    repositoryClass: PullUpBundle\Repository\SectionRepository
+    id:
+        id:
+            type: uuid
+            generator:
+                strategy: CUSTOM
+            customIdGenerator:
+                class: Ramsey\Uuid\Doctrine\UuidGenerator
+
+    fields:
+        name:
+            column: name
+            type: string
+            length: 255
+            unique: false
+
+        description:
+            column: description
+            type: text
+
+        removed:
+            column: removed
+            type: boolean
+            options:
+                default: false
+
+        createdAt:
+            column: created_at
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+
+        updatedAt:
+            column: updated_at
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+
+    manyToOne:
+        user:
+            targetEntity: PullUpDomain\Entity\User
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+
+    oneToMany:
+        goals:
+            targetEntity: PullUpDomain\Entity\Goal
+            mappedBy: section
+            cascade: [persist]

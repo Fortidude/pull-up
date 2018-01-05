@@ -27,7 +27,7 @@ class UserTest extends TestCase
     {
         $email = "email@test.com";
         $user = User::createUserByFacebook($email, "Jon", 445566);
-        
+
         $currentCircuit = $user->getCurrentTrainingCircuit();
 
         $this->assertInstanceOf(Circuit::class, $currentCircuit);
@@ -51,7 +51,7 @@ class UserTest extends TestCase
     {
         $email = "email@test.com";
         $user = User::createUserByFacebook($email, "Jon", 445566);
-        $daysAgo = $user->getDaysPerCircuit()-2;
+        $daysAgo = $user->getDaysPerCircuit() - 2;
 
         $date = new \DateTime("now");
         $date->sub(new \DateInterval("P{$daysAgo}D"));
@@ -70,7 +70,8 @@ class UserTest extends TestCase
         $user->changeDaysAmountPerCircuit($circuitDays);
 
         $start = new \DateTime("now");
-        $endWeek = (clone $start)->add(new \DateInterval("P{$circuitDays}D"));
+        $circuitDaysShouldBeDiff = $circuitDays - 1;
+        $endWeek = (clone $start)->add(new \DateInterval("P{$circuitDaysShouldBeDiff}D"));
 
         $circuit = $user->getCurrentTrainingCircuit();
 

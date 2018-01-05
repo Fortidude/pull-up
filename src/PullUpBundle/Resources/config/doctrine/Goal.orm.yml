@@ -91,6 +91,14 @@ PullUpDomain\Entity\Goal:
                 referencedColumnName: id
             cascade: [persist]
 
+        section:
+            targetEntity: PullUpDomain\Entity\Section
+            inversedBy: goals
+            joinColumn:
+                name: section_id
+                referencedColumnName: id
+            cascade: [persist]
+
         user:
             targetEntity: PullUpDomain\Entity\User
             joinColumn:

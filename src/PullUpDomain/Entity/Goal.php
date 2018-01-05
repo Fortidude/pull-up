@@ -26,6 +26,9 @@ class Goal
     /** @var GoalSet[] */
     protected $sets;
 
+    /** @var Section */
+    protected $section;
+
     protected $noSpecifiedGoal;
     protected $removed;
 

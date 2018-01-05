@@ -28,6 +28,10 @@ pullup_api_goal:
     resource: "@PullUpBundle/Resources/config/routing/goal.yml"
     prefix:   /secured/goal
 
+pullup_api_section:
+    resource: "@PullUpBundle/Resources/config/routing/section.yml"
+    prefix:   /secured/section
+
 pullup_api_settings:
     resource: "@PullUpBundle/Resources/config/routing/settings.yml"
     prefix:   /secured/settings

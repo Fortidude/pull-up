@@ -73,3 +73,14 @@ services:
 
     pullup.circuit.repository:
       alias: pullup.circuit.repository.doctrine
+
+    ######
+
+    pullup.section.repository.doctrine:
+        class: PullUpBundle\Repository\SectionRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: false
+
+    pullup.section.repository:
+      alias: pullup.section.repository.doctrine

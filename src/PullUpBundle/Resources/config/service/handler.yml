@@ -90,3 +90,13 @@ services:
           - '%kernel.logs_dir%'
         tags:
             - { name: command_handler, handles: PullUpService\Command\UpdateSettingsCommand }
+
+    pullup.create_section.handler:
+        class: PullUpService\Handler\CreateSectionHandler
+        arguments:
+          - '@pullup.section.repository'
+          - '@pullup.current_user'
+          - "@event_bus"
+          - '%kernel.logs_dir%'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\CreateSectionCommand }
