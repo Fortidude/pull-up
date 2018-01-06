@@ -24,8 +24,7 @@ PullUpDomain\Entity\User:
 
         avatar:
             column: avatar
-            type: string
-            length: 255
+            type: text
             nullable: true
 
         daysPerCircuit:

@@ -101,10 +101,14 @@ class User extends BaseUser
         return $entity;
     }
 
-    public function updateUser($name)
+    public function updateUser($name, $base64avatar = null)
     {
         $this->username = $name;
         $this->name = $name;
+
+        if ($base64avatar) {
+            $this->avatar = $base64avatar;
+        }
     }
 
     public function updateAfterFacebookLogin($name, $avatar)

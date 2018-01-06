@@ -22,4 +22,9 @@ class UpdateSettingsCommand
      * @Type("boolean")
      */
     public $plannerCustomMode;
+
+    /**
+     * @Type("string")
+     */
+    public $base64avatar;
 }

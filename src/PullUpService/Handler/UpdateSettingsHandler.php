@@ -49,7 +49,7 @@ class UpdateSettingsHandler
             $this->eventBus->handle($event);
         }
 
-        $this->user->updateUser($command->name);
+        $this->user->updateUser($command->name, $command->base64avatar);
 
         if ($command->plannerCustomMode) {
             $this->user->switchToCustomPlannerMode();
