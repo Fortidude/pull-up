@@ -136,9 +136,33 @@ class GoalController
      *
      * @return array|\PullUpDomain\Entity\GoalSet
      */
-    public function getLastSetByUser()
+    public function getLastSetByUserAction()
     {
         $result = $this->goalSetRepository->getLastByUser($this->user);
         return $result ? $result : [];
+    }
+
+    /**
+     * @ApiDoc(
+     *  section="Goal",
+     *  description="Move goal to section",
+     *  requirements={
+     *      {"name"="goalId", "dataType"="string", "description"="ID of goal"},
+     *      {"name"="sectionId", "dataType"="string", "description"="ID of section"}
+     *   }
+     * )
+     *
+     * @param $goalId
+     * @param $sectionId
+     * @return array
+     */
+    public function moveToSectionAction($goalId, $sectionId)
+    {
+        $command = new Command\MoveGoalToSectionCommand();
+        $command->goalId = $goalId;
+        $command->sectionId = $sectionId;
+
+        $this->commandBus->handle($command);
+        return ['status' => true];
     }
 }

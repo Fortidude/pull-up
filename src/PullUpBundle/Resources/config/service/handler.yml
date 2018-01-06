@@ -100,3 +100,13 @@ services:
           - '%kernel.logs_dir%'
         tags:
             - { name: command_handler, handles: PullUpService\Command\CreateSectionCommand }
+
+    pullup.move_goal_to_section.handler:
+        class: PullUpService\Handler\MoveGoalToSectionHandler
+        arguments:
+          - '@pullup.section.repository'
+          - '@pullup.goal.repository'
+          - "@event_bus"
+          - '%kernel.logs_dir%'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\MoveGoalToSectionCommand }

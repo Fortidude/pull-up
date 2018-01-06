@@ -35,6 +35,12 @@ PullUpDomain\Entity\User:
             options:
                 default: 7
 
+        plannerCustomMode:
+            column: planner_custom_mode
+            type: boolean
+            options:
+                default: false
+
         createdAt:
             column: created_at
             type: datetime

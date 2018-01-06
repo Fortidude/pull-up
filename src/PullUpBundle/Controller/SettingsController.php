@@ -5,7 +5,8 @@ namespace PullUpBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use FOS\RestBundle\Controller\Annotations as Rest;
 
-use FOS\UserBundle\Model\UserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 use FOS\UserBundle\Model\UserManagerInterface;
 
 use PullUpBundle\CommandBus\SimpleBus;

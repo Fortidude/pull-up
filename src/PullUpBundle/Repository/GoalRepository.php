@@ -17,6 +17,18 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
         parent::__construct($em);
     }
 
+    public function getById($id)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $qb->select('g')
+            ->from('PullUpDomainEntity:Goal', 'g')
+            ->where('g.id = :goalId')
+            ->setParameter('goalId', $id)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
+
     public function getByUserAndId(User $user, $id)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();

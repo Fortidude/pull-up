@@ -10,6 +10,12 @@ use PullUpDomain\Entity\Goal;
 interface GoalRepositoryInterface
 {
     /**
+     * @param $id
+     * @return Goal|null
+     */
+    public function getById($id);
+
+    /**
      * @param User $user
      * @param $id
      * @return Goal

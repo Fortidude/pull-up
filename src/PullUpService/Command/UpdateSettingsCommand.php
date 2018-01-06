@@ -12,7 +12,14 @@ class UpdateSettingsCommand
     public $daysPerCircuit;
 
     /**
+     * User name (login)
+     *
      * @Type("string")
      */
     public $name;
+
+    /**
+     * @Type("boolean")
+     */
+    public $plannerCustomMode;
 }

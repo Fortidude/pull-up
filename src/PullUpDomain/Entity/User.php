@@ -27,6 +27,7 @@ class User extends BaseUser
     protected $expiresAt;
 
     protected $daysPerCircuit = 7;
+    protected $plannerCustomMode = false;
 
     /** @var Circuit[] */
     protected $circuits;
@@ -208,5 +209,15 @@ class User extends BaseUser
         $this->circuits[] = $circuit;
 
         return $circuit;
+    }
+
+    public function switchToCustomPlannerMode()
+    {
+        $this->plannerCustomMode = true;
+    }
+
+    public function switchToDailyPlannerMode()
+    {
+        $this->plannerCustomMode = false;
     }
 }

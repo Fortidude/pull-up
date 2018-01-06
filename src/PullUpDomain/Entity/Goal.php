@@ -248,4 +248,17 @@ class Goal
 
         return $total - $done;
     }
+
+    /**
+     * @param Section $section
+     */
+    public function moveToSection(Section $section)
+    {
+        if ($this->section && $this->section->getId() === $section->getId()) {
+            return;
+        }
+        
+        $this->section = $section;
+        $section->addGoal($this);
+    }
 }

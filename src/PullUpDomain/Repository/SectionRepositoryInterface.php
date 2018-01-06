@@ -8,6 +8,12 @@ use PullUpDomain\Entity\User;
 interface SectionRepositoryInterface
 {
     /**
+     * @param $id
+     * @return Section|null
+     */
+    public function getById($id);
+
+    /**
      * @param User $user
      * @param string $id
      * @return Section|null

@@ -16,6 +16,23 @@ class SectionRepository extends AbstractRepository implements SectionRepositoryI
     }
 
     /**
+     * @param $id
+     * @return Section|null
+     */
+    public function getById($id)
+    {
+        return $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('s')
+            ->from('PullUpDomainEntity:Section', 's')
+            ->where('s.id = :id')
+            ->setParameter('id', $id)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
      * @param User $user
      * @param string $id
      * @return Section|null

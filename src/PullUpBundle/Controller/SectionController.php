@@ -2,11 +2,13 @@
 
 namespace PullUpBundle\Controller;
 
-use PullUpDomain\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Security\Core\User\UserInterface;
 
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\RestBundle\Controller\Annotations as Rest;
 
+use PullUpDomain\Entity\User;
 use PullUpBundle\Repository\SectionRepository;
 use PullUpBundle\CommandBus\SimpleBus;
 
@@ -26,10 +28,10 @@ class SectionController
     /**
      * SectionController constructor.
      * @param SectionRepository $repository
-     * @param User $user
+     * @param UserInterface $user
      * @param SimpleBus $commandBus
      */
-    public function __construct(SectionRepository $repository, User $user, SimpleBus $commandBus)
+    public function __construct(SectionRepository $repository, UserInterface $user, SimpleBus $commandBus)
     {
         $this->repository = $repository;
         $this->user = $user;
@@ -37,7 +39,12 @@ class SectionController
     }
 
     /**
-     * @Rest\View(serializerGroups={"section_list", "section_list"})
+     * @ApiDoc(
+     *  section="Section",
+     *  description="Sections of Goals"
+     * )
+     *
+     * @Rest\View(serializerGroups={"section_list", "goal_list", "exercise_item", "exercise_variant_item"})
      * @return array
      */
     public function listAction()
@@ -46,6 +53,14 @@ class SectionController
     }
 
     /**
+     * @ApiDoc(
+     *  section="Section",
+     *  description="Create section",
+     *  parameters={
+     *     {"name"="name", "dataType"="string", "required"=true, "description"="name of section"},
+     *     {"name"="description", "dataType"="string", "required"=true, "description"="description of section, null able"}
+     * }
+     * )
      *
      * @ParamConverter("command", converter="validation_converter")
      *

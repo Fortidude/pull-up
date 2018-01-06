@@ -18,6 +18,11 @@ pullup_api_goal_update:
       defaults: { _controller: pullup.goal.controller:updateAction, _format: 'json'  }
       methods: [PUT]
 
+pullup_api_goal_move_to_section:
+      path:     /{goalId}/move-to/{sectionId}
+      defaults: { _controller: pullup.goal.controller:moveToSectionAction, _format: 'json'  }
+      methods: [PUT]
+
 pullup_api_goal_disable:
       path:     /{id}/disable
       defaults: { _controller: pullup.goal.controller:disableAction, _format: 'json'  }
@@ -27,8 +32,3 @@ pullup_api_goal_set_create:
       path:     /set/create
       defaults: { _controller: pullup.goal.controller:createSetAction, _format: 'json'  }
       methods: [POST]
-
-pullup_api_goal_set_last:
-      path:     /set/last
-      defaults: { _controller: pullup.goal.controller:getLastSetByUser, _format: 'json'  }
-      methods: [GET]

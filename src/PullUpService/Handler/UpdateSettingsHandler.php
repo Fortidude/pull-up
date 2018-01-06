@@ -50,5 +50,11 @@ class UpdateSettingsHandler
         }
 
         $this->user->updateUser($command->name);
+
+        if ($command->plannerCustomMode) {
+            $this->user->switchToCustomPlannerMode();
+        } else {
+            $this->user->switchToDailyPlannerMode();
+        }
     }
 }
