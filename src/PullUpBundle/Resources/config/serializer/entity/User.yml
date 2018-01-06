@@ -38,6 +38,9 @@ PullUpDomain\Entity\User:
         daysPerCircuit:
            groups: [logger, user_item, user_list]
            expose: true
+        plannerCustomMode:
+           groups: [logger, user_item, user_list]
+           expose: true
 
     virtual_properties:
         getId:
