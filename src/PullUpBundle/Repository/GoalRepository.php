@@ -4,16 +4,23 @@ namespace PullUpBundle\Repository;
 
 use Doctrine\ORM\EntityManager;
 
+use PullUpBundle\Service\Statistics;
+
 use PullUpDomain\Entity\Exercise;
 use PullUpDomain\Entity\ExerciseVariant;
 use PullUpDomain\Entity\Goal;
 use PullUpDomain\Entity\User;
 use PullUpDomain\Repository\GoalRepositoryInterface;
+use PullUpDomain\Repository\Response\GoalStatisticsResponse;
 
 class GoalRepository extends AbstractRepository implements GoalRepositoryInterface
 {
-    public function __construct(EntityManager $em)
+    /** @var Statistics\ByUserAndGoals */
+    protected $statsByGoalsService;
+
+    public function __construct(EntityManager $em, Statistics\ByUserAndGoals $statsByGoalsService)
     {
+        $this->statsByGoalsService = $statsByGoalsService;
         parent::__construct($em);
     }
 
@@ -205,6 +212,23 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
             ->setParameter('exercise', $exercise)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+     * @param User $user
+     * @return GoalStatisticsResponse
+     */
+    public function getStatistics(User $user) : GoalStatisticsResponse
+    {
+        /** @var Goal[] $entities */
+        $entities = $this->getListByUserQB($user)
+            ->addSelect('circuit')
+            ->leftJoin('s.circuit', 'circuit')
+            ->addOrderBy('g.lastSetAdded', 'DESC')
+            ->addOrderBy('g.updatedAt', 'DESC')
+            ->getQuery()->getResult();
+
+        return $this->statsByGoalsService->get($entities);
     }
 
     /**

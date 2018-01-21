@@ -165,4 +165,9 @@ class GoalController
         $this->commandBus->handle($command);
         return ['status' => true];
     }
+
+    public function getStatisticsAction()
+    {
+        return $this->repository->getStatistics($this->user);
+    }
 }

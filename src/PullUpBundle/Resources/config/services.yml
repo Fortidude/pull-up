@@ -40,3 +40,6 @@ services:
             - "@validator"
         tags:
             - { name: request.param_converter, priority: -2, converter: validation_converter }
+
+    pullup.statistics.by_user_and_goals:
+        class: PullUpBundle\Service\Statistics\ByUserAndGoals

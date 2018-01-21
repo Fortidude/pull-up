@@ -6,6 +6,7 @@ use PullUpDomain\Entity\Exercise;
 use PullUpDomain\Entity\ExerciseVariant;
 use PullUpDomain\Entity\User;
 use PullUpDomain\Entity\Goal;
+use PullUpDomain\Repository\Response\GoalStatisticsResponse;
 
 interface GoalRepositoryInterface
 {
@@ -46,6 +47,12 @@ interface GoalRepositoryInterface
      * @return array
      */
     public function getCalendarPlannerByUser(User $user) : array;
+
+    /**
+     * @param User $user
+     * @return GoalStatisticsResponse
+     */
+    public function getStatistics(User $user) : GoalStatisticsResponse;
 
     public function add(Goal $entity);
     public function remove(Goal $entity);

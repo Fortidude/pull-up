@@ -12,7 +12,11 @@ class Goal
 
     /** @var User */
     protected $user;
+
+    /** @var Exercise */
     protected $exercise;
+
+    /** @var ExerciseVariant | null */
     protected $exerciseVariant;
 
     protected $name;
@@ -151,6 +155,38 @@ class Goal
         } else {
             return 'error';
         }
+    }
+
+    /**
+     * @return Exercise
+     */
+    public function getExercise()
+    {
+        return $this->exercise;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExerciseName()
+    {
+        return $this->exercise->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getExerciseVariantName()
+    {
+        return $this->exerciseVariant ? $this->exerciseVariant->getName() : '';
+    }
+
+    /**
+     * @return ArrayCollection|GoalSet[]
+     */
+    public function getSets()
+    {
+        return $this->sets;
     }
 
     /**

@@ -47,6 +47,7 @@ services:
         class: PullUpBundle\Repository\GoalRepository
         arguments:
             - "@doctrine.orm.entity_manager"
+            - "@pullup.statistics.by_user_and_goals"
         public: false
 
     pullup.goal.repository:
