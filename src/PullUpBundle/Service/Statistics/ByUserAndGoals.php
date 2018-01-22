@@ -8,6 +8,9 @@ use PullUpDomain\Repository\Response\GoalStatisticsResponse;
 
 class ByUserAndGoals
 {
+    /** @var Goal[] */
+    private $allGoals;
+
     /**
      * @param Goal[] $currentCircleGoals
      * @param Goal[] $lastCircleGoals
@@ -16,8 +19,10 @@ class ByUserAndGoals
      */
     public function get(array $currentCircleGoals, array $lastCircleGoals, array $allGoals): GoalStatisticsResponse
     {
-        $currentCirclePercentageGoalsAchieved = $this->percentageAchievedGoals($currentCircleGoals);
-        $lastCirclePercentageGoalsAchieved = $this->percentageAchievedGoals($lastCircleGoals);
+        $this->allGoals = $allGoals;
+
+        $currentCirclePercentageGoalsAchieved = $this->percentageAchievedGoals($currentCircleGoals, false);
+        $lastCirclePercentageGoalsAchieved = $this->percentageAchievedGoals($lastCircleGoals, false);
         $percentageGoalsAchieved = $this->percentageAchievedGoals($allGoals);
 
         $response = new GoalStatisticsResponse();
@@ -55,9 +60,10 @@ class ByUserAndGoals
 
     /**
      * @param Goal[] $goals
+     * @param bool $isForAll
      * @return array
      */
-    private function percentageAchievedGoals(array $goals)
+    private function percentageAchievedGoals(array $goals, bool $isForAll = true)
     {
         $results = [
             'total_goals' => 0,
@@ -67,6 +73,7 @@ class ByUserAndGoals
 
         $uniqueCircuits = [];
         $totalGoals = 0;
+        $goalsParsed = [];
 
         foreach ($goals as $goal) {
             $requiredAmount = $goal->getRequiredAmount();
@@ -97,6 +104,8 @@ class ByUserAndGoals
 
             $totalGoals++;
             $total = count($byCircuits);
+            $goalsParsed[$goal->getId()] = $goal->getId();
+
             $results['goals'][] = [
                 'name' => $goal->getExerciseName(),
                 'variant_name' => $goal->getExerciseVariantName(),
@@ -105,7 +114,19 @@ class ByUserAndGoals
         }
 
         $results['total_circuits'] = count($uniqueCircuits);
-        $results['total_goals'] = $totalGoals;
+        $results['total_goals'] = count($this->allGoals);
+
+        if (!$isForAll && $totalGoals !== count($this->allGoals)) {
+            foreach ($this->allGoals as $goal) {
+                if (!array_key_exists($goal->getId(), $goalsParsed)) {
+                    $results['goals'][] = [
+                        'name' => $goal->getExerciseName(),
+                        'variant_name' => $goal->getExerciseVariantName(),
+                        'percentage' => 0
+                    ];
+                }
+            }
+        }
 
         return $results;
     }
