@@ -220,15 +220,38 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
      */
     public function getStatistics(User $user) : GoalStatisticsResponse
     {
-        /** @var Goal[] $entities */
-        $entities = $this->getListByUserQB($user)
+        $currentCircle = $user->getCurrentTrainingCircuit();
+        $lastCircuit = $user->getTrainingCircuitByDate($currentCircle->getStartAt()->sub(new \DateInterval("P2D")));
+
+        /** @var Goal[] $allGoals */
+        $currentCircleGoals = $this->getListByUserQB($user)
+            ->addSelect('circuit')
+            ->leftJoin('s.circuit', 'circuit')
+            ->andWhere('s.circuit = :circuitEntity')
+            ->setParameter('circuitEntity', $currentCircle)
+            ->addOrderBy('g.lastSetAdded', 'DESC')
+            ->addOrderBy('g.updatedAt', 'DESC')
+            ->getQuery()->getResult();
+
+        /** @var Goal[] $allGoals */
+        $lastCircleGoals = $this->getListByUserQB($user)
+            ->addSelect('circuit')
+            ->leftJoin('s.circuit', 'circuit')
+            ->andWhere('s.circuit = :circuitEntity')
+            ->setParameter('circuitEntity', $lastCircuit)
+            ->addOrderBy('g.lastSetAdded', 'DESC')
+            ->addOrderBy('g.updatedAt', 'DESC')
+            ->getQuery()->getResult();
+
+        /** @var Goal[] $allGoals */
+        $allGoals = $this->getListByUserQB($user)
             ->addSelect('circuit')
             ->leftJoin('s.circuit', 'circuit')
             ->addOrderBy('g.lastSetAdded', 'DESC')
             ->addOrderBy('g.updatedAt', 'DESC')
             ->getQuery()->getResult();
 
-        return $this->statsByGoalsService->get($entities);
+        return $this->statsByGoalsService->get($currentCircleGoals, $lastCircleGoals, $allGoals);
     }
 
     /**

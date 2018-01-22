@@ -9,22 +9,32 @@ use PullUpDomain\Repository\Response\GoalStatisticsResponse;
 class ByUserAndGoals
 {
     /**
-     * @param Goal[] $goals
+     * @param Goal[] $currentCircleGoals
+     * @param Goal[] $lastCircleGoals
+     * @param Goal[] $allGoals
      * @return GoalStatisticsResponse
      */
-    public function get(array $goals): GoalStatisticsResponse
+    public function get(array $currentCircleGoals, array $lastCircleGoals, array $allGoals): GoalStatisticsResponse
     {
-        $percentageGoalsAchieved = $this->percentageAchievedGoals($goals);
+        $currentCirclePercentageGoalsAchieved = $this->percentageAchievedGoals($currentCircleGoals);
+        $lastCirclePercentageGoalsAchieved = $this->percentageAchievedGoals($lastCircleGoals);
+        $percentageGoalsAchieved = $this->percentageAchievedGoals($allGoals);
 
         $response = new GoalStatisticsResponse();
-        $response->percentageExercisesUsage = $this->percentageExerciseUsage($goals);
+        $response->percentageExercisesUsage = $this->percentageExerciseUsage($allGoals);
         $response->percentageGoalsAchieved = $percentageGoalsAchieved;
         $response->percentGoalsAchieved = $this->percentGoalsAchieved($percentageGoalsAchieved);
+
+        $response->currentCirclePercentageGoalsAchieved = $currentCirclePercentageGoalsAchieved;
+        $response->currentCirclePercentGoalsAchieved = $this->percentGoalsAchieved($currentCirclePercentageGoalsAchieved);
+
+        $response->lastCirclePercentageGoalsAchieved = $lastCirclePercentageGoalsAchieved;
+        $response->lastCirclePercentGoalsAchieved = $this->percentGoalsAchieved($lastCirclePercentageGoalsAchieved);
 
         return $response;
     }
 
-    public function percentGoalsAchieved(array $percentageAchievedGoalsResult)
+    private function percentGoalsAchieved(array $percentageAchievedGoalsResult)
     {
         $achieved = 0;
         $total = 0;
@@ -36,6 +46,10 @@ class ByUserAndGoals
             }
         }
 
+        if ($total === 0) {
+            return 0;
+        }
+        
         return (int) ($achieved / $total * 100);
     }
 
@@ -43,7 +57,7 @@ class ByUserAndGoals
      * @param Goal[] $goals
      * @return array
      */
-    public function percentageAchievedGoals(array $goals)
+    private function percentageAchievedGoals(array $goals)
     {
         $results = [
             'total_goals' => count($goals),
@@ -97,7 +111,7 @@ class ByUserAndGoals
      * @param Goal[] $goals
      * @return array
      */
-    public function percentageExerciseUsage(array $goals)
+    private function percentageExerciseUsage(array $goals)
     {
         $exerciseUsage = [];
         $total = count($goals);

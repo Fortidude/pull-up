@@ -7,9 +7,6 @@ use PullUpDomain\Entity\Goal;
 
 class GoalStatisticsResponse
 {
-    /** @var Exercise[] */
-    public $topFiveExercises = [];
-
     /** @var array */
     public $percentageExercisesUsage = [];
 
@@ -17,18 +14,14 @@ class GoalStatisticsResponse
     public $percentageGoalsAchieved = [];
     public $percentGoalsAchieved = 0;
 
+    /** @var array */
+    public $lastCirclePercentageGoalsAchieved = [];
+    public $lastCirclePercentGoalsAchieved = 0;
+
+    /** @var array */
+    public $currentCirclePercentageGoalsAchieved = [];
+    public $currentCirclePercentGoalsAchieved = 0;
+
     /** @var Goal[] */
     public $goalsNeverAchieved = [];
-
-    /** @var Goal[] */
-    public $lastCircleGoalsAchieved = [];
-
-    /** @var Goal[] */
-    public $lastCircleGoalsNotAchieved = [];
-
-    /** @var Goal[] */
-    public $currentCircleGoalsAchieved = [];
-
-    /** @var Goal[] */
-    public $currentCircleGoalsNotAchieved = [];
 }
