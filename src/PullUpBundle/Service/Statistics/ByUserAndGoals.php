@@ -49,7 +49,7 @@ class ByUserAndGoals
         if ($total === 0) {
             return 0;
         }
-        
+
         return (int) ($achieved / $total * 100);
     }
 
@@ -60,12 +60,13 @@ class ByUserAndGoals
     private function percentageAchievedGoals(array $goals)
     {
         $results = [
-            'total_goals' => count($goals),
+            'total_goals' => 0,
             'total_circuits' => 0,
             'goals' => [],
         ];
 
         $uniqueCircuits = [];
+        $totalGoals = 0;
 
         foreach ($goals as $goal) {
             $requiredAmount = $goal->getRequiredAmount();
@@ -94,6 +95,7 @@ class ByUserAndGoals
                 }
             }
 
+            $totalGoals++;
             $total = count($byCircuits);
             $results['goals'][] = [
                 'name' => $goal->getExerciseName(),
@@ -103,6 +105,7 @@ class ByUserAndGoals
         }
 
         $results['total_circuits'] = count($uniqueCircuits);
+        $results['total_goals'] = $totalGoals;
 
         return $results;
     }
