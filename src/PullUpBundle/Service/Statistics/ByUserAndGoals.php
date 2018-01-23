@@ -106,10 +106,17 @@ class ByUserAndGoals
             $total = count($byCircuits);
             $goalsParsed[$goal->getId()] = $goal->getId();
 
+            if (count($byCircuits) === 1) {
+                $byCircuit = array_shift($byCircuits);
+                $goalPercentage = (int)($byCircuit / $requiredAmount * 100);
+            } else {
+                $goalPercentage = $total > 0 ? (int)($achievedAmount / $total * 100) : 0;
+            }
+
             $results['goals'][] = [
                 'name' => $goal->getExerciseName(),
                 'variant_name' => $goal->getExerciseVariantName(),
-                'percentage' => $total > 0 ? (int)($achievedAmount / $total * 100) : 0
+                'percentage' => $goalPercentage
             ];
         }
 
