@@ -73,6 +73,10 @@ class GoalController
      */
     public function plannerListAction()
     {
+        if ($this->user->isPlannerCustomMode()) {
+            return $this->repository->getPlannerByUser($this->user);
+        }
+
         return $this->repository->getCalendarPlannerByUser($this->user);
     }
 
@@ -152,15 +156,15 @@ class GoalController
      *   }
      * )
      *
+     * @ParamConverter("command", converter="validation_converter")
+     *
      * @param $goalId
-     * @param $sectionId
+     * @param $command
      * @return array
      */
-    public function moveToSectionAction($goalId, $sectionId)
+    public function moveToSectionAction($goalId, Command\MoveGoalToSectionCommand $command )
     {
-        $command = new Command\MoveGoalToSectionCommand();
         $command->goalId = $goalId;
-        $command->sectionId = $sectionId;
 
         $this->commandBus->handle($command);
         return ['status' => true];

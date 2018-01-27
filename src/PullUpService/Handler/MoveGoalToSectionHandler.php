@@ -5,6 +5,7 @@ namespace PullUpService\Handler;
 use PullUpDomain\Entity\Section;
 use PullUpDomain\Entity\Goal;
 
+use PullUpDomain\Entity\User;
 use PullUpDomain\Repository\GoalRepositoryInterface;
 use PullUpDomain\Repository\SectionRepositoryInterface;
 
@@ -14,6 +15,7 @@ class MoveGoalToSectionHandler
 {
     protected $sectionRepository;
     protected $goalRepository;
+    protected $user;
 
     private $cachePath;
 
@@ -21,18 +23,21 @@ class MoveGoalToSectionHandler
      * MoveGoalToSectionHandler constructor.
      * @param SectionRepositoryInterface $sectionRepository
      * @param GoalRepositoryInterface $goalRepository
-     * @param $eventBus
+     * @param User $user
+     * @param null $eventBus
      * @param null $cachePath
      */
     public function __construct(
         SectionRepositoryInterface $sectionRepository,
         GoalRepositoryInterface $goalRepository,
+        User $user,
         $eventBus = null,
         $cachePath = null
     )
     {
         $this->sectionRepository = $sectionRepository;
         $this->goalRepository = $goalRepository;
+        $this->user = $user;
         $this->cachePath = $cachePath;
     }
 
@@ -42,9 +47,9 @@ class MoveGoalToSectionHandler
             //file_put_contents($this->cachePath . '/first_form.json', json_encode($data));
         }
 
-        $section = $this->sectionRepository->getById($command->sectionId);
+        $section = $this->sectionRepository->getByUserAndName($this->user, $command->sectionName);
         if (!$section) {
-            throw new \Exception("SECTION_NOT_FOUND");
+            $section = Section::create($command->sectionName, '', $this->user);
         }
 
         $goal = $this->goalRepository->getById($command->goalId);

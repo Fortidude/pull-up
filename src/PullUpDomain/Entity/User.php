@@ -117,6 +117,11 @@ class User extends BaseUser
         $this->avatar = $avatar;
     }
 
+    public function isPlannerCustomMode()
+    {
+        return $this->plannerCustomMode;
+    }
+
     public function isAdmin()
     {
         return false;

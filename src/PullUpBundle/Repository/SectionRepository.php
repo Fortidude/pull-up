@@ -39,7 +39,7 @@ class SectionRepository extends AbstractRepository implements SectionRepositoryI
      */
     public function getByUserAndId(User $user, string $id)
     {
-        return $this->getBaseQueryBuildierWithJoins()
+        return $this->getBaseQueryBuilderWithJoins()
             ->where('s.user = :userId')
             ->andWhere('s.id = :id')
             ->andWhere('s.removed = false')
@@ -57,7 +57,7 @@ class SectionRepository extends AbstractRepository implements SectionRepositoryI
      */
     public function getByUserAndName(User $user, string $name)
     {
-        return $this->getBaseQueryBuildierWithJoins()
+        return $this->getBaseQueryBuilderWithJoins()
             ->where('s.user = :userId')
             ->andWhere('s.name = :name')
             ->andWhere('s.removed = false')
@@ -74,7 +74,10 @@ class SectionRepository extends AbstractRepository implements SectionRepositoryI
      */
     public function getByUser(User $user)
     {
-        return $this->getBaseQueryBuildierWithJoins()
+        $results = [];
+
+        /** @var Section[] $entities */
+        $entities = $this->getBaseQueryBuilderWithJoins()
             ->where('s.user = :userId')
             ->andWhere('s.removed = false')
             ->setParameter('userId', $user->getId())
@@ -82,6 +85,12 @@ class SectionRepository extends AbstractRepository implements SectionRepositoryI
             ->addOrderBy('g.updatedAt', 'DESC')
             ->getQuery()
             ->getResult();
+
+        foreach ($entities as $entity) {
+            $results[$entity->getName()] = $entity->getGoals();
+        }
+
+        return $results;
     }
 
     /**
@@ -103,7 +112,7 @@ class SectionRepository extends AbstractRepository implements SectionRepositoryI
     /**
      * @return \Doctrine\ORM\QueryBuilder
      */
-    private function getBaseQueryBuildierWithJoins()
+    private function getBaseQueryBuilderWithJoins()
     {
         return $this->getEntityManager()
             ->createQueryBuilder()

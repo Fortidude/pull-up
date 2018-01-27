@@ -14,5 +14,5 @@ class MoveGoalToSectionCommand
     /**
      * @Type("string")
      */
-    public $sectionId;
+    public $sectionName;
 }

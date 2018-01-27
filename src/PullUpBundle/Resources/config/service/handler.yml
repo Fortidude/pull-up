@@ -106,6 +106,7 @@ services:
         arguments:
           - '@pullup.section.repository'
           - '@pullup.goal.repository'
+          - '@pullup.current_user'
           - "@event_bus"
           - '%kernel.logs_dir%'
         tags:

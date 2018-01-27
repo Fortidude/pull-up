@@ -182,6 +182,14 @@ class Goal
     }
 
     /**
+     * @return string
+     */
+    public function getSectionName()
+    {
+        return $this->section ? $this->section->getName() : 'other';
+    }
+
+    /**
      * @return ArrayCollection|GoalSet[]
      */
     public function getSets()

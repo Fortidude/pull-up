@@ -52,11 +52,30 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
 
     public function getPlannerByUser(User $user): array
     {
-        /**
-         * @TODO KEYS CREATED BY USER?
-         */
+        /** @var Goal[] $entities */
+        $entities = $this->getListByUserQB($user)
+            ->addSelect('partial section.{id, name}')
+            ->leftJoin('g.section', 'section')
+            ->addOrderBy('g.lastSetAdded', 'DESC')
+            ->addOrderBy('g.updatedAt', 'DESC')
+            ->getQuery()->getResult();
 
-        return [];
+        $results = [];
+        $other = [];
+
+        foreach ($entities as $key => $entity) {
+            $sectionName = $entity->getSectionName();
+            if ($sectionName !== 'other') {
+                $results[$sectionName][] = $entity;
+                continue;
+            }
+
+            $other[] = $entity;
+        }
+
+        $results['other'] = $other;
+
+        return $results;
     }
 
     public function getCalendarPlannerByUser(User $user) : array
