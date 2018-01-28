@@ -25,9 +25,9 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
         $currentCircuit = $user->getCurrentTrainingCircuit();
         $lastCircuit = $user->getTrainingCircuitByDate($currentCircuit->getStartAt()->sub(new \DateInterval("P1D")));
 
-        $currentCirclePercentageGoalsAchieved = $this->percentageAchievedGoals($allGoals, $currentCircuit);
-        $lastCirclePercentageGoalsAchieved = $this->percentageAchievedGoals($allGoals, $lastCircuit);
-        $percentageGoalsAchieved = $this->percentageAchievedGoals($allGoals);
+        $currentCirclePercentageGoalsAchieved = $this->percentageAchievedGoals($allGoals, [$currentCircuit]);
+        $lastCirclePercentageGoalsAchieved = $this->percentageAchievedGoals($allGoals, [$lastCircuit]);
+        $percentageGoalsAchieved = $this->percentageAchievedGoals($allGoals, $user->getCircuits()->getValues());
 
         $response = new GoalStatisticsResponse();
         $response->percentageExercisesUsage = $this->percentageExerciseUsage($allGoals);
@@ -48,8 +48,9 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
         $totalPercent = 0;
         $total = 0;
         foreach ($percentageAchievedGoalsResult['goals'] as $goalResult) {
+            $total++;
+
             if (array_key_exists('percentage', $goalResult) && $goalResult['percentage']/* && $goalResult['percentage'] >= 100*/) {
-                $total++;
                 $totalPercent += $goalResult['percentage'];
             }
         }
@@ -62,11 +63,11 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
     }
 
     /**
-     * @param array $goals
-     * @param Circuit|null $circuit
+     * @param Goal[] $goals
+     * @param Circuit[] $circuits
      * @return array
      */
-    private function percentageAchievedGoals(array $goals, Circuit $circuit = null)
+    private function percentageAchievedGoals(array $goals, array $circuits = [])
     {
         $results = [
             'total_goals' => 0,
@@ -75,8 +76,15 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
         ];
 
         $uniqueCircuits = [];
+        $totalCircuits = 0;
         $totalGoals = 0;
         $goalsParsed = [];
+
+        foreach ($circuits as $circuit) {
+            $uniqueCircuits[$circuit->getId()] = $circuit->getId();
+        }
+
+        $totalCircuits = count($uniqueCircuits);
 
         foreach ($goals as $goal) {
             $requiredAmount = $goal->getRequiredAmount();
@@ -86,15 +94,14 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
             }
 
             $achievedAmount = 0;
+            $goalPercentage = 0;
             $byCircuits = [];
 
             foreach ($goal->getSets() as $set) {
                 $circuitId = $set->getCircuit()->getId();
-                if ($circuit && $circuit->getId() !== $circuitId) {
+                if (!array_key_exists($circuitId, $uniqueCircuits)) {
                     continue;
                 }
-
-                $uniqueCircuits[$circuitId] = $circuitId;
 
                 if (array_key_exists($circuitId, $byCircuits)) {
                     $byCircuits[$circuitId] += $set->getValue();
@@ -108,34 +115,32 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
                 if ($percentage >= 100) {
                     $achievedAmount++;
                 }
+
+                $goalPercentage += $percentage > 100 ? 100 : $percentage;
             }
 
             $totalGoals++;
-            $total = count($byCircuits);
             $goalsParsed[$goal->getId()] = $goal->getId();
-
-            $goalTotalPercentage = 0;
-            foreach ($byCircuits as $circuitId => $circuitPercent) {
-                $goalTotalPercentage += (int)($circuitPercent / $requiredAmount * 100);
-            }
 
             $results['goals'][] = [
                 'name' => $goal->getExerciseName(),
                 'variant_name' => $goal->getExerciseVariantName(),
-                'percentage' => $total > 0 ? (int)($goalTotalPercentage / $total) : 0
+                'percentage' => $totalCircuits > 0 ? (int)($goalPercentage / $totalCircuits) : 0,
+                'achieved_amount' => $achievedAmount
             ];
         }
 
         $results['total_circuits'] = count($uniqueCircuits);
         $results['total_goals'] = count($this->allGoals);
 
-        if ($circuit && $totalGoals !== count($this->allGoals)) {
+        if ($totalGoals !== count($this->allGoals)) {
             foreach ($this->allGoals as $goal) {
                 if (!array_key_exists($goal->getId(), $goalsParsed)) {
                     $results['goals'][] = [
                         'name' => $goal->getExerciseName(),
                         'variant_name' => $goal->getExerciseVariantName(),
-                        'percentage' => 0
+                        'percentage' => 0,
+                        'achieved_amount' => 0
                     ];
                 }
             }

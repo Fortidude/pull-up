@@ -78,7 +78,7 @@ class ByUserAndGoalsTest extends TestCase
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_circuits']);
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_goals']);
         $this->assertEquals(40, $statistics->currentCirclePercentageGoalsAchieved['goals'][0]['percentage']);
-        $this->assertEquals(0, $statistics->currentCirclePercentGoalsAchieved);
+        $this->assertEquals(40, $statistics->currentCirclePercentGoalsAchieved);
         $this->assertEquals($goal->getExerciseVariantName(), $statistics->currentCirclePercentageGoalsAchieved['goals'][0]['variant_name']);
         $this->assertEquals($goal->getExerciseName(), $statistics->currentCirclePercentageGoalsAchieved['goals'][0]['name']);
     }
@@ -144,7 +144,7 @@ class ByUserAndGoalsTest extends TestCase
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_circuits']);
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_goals']);
         $this->assertEquals(50, $statistics->currentCirclePercentageGoalsAchieved['goals'][0]['percentage']);
-        $this->assertEquals(0, $statistics->currentCirclePercentGoalsAchieved);
+        $this->assertEquals(50, $statistics->currentCirclePercentGoalsAchieved);
         $this->assertEquals($goal->getExerciseVariantName(), $statistics->currentCirclePercentageGoalsAchieved['goals'][0]['variant_name']);
         $this->assertEquals($goal->getExerciseName(), $statistics->currentCirclePercentageGoalsAchieved['goals'][0]['name']);
     }
@@ -209,7 +209,7 @@ class ByUserAndGoalsTest extends TestCase
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_circuits']);
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_goals']);
         $this->assertEquals(20, $statistics->currentCirclePercentageGoalsAchieved['goals'][0]['percentage']);
-        $this->assertEquals(0, $statistics->currentCirclePercentGoalsAchieved);
+        $this->assertEquals(20, $statistics->currentCirclePercentGoalsAchieved);
         $this->assertEquals($goal->getExerciseVariantName(), $statistics->currentCirclePercentageGoalsAchieved['goals'][0]['variant_name']);
         $this->assertEquals($goal->getExerciseName(), $statistics->currentCirclePercentageGoalsAchieved['goals'][0]['name']);
     }
@@ -278,7 +278,7 @@ class ByUserAndGoalsTest extends TestCase
         $this->assertEquals(1, $statistics->lastCirclePercentageGoalsAchieved['total_circuits']);
         $this->assertEquals(1, $statistics->lastCirclePercentageGoalsAchieved['total_goals']);
         $this->assertEquals(40, $statistics->lastCirclePercentageGoalsAchieved['goals'][0]['percentage']);
-        $this->assertEquals(0, $statistics->lastCirclePercentGoalsAchieved);
+        $this->assertEquals(40, $statistics->lastCirclePercentGoalsAchieved);
         $this->assertEquals($goal->getExerciseVariantName(), $statistics->lastCirclePercentageGoalsAchieved['goals'][0]['variant_name']);
         $this->assertEquals($goal->getExerciseName(), $statistics->lastCirclePercentageGoalsAchieved['goals'][0]['name']);
     }
@@ -327,18 +327,73 @@ class ByUserAndGoalsTest extends TestCase
         $this->assertEquals(4, $statistics->percentageGoalsAchieved['total_goals']);
         $this->assertEquals(4, $statistics->percentageGoalsAchieved['total_circuits']);
 
-        $this->assertEquals(0, $statistics->currentCirclePercentGoalsAchieved);
+        $this->assertEquals(10, $statistics->currentCirclePercentGoalsAchieved);
         $this->assertEquals(25, $statistics->lastCirclePercentGoalsAchieved);
-        $this->assertEquals(75, $statistics->percentGoalsAchieved);
+        $this->assertEquals(21, $statistics->percentGoalsAchieved);
 
         $this->assertEquals($goalOne->getExerciseName(), $statistics->percentageGoalsAchieved['goals'][0]['name']);
         $this->assertEquals($goalTwo->getExerciseName(), $statistics->percentageGoalsAchieved['goals'][1]['name']);
         $this->assertEquals($goalThree->getExerciseName(), $statistics->percentageGoalsAchieved['goals'][2]['name']);
         $this->assertEquals($goalFour->getExerciseName(), $statistics->percentageGoalsAchieved['goals'][3]['name']);
 
+        $this->assertEquals(10, $statistics->percentageGoalsAchieved['goals'][0]['percentage']);
+        $this->assertEquals(25, $statistics->percentageGoalsAchieved['goals'][1]['percentage']);
+        $this->assertEquals(25, $statistics->percentageGoalsAchieved['goals'][2]['percentage']);
+        $this->assertEquals(25, $statistics->percentageGoalsAchieved['goals'][3]['percentage']);
+    }
+
+    public function testByCircuitsAndMultipleGoalsAchieved100Percent()
+    {
+        $user = User::createByClassicRegister('test@test.com', 'test_user', 'password1234');
+        $user->changeDaysAmountPerCircuit(4);
+
+        $now = new \DateTime();
+        $user->getTrainingCircuitByDate($now);
+
+        $twoDaysAgo = clone $now;
+        $twoDaysAgo->sub(new \DateInterval('P2D'));
+        $user->getTrainingCircuitByDate($twoDaysAgo);
+
+        $sixDaysAgo = clone $now;
+        $sixDaysAgo->sub(new \DateInterval('P6D'));
+        $user->getTrainingCircuitByDate($sixDaysAgo);
+
+        $tenDaysAgo = clone $now;
+        $tenDaysAgo->sub(new \DateInterval('P10D'));
+        $user->getTrainingCircuitByDate($tenDaysAgo);
+
+        $exerciseOne = Exercise::create('name_exercise_one', '');
+        $exerciseOne->addExerciseVariant('variant_one', '');
+
+        $exerciseTwo = Exercise::create('name_exercise_two', '');
+        $exerciseTwo->addExerciseVariant('variant_two', '');
+
+        $goalOne = Goal::create('goal_1', '', $user, $exerciseOne, null, 10);
+        $goalOne->addSet($now, 4);
+        $goalOne->addSet($twoDaysAgo, 4);
+        $goalOne->addSet($sixDaysAgo, 4);
+        $goalOne->addSet($tenDaysAgo, 4);
+
+        $goalTwo = Goal::create('goal_2', '', $user, $exerciseOne, $exerciseOne->getExerciseVariants()[0], 10);
+        $goalTwo->addSet($now, 10);
+        $goalTwo->addSet($twoDaysAgo, 10);
+        $goalTwo->addSet($sixDaysAgo, 10);
+        $goalTwo->addSet($tenDaysAgo, 10);
+
+        $service = new ByUserAndGoals();
+        $statistics = $service->get($user, [$goalOne, $goalTwo]);
+
+        $this->assertEquals(2, $statistics->percentageGoalsAchieved['total_goals']);
+        $this->assertEquals(4, $statistics->percentageGoalsAchieved['total_circuits']);
+
+        $this->assertEquals(70, $statistics->currentCirclePercentGoalsAchieved);
+        $this->assertEquals(70, $statistics->lastCirclePercentGoalsAchieved);
+        $this->assertEquals(70, $statistics->percentGoalsAchieved);
+
+        $this->assertEquals($goalOne->getExerciseName(), $statistics->percentageGoalsAchieved['goals'][0]['name']);
+        $this->assertEquals($goalTwo->getExerciseName(), $statistics->percentageGoalsAchieved['goals'][1]['name']);
+
         $this->assertEquals(40, $statistics->percentageGoalsAchieved['goals'][0]['percentage']);
         $this->assertEquals(100, $statistics->percentageGoalsAchieved['goals'][1]['percentage']);
-        $this->assertEquals(100, $statistics->percentageGoalsAchieved['goals'][2]['percentage']);
-        $this->assertEquals(100, $statistics->percentageGoalsAchieved['goals'][3]['percentage']);
     }
 }

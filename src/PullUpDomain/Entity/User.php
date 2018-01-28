@@ -220,6 +220,14 @@ class User extends BaseUser
         return $circuit;
     }
 
+    /**
+     * @return ArrayCollection|Circuit[]
+     */
+    public function getCircuits()
+    {
+        return $this->circuits;
+    }
+
     public function switchToCustomPlannerMode()
     {
         $this->plannerCustomMode = true;
