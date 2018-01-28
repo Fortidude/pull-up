@@ -45,13 +45,12 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
 
     private function percentGoalsAchieved(array $percentageAchievedGoalsResult)
     {
-        $achieved = 0;
+        $totalPercent = 0;
         $total = 0;
         foreach ($percentageAchievedGoalsResult['goals'] as $goalResult) {
-            $total++;
-
-            if (array_key_exists('percentage', $goalResult) && $goalResult['percentage'] && $goalResult['percentage'] >= 100) {
-                $achieved++;
+            if (array_key_exists('percentage', $goalResult) && $goalResult['percentage']/* && $goalResult['percentage'] >= 100*/) {
+                $total++;
+                $totalPercent += $goalResult['percentage'];
             }
         }
 
@@ -59,7 +58,7 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
             return 0;
         }
 
-        return (int)($achieved / $total * 100);
+        return (int)($totalPercent / $total);
     }
 
     /**
