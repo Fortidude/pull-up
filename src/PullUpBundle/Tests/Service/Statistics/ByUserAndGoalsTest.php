@@ -28,6 +28,7 @@ class ByUserAndGoalsTest extends TestCase
         $now = new \DateTime();
 
         $user = User::createByClassicRegister('test@test.com', 'test_user', 'password1234');
+        $user->getTrainingCircuitByDate($now);
 
         $exerciseOne = Exercise::create('name_exercise_one', '');
         $exerciseOne->addExerciseVariant('variant_one', '');
@@ -39,7 +40,7 @@ class ByUserAndGoalsTest extends TestCase
         $goal->addSet($now, 30);
 
         $service = new ByUserAndGoals();
-        $statistics = $service->get([$goal], [], [$goal]);
+        $statistics = $service->get($user, [$goal]);
 
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_circuits']);
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_goals']);
@@ -61,6 +62,7 @@ class ByUserAndGoalsTest extends TestCase
         $now = new \DateTime();
 
         $user = User::createByClassicRegister('test@test.com', 'test_user', 'password1234');
+        $user->getTrainingCircuitByDate($now);
 
         $exerciseOne = Exercise::create('name_exercise_one', '');
         $exerciseOne->addExerciseVariant('variant_one', '');
@@ -71,7 +73,7 @@ class ByUserAndGoalsTest extends TestCase
         $goal->addSet($now, 10);
 
         $service = new ByUserAndGoals();
-        $statistics = $service->get([$goal], [], [$goal]);
+        $statistics = $service->get($user, [$goal]);
 
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_circuits']);
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_goals']);
@@ -93,6 +95,7 @@ class ByUserAndGoalsTest extends TestCase
         $now = new \DateTime();
 
         $user = User::createByClassicRegister('test@test.com', 'test_user', 'password1234');
+        $user->getTrainingCircuitByDate($now);
 
         $exerciseOne = Exercise::create('name_exercise_one', '');
         $exerciseOne->addExerciseVariant('variant_one', '');
@@ -103,7 +106,7 @@ class ByUserAndGoalsTest extends TestCase
         $goal->addSet($now);
 
         $service = new ByUserAndGoals();
-        $statistics = $service->get([$goal], [], [$goal]);
+        $statistics = $service->get($user, [$goal]);
 
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_circuits']);
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_goals']);
@@ -125,6 +128,7 @@ class ByUserAndGoalsTest extends TestCase
         $now = new \DateTime();
 
         $user = User::createByClassicRegister('test@test.com', 'test_user', 'password1234');
+        $user->getTrainingCircuitByDate($now);
 
         $exerciseOne = Exercise::create('name_exercise_one', '');
         $exerciseOne->addExerciseVariant('variant_one', '');
@@ -135,7 +139,7 @@ class ByUserAndGoalsTest extends TestCase
         $goal->addSet($now);
 
         $service = new ByUserAndGoals();
-        $statistics = $service->get([$goal], [], [$goal]);
+        $statistics = $service->get($user, [$goal]);
 
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_circuits']);
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_goals']);
@@ -157,6 +161,7 @@ class ByUserAndGoalsTest extends TestCase
         $now = new \DateTime();
 
         $user = User::createByClassicRegister('test@test.com', 'test_user', 'password1234');
+        $user->getTrainingCircuitByDate($now);
 
         $exerciseOne = Exercise::create('name_exercise_one', '');
         $exerciseOne->addExerciseVariant('variant_one', '');
@@ -167,7 +172,7 @@ class ByUserAndGoalsTest extends TestCase
         $goal->addSet($now, 120);
 
         $service = new ByUserAndGoals();
-        $statistics = $service->get([$goal], [], [$goal]);
+        $statistics = $service->get($user, [$goal]);
 
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_circuits']);
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_goals']);
@@ -189,6 +194,7 @@ class ByUserAndGoalsTest extends TestCase
         $now = new \DateTime();
 
         $user = User::createByClassicRegister('test@test.com', 'test_user', 'password1234');
+        $user->getTrainingCircuitByDate($now);
 
         $exerciseOne = Exercise::create('name_exercise_one', '');
         $exerciseOne->addExerciseVariant('variant_one', '');
@@ -198,7 +204,7 @@ class ByUserAndGoalsTest extends TestCase
         $goal->addSet($now, 32);
 
         $service = new ByUserAndGoals();
-        $statistics = $service->get([$goal], [], [$goal]);
+        $statistics = $service->get($user, [$goal]);
 
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_circuits']);
         $this->assertEquals(1, $statistics->currentCirclePercentageGoalsAchieved['total_goals']);
@@ -217,22 +223,24 @@ class ByUserAndGoalsTest extends TestCase
     {
         $requiredReps = 10;
 
-        $fiveDaysAgo = new \DateTime();
-        $fiveDaysAgo->sub(new \DateInterval('P2D'));
+        $twoDaysAgo = new \DateTime();
+        $twoDaysAgo->sub(new \DateInterval('P2D'));
 
         $user = User::createByClassicRegister('test@test.com', 'test_user', 'password1234');
         $user->changeDaysAmountPerCircuit(4);
+        $user->getTrainingCircuitByDate(new \DateTime());
+        $user->getTrainingCircuitByDate($twoDaysAgo);
 
         $exerciseOne = Exercise::create('name_exercise_one', '');
         $exerciseOne->addExerciseVariant('variant_one', '');
         $exerciseOne->addExerciseVariant('variant_two', '');
 
         $goal = Goal::create('goal_1', '', $user, $exerciseOne, null, $requiredReps);
-        $goal->addSet($fiveDaysAgo, 4);
-        $goal->addSet($fiveDaysAgo, 6);
+        $goal->addSet($twoDaysAgo, 4);
+        $goal->addSet($twoDaysAgo, 6);
 
         $service = new ByUserAndGoals();
-        $statistics = $service->get([], [$goal], [$goal]);
+        $statistics = $service->get($user, [$goal]);
 
         $this->assertEquals(1, $statistics->lastCirclePercentageGoalsAchieved['total_circuits']);
         $this->assertEquals(1, $statistics->lastCirclePercentageGoalsAchieved['total_goals']);
@@ -265,7 +273,7 @@ class ByUserAndGoalsTest extends TestCase
         $goal->addSet($fiveDaysAgo, 4);
 
         $service = new ByUserAndGoals();
-        $statistics = $service->get([], [$goal], [$goal]);
+        $statistics = $service->get($user, [$goal]);
 
         $this->assertEquals(1, $statistics->lastCirclePercentageGoalsAchieved['total_circuits']);
         $this->assertEquals(1, $statistics->lastCirclePercentageGoalsAchieved['total_goals']);
@@ -314,13 +322,13 @@ class ByUserAndGoalsTest extends TestCase
         $goalFour->addSet($tenDaysAgo, 10);
 
         $service = new ByUserAndGoals();
-        $statistics = $service->get([$goalOne], [$goalTwo], [$goalOne, $goalTwo, $goalThree, $goalFour]);
+        $statistics = $service->get($user, [$goalOne, $goalTwo, $goalThree, $goalFour]);
 
         $this->assertEquals(4, $statistics->percentageGoalsAchieved['total_goals']);
         $this->assertEquals(4, $statistics->percentageGoalsAchieved['total_circuits']);
 
         $this->assertEquals(0, $statistics->currentCirclePercentGoalsAchieved);
-        $this->assertEquals(100, $statistics->lastCirclePercentGoalsAchieved);
+        $this->assertEquals(25, $statistics->lastCirclePercentGoalsAchieved);
         $this->assertEquals(75, $statistics->percentGoalsAchieved);
 
         $this->assertEquals($goalOne->getExerciseName(), $statistics->percentageGoalsAchieved['goals'][0]['name']);

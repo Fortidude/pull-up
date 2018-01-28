@@ -8,23 +8,25 @@ use PullUpDomain\Entity\User;
 use PullUpDomain\Repository\Response\GoalStatisticsResponse;
 use PullUpDomain\Service\StatisticsByUserAndGoalsInterface;
 
-class ByUserAndGoals implements StatisticsByUserAndGoalsInterface
+class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
 {
     /** @var Goal[] */
     private $allGoals;
 
     /**
-     * @param Goal[] $currentCircleGoals
-     * @param Goal[] $lastCircleGoals
+     * @param User $user
      * @param Goal[] $allGoals
      * @return GoalStatisticsResponse
      */
-    public function get(array $currentCircleGoals, array $lastCircleGoals, array $allGoals): GoalStatisticsResponse
+    public function get(User $user, array $allGoals): GoalStatisticsResponse
     {
         $this->allGoals = $allGoals;
 
-        $currentCirclePercentageGoalsAchieved = $this->percentageAchievedGoals($currentCircleGoals, false);
-        $lastCirclePercentageGoalsAchieved = $this->percentageAchievedGoals($lastCircleGoals, false);
+        $currentCircuit = $user->getCurrentTrainingCircuit();
+        $lastCircuit = $user->getTrainingCircuitByDate($currentCircuit->getStartAt()->sub(new \DateInterval("P1D")));
+
+        $currentCirclePercentageGoalsAchieved = $this->percentageAchievedGoals($allGoals, $currentCircuit);
+        $lastCirclePercentageGoalsAchieved = $this->percentageAchievedGoals($allGoals, $lastCircuit);
         $percentageGoalsAchieved = $this->percentageAchievedGoals($allGoals);
 
         $response = new GoalStatisticsResponse();
@@ -61,11 +63,11 @@ class ByUserAndGoals implements StatisticsByUserAndGoalsInterface
     }
 
     /**
-     * @param Goal[] $goals
-     * @param bool $isForAll
+     * @param array $goals
+     * @param Circuit|null $circuit
      * @return array
      */
-    private function percentageAchievedGoals(array $goals, bool $isForAll = true)
+    private function percentageAchievedGoals(array $goals, Circuit $circuit = null)
     {
         $results = [
             'total_goals' => 0,
@@ -88,12 +90,17 @@ class ByUserAndGoals implements StatisticsByUserAndGoalsInterface
             $byCircuits = [];
 
             foreach ($goal->getSets() as $set) {
-                $uniqueCircuits[$set->getCircuit()->getId()] = $set->getCircuit()->getId();
+                $circuitId = $set->getCircuit()->getId();
+                if ($circuit && $circuit->getId() !== $circuitId) {
+                    continue;
+                }
 
-                if (array_key_exists($set->getCircuit()->getId(), $byCircuits)) {
-                    $byCircuits[$set->getCircuit()->getId()] += $set->getValue();
+                $uniqueCircuits[$circuitId] = $circuitId;
+
+                if (array_key_exists($circuitId, $byCircuits)) {
+                    $byCircuits[$circuitId] += $set->getValue();
                 } else {
-                    $byCircuits[$set->getCircuit()->getId()] = $set->getValue();
+                    $byCircuits[$circuitId] = $set->getValue();
                 }
             }
 
@@ -125,7 +132,7 @@ class ByUserAndGoals implements StatisticsByUserAndGoalsInterface
         $results['total_circuits'] = count($uniqueCircuits);
         $results['total_goals'] = count($this->allGoals);
 
-        if (!$isForAll && $totalGoals !== count($this->allGoals)) {
+        if ($circuit && $totalGoals !== count($this->allGoals)) {
             foreach ($this->allGoals as $goal) {
                 if (!array_key_exists($goal->getId(), $goalsParsed)) {
                     $results['goals'][] = [
