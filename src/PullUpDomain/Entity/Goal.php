@@ -36,8 +36,13 @@ class Goal
     protected $noSpecifiedGoal;
     protected $removed;
 
+    /** @var \DateTime */
     protected $lastSetAdded;
+
+    /** @var \DateTime */
     protected $createdAt;
+
+    /** @var \DateTime */
     protected $updatedAt;
 
     public function __construct()
@@ -60,7 +65,7 @@ class Goal
      * @param int|null $requiredReps
      * @param int|null $requiredWeight
      * @param int|null $requiredTime
-     * @return Goal
+     * @return self
      * @throws \Exception
      */
     public static function create(
@@ -73,7 +78,7 @@ class Goal
         int $requiredReps = null,
         int $requiredWeight = null,
         int $requiredTime = null
-    ) : Goal
+    )
     {
         if (!$requiredSets && !$requiredReps && !$requiredWeight && !$requiredTime && $name !== self::NO_GOAL_SPECIFIED_NAME) {
             throw new \Exception("none type were selected");
@@ -102,6 +107,8 @@ class Goal
         $entity->removed = false;
 
         $entity->lastSetAdded = new \DateTime("now");
+        $entity->createdAt = new \DateTime("now");
+        $entity->updatedAt = new \DateTime("now");
 
         return $entity;
     }
@@ -155,6 +162,14 @@ class Goal
         } else {
             return 'error';
         }
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreateAt()
+    {
+        return $this->createdAt;
     }
 
     /**

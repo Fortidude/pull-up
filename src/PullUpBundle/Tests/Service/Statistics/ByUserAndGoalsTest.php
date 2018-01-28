@@ -1,6 +1,6 @@
 <?php
 
-namespace PullUpBundle\Tests\Service\Training;
+namespace PullUpBundle\Tests\Service\Statistics;
 
 use PHPUnit\Framework\TestCase;
 use PullUpBundle\Service\Statistics\ByUserAndGoals;
@@ -34,7 +34,8 @@ class ByUserAndGoalsTest extends TestCase
         $exerciseOne->addExerciseVariant('variant_one', '');
         $exerciseOne->addExerciseVariant('variant_two', '');
 
-        $goal = Goal::create('goal_1', '', $user, $exerciseOne, null, null, $requiredReps);
+        $goal = MockGoal::create('goal_1', '', $user, $exerciseOne, null, null, $requiredReps);
+        $goal->setCreatedAt($now);
         $goal->addSet($now, 10);
         $goal->addSet($now, 10);
         $goal->addSet($now, 30);
@@ -68,7 +69,8 @@ class ByUserAndGoalsTest extends TestCase
         $exerciseOne->addExerciseVariant('variant_one', '');
         $exerciseOne->addExerciseVariant('variant_two', '');
 
-        $goal = Goal::create('goal_1', '', $user, $exerciseOne, null, null, $requiredReps);
+        $goal = MockGoal::create('goal_1', '', $user, $exerciseOne, null, null, $requiredReps);
+        $goal->setCreatedAt($now);
         $goal->addSet($now, 10);
         $goal->addSet($now, 10);
 
@@ -101,7 +103,8 @@ class ByUserAndGoalsTest extends TestCase
         $exerciseOne->addExerciseVariant('variant_one', '');
         $exerciseOne->addExerciseVariant('variant_two', '');
 
-        $goal = Goal::create('goal_1', '', $user, $exerciseOne, null, $requiredSets);
+        $goal = MockGoal::create('goal_1', '', $user, $exerciseOne, null, $requiredSets);
+        $goal->setCreatedAt($now);
         $goal->addSet($now);
         $goal->addSet($now);
 
@@ -134,7 +137,8 @@ class ByUserAndGoalsTest extends TestCase
         $exerciseOne->addExerciseVariant('variant_one', '');
         $exerciseOne->addExerciseVariant('variant_two', '');
 
-        $goal = Goal::create('goal_1', '', $user, $exerciseOne, null, $requiredSets);
+        $goal = MockGoal::create('goal_1', '', $user, $exerciseOne, null, $requiredSets);
+        $goal->setCreatedAt($now);
         $goal->addSet($now);
         $goal->addSet($now);
 
@@ -167,7 +171,8 @@ class ByUserAndGoalsTest extends TestCase
         $exerciseOne->addExerciseVariant('variant_one', '');
         $exerciseOne->addExerciseVariant('variant_two', '');
 
-        $goal = Goal::create('goal_1', '', $user, $exerciseOne, null, null, null, null, $requiredTime);
+        $goal = MockGoal::create('goal_1', '', $user, $exerciseOne, null, null, null, null, $requiredTime);
+        $goal->setCreatedAt($now);
         $goal->addSet($now, 80);
         $goal->addSet($now, 120);
 
@@ -200,7 +205,8 @@ class ByUserAndGoalsTest extends TestCase
         $exerciseOne->addExerciseVariant('variant_one', '');
         $exerciseOne->addExerciseVariant('variant_two', '');
 
-        $goal = Goal::create('goal_1', '', $user, $exerciseOne, null, null, null, null, $requiredTime);
+        $goal = MockGoal::create('goal_1', '', $user, $exerciseOne, null, null, null, null, $requiredTime);
+        $goal->setCreatedAt($now);
         $goal->addSet($now, 32);
 
         $service = new ByUserAndGoals();
@@ -235,7 +241,8 @@ class ByUserAndGoalsTest extends TestCase
         $exerciseOne->addExerciseVariant('variant_one', '');
         $exerciseOne->addExerciseVariant('variant_two', '');
 
-        $goal = Goal::create('goal_1', '', $user, $exerciseOne, null, $requiredReps);
+        $goal = MockGoal::create('goal_1', '', $user, $exerciseOne, null, $requiredReps);
+        $goal->setCreatedAt($twoDaysAgo);
         $goal->addSet($twoDaysAgo, 4);
         $goal->addSet($twoDaysAgo, 6);
 
@@ -269,7 +276,8 @@ class ByUserAndGoalsTest extends TestCase
         $exerciseOne->addExerciseVariant('variant_one', '');
         $exerciseOne->addExerciseVariant('variant_two', '');
 
-        $goal = Goal::create('goal_1', '', $user, $exerciseOne, null, $requiredReps);
+        $goal = MockGoal::create('goal_1', '', $user, $exerciseOne, null, $requiredReps);
+        $goal->setCreatedAt($fiveDaysAgo);
         $goal->addSet($fiveDaysAgo, 4);
 
         $service = new ByUserAndGoals();
@@ -292,15 +300,15 @@ class ByUserAndGoalsTest extends TestCase
         $user->getTrainingCircuitByDate($now);
 
         $twoDaysAgo = clone $now;
-        $twoDaysAgo->sub(new \DateInterval('P2D'));
+        $twoDaysAgo->sub(new \DateInterval('P5D'));
         $user->getTrainingCircuitByDate($twoDaysAgo);
 
         $sixDaysAgo = clone $now;
-        $sixDaysAgo->sub(new \DateInterval('P6D'));
+        $sixDaysAgo->sub(new \DateInterval('P10D'));
         $user->getTrainingCircuitByDate($sixDaysAgo);
 
         $tenDaysAgo = clone $now;
-        $tenDaysAgo->sub(new \DateInterval('P10D'));
+        $tenDaysAgo->sub(new \DateInterval('P15D'));
         $user->getTrainingCircuitByDate($tenDaysAgo);
 
         $exerciseOne = Exercise::create('name_exercise_one', '');
@@ -309,16 +317,20 @@ class ByUserAndGoalsTest extends TestCase
         $exerciseTwo = Exercise::create('name_exercise_two', '');
         $exerciseTwo->addExerciseVariant('variant_two', '');
 
-        $goalOne = Goal::create('goal_1', '', $user, $exerciseOne, null, 10);
+        $goalOne = MockGoal::create('goal_1', '', $user, $exerciseOne, null, 10);
+        $goalOne->setCreatedAt($now);
         $goalOne->addSet($now, 4);
 
-        $goalTwo = Goal::create('goal_2', '', $user, $exerciseOne, $exerciseOne->getExerciseVariants()[0], 10);
+        $goalTwo = MockGoal::create('goal_2', '', $user, $exerciseOne, $exerciseOne->getExerciseVariants()[0], 10);
+        $goalTwo->setCreatedAt($twoDaysAgo);
         $goalTwo->addSet($twoDaysAgo, 10);
 
-        $goalThree = Goal::create('goal_3', '', $user, $exerciseTwo, null, 10);
+        $goalThree = MockGoal::create('goal_3', '', $user, $exerciseTwo, null, 10);
+        $goalThree->setCreatedAt($sixDaysAgo);
         $goalThree->addSet($sixDaysAgo, 10);
 
-        $goalFour = Goal::create('goal_4', '', $user, $exerciseTwo, $exerciseTwo->getExerciseVariants()[0], 10);
+        $goalFour = MockGoal::create('goal_4', '', $user, $exerciseTwo, $exerciseTwo->getExerciseVariants()[0], 10);
+        $goalFour->setCreatedAt($tenDaysAgo);
         $goalFour->addSet($tenDaysAgo, 10);
 
         $service = new ByUserAndGoals();
@@ -329,16 +341,16 @@ class ByUserAndGoalsTest extends TestCase
 
         $this->assertEquals(10, $statistics->currentCirclePercentGoalsAchieved);
         $this->assertEquals(25, $statistics->lastCirclePercentGoalsAchieved);
-        $this->assertEquals(21, $statistics->percentGoalsAchieved);
+        $this->assertEquals(37, $statistics->percentGoalsAchieved);
 
         $this->assertEquals($goalOne->getExerciseName(), $statistics->percentageGoalsAchieved['goals'][0]['name']);
         $this->assertEquals($goalTwo->getExerciseName(), $statistics->percentageGoalsAchieved['goals'][1]['name']);
         $this->assertEquals($goalThree->getExerciseName(), $statistics->percentageGoalsAchieved['goals'][2]['name']);
         $this->assertEquals($goalFour->getExerciseName(), $statistics->percentageGoalsAchieved['goals'][3]['name']);
 
-        $this->assertEquals(10, $statistics->percentageGoalsAchieved['goals'][0]['percentage']);
-        $this->assertEquals(25, $statistics->percentageGoalsAchieved['goals'][1]['percentage']);
-        $this->assertEquals(25, $statistics->percentageGoalsAchieved['goals'][2]['percentage']);
+        $this->assertEquals(40, $statistics->percentageGoalsAchieved['goals'][0]['percentage']);
+        $this->assertEquals(50, $statistics->percentageGoalsAchieved['goals'][1]['percentage']);
+        $this->assertEquals(33, $statistics->percentageGoalsAchieved['goals'][2]['percentage']);
         $this->assertEquals(25, $statistics->percentageGoalsAchieved['goals'][3]['percentage']);
     }
 
@@ -368,13 +380,15 @@ class ByUserAndGoalsTest extends TestCase
         $exerciseTwo = Exercise::create('name_exercise_two', '');
         $exerciseTwo->addExerciseVariant('variant_two', '');
 
-        $goalOne = Goal::create('goal_1', '', $user, $exerciseOne, null, 10);
+        $goalOne = MockGoal::create('goal_1', '', $user, $exerciseOne, null, 10);
+        $goalOne->setCreatedAt($tenDaysAgo);
         $goalOne->addSet($now, 4);
         $goalOne->addSet($twoDaysAgo, 4);
         $goalOne->addSet($sixDaysAgo, 4);
         $goalOne->addSet($tenDaysAgo, 4);
 
-        $goalTwo = Goal::create('goal_2', '', $user, $exerciseOne, $exerciseOne->getExerciseVariants()[0], 10);
+        $goalTwo = MockGoal::create('goal_2', '', $user, $exerciseOne, $exerciseOne->getExerciseVariants()[0], 10);
+        $goalTwo->setCreatedAt($tenDaysAgo);
         $goalTwo->addSet($now, 10);
         $goalTwo->addSet($twoDaysAgo, 10);
         $goalTwo->addSet($sixDaysAgo, 10);

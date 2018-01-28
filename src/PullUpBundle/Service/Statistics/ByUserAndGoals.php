@@ -76,15 +76,12 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
         ];
 
         $uniqueCircuits = [];
-        $totalCircuits = 0;
         $totalGoals = 0;
         $goalsParsed = [];
 
         foreach ($circuits as $circuit) {
             $uniqueCircuits[$circuit->getId()] = $circuit->getId();
         }
-
-        $totalCircuits = count($uniqueCircuits);
 
         foreach ($goals as $goal) {
             $requiredAmount = $goal->getRequiredAmount();
@@ -93,6 +90,7 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
                 continue;
             }
 
+            $totalCircuits = 0;
             $achievedAmount = 0;
             $goalPercentage = 0;
             $byCircuits = [];
@@ -109,7 +107,6 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
                     $byCircuits[$circuitId] = $set->getValue();
                 }
             }
-
             foreach ($byCircuits as $key => $byCircuit) {
                 $percentage = (int)($byCircuit / $requiredAmount * 100);
                 if ($percentage >= 100) {
@@ -117,6 +114,12 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
                 }
 
                 $goalPercentage += $percentage > 100 ? 100 : $percentage;
+            }
+
+            foreach ($circuits as $circuit) {
+                if ($circuit->getEndAt() >= $goal->getCreateAt()) {
+                    $totalCircuits++;
+                }
             }
 
             $totalGoals++;
