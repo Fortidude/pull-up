@@ -3,6 +3,7 @@
 namespace PullUpDomain\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Ramsey\Uuid\Uuid;
 
 class Circuit
 {
@@ -30,6 +31,7 @@ class Circuit
     public static function createByStartDate(User $user, \DateTime $startDate)
     {
         $entity = new self();
+        $entity->id = Uuid::uuid4();
         $entity->user = $user;
         $entity->days = $user->getDaysPerCircuit();
 

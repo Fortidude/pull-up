@@ -4,9 +4,11 @@ namespace PullUpBundle\Service\Statistics;
 
 use PullUpDomain\Entity\Circuit;
 use PullUpDomain\Entity\Goal;
+use PullUpDomain\Entity\User;
 use PullUpDomain\Repository\Response\GoalStatisticsResponse;
+use PullUpDomain\Service\StatisticsByUserAndGoalsInterface;
 
-class ByUserAndGoals
+class ByUserAndGoals implements StatisticsByUserAndGoalsInterface
 {
     /** @var Goal[] */
     private $allGoals;
@@ -55,7 +57,7 @@ class ByUserAndGoals
             return 0;
         }
 
-        return (int) ($achieved / $total * 100);
+        return (int)($achieved / $total * 100);
     }
 
     /**

@@ -82,7 +82,7 @@ class GoalSet
             return $this->time;
         }
 
-        return null;
+        return 1;
     }
 
     public function getUser()
