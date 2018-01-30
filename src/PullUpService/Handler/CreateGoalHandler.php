@@ -5,12 +5,14 @@ namespace PullUpService\Handler;
 use PullUpDomain\Entity\Exercise;
 use PullUpDomain\Entity\ExerciseVariant;
 use PullUpDomain\Entity\Goal;
+use PullUpDomain\Entity\Section;
 use PullUpDomain\Entity\User;
 
 use PullUpDomain\Repository\ExerciseRepositoryInterface;
 use PullUpDomain\Repository\GoalRepositoryInterface;
 
 
+use PullUpDomain\Repository\SectionRepositoryInterface;
 use PullUpService\Command\CreateGoalCommand;
 
 
@@ -22,6 +24,9 @@ class CreateGoalHandler
     /** @var ExerciseRepositoryInterface */
     protected $exerciseRepository;
 
+    /** @var SectionRepositoryInterface */
+    protected $sectionRepository;
+
     /** @var User */
     protected $user;
 
@@ -30,12 +35,14 @@ class CreateGoalHandler
     public function __construct(
         GoalRepositoryInterface $goalRepository,
         ExerciseRepositoryInterface $exerciseRepository,
+        SectionRepositoryInterface $sectionRepository,
         User $user,
         $cachePath = null
     )
     {
         $this->goalRepository = $goalRepository;
         $this->exerciseRepository = $exerciseRepository;
+        $this->sectionRepository = $sectionRepository;
         $this->user = $user;
         $this->cachePath = $cachePath;
     }
@@ -88,6 +95,16 @@ class CreateGoalHandler
             $command->weight,
             $command->time
         );
+
+        if ($command->section) {
+            $section = $this->sectionRepository->getByUserAndName($this->user, $command->section);
+            if (!$section) {
+                $section = Section::create($command->section, '', $this->user);
+            }
+
+            $this->sectionRepository->add($section);
+            $entity->moveToSection($section);
+        }
 
         $this->goalRepository->add($entity);
     }

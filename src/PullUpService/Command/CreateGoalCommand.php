@@ -50,4 +50,9 @@ class CreateGoalCommand
      * @Type("int")
      */
     public $noSpecifiedGoal;
+
+    /**
+     * @Type("string")
+     */
+    public $section;
 }
