@@ -103,7 +103,7 @@ class CreateGoalHandler
                 $section = Section::create($command->section, '', $this->user);
             }
 
-            $this->sectionRepository->add($section);
+          //  $this->sectionRepository->add($section);
         }
 
         $this->goalRepository->add($entity);
