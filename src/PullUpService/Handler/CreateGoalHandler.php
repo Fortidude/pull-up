@@ -96,6 +96,7 @@ class CreateGoalHandler
             $command->time
         );
 
+        $section = null;
         if ($command->section) {
             $section = $this->sectionRepository->getByUserAndName($this->user, $command->section);
             if (!$section) {
@@ -103,9 +104,12 @@ class CreateGoalHandler
             }
 
             $this->sectionRepository->add($section);
-            $entity->moveToSection($section);
         }
 
         $this->goalRepository->add($entity);
+
+        if ($section) {
+            $entity->moveToSection($section);
+        }
     }
 }
