@@ -20,14 +20,14 @@ class User extends BaseUser
     protected $sex;
     protected $roles;
     protected $email;
-    protected $avatar;
+    protected $avatar = null;
     protected $enabled;
     protected $createdAt;
     protected $updatedAt;
     protected $expiresAt;
 
     protected $daysPerCircuit = 7;
-    protected $plannerCustomMode = false;
+    protected $plannerCustomMode = true;
 
     /** @var Circuit[] */
     protected $circuits;
@@ -75,6 +75,7 @@ class User extends BaseUser
         $entity->enabled = true;
         $entity->expiresAt = new \DateTime('2020-12-31 23:59:59');
         $entity->circuits[] = Circuit::create($entity);
+        $entity->plannerCustomMode = true;
 
         return $entity;
     }
@@ -97,6 +98,7 @@ class User extends BaseUser
         $entity->enabled = true;
         $entity->expiresAt = new \DateTime('2020-12-31 23:59:59');
         $entity->circuits[] = Circuit::create($entity);
+        $entity->plannerCustomMode = true;
 
         return $entity;
     }
