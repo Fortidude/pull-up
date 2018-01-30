@@ -38,6 +38,7 @@ services:
         arguments:
           - '@pullup.goal.repository'
           - '@pullup.exercise.repository'
+          - '@pullup.section.repository'
           - '@pullup.current_user'
           - '%kernel.logs_dir%'
         tags:
