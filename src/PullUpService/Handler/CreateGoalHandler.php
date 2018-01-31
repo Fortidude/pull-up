@@ -96,20 +96,15 @@ class CreateGoalHandler
             $command->time
         );
 
-        $section = null;
-        if ($command->section) {
-            $section = $this->sectionRepository->getByUserAndName($this->user, $command->section);
-            if (!$section) {
-                $section = Section::create($command->section, '', $this->user);
-            }
 
-          //  $this->sectionRepository->add($section);
+        $section = $this->sectionRepository->getByUserAndName($this->user, $command->section);
+        if (!$section) {
+            $section = Section::create($command->section, '', $this->user);
+            $this->sectionRepository->add($section);
         }
+
+        $entity->moveToSection($section);
 
         $this->goalRepository->add($entity);
-
-        if ($section) {
-            $entity->moveToSection($section);
-        }
     }
 }
