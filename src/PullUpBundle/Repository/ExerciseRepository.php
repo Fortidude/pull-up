@@ -5,6 +5,7 @@ namespace PullUpBundle\Repository;
 use Doctrine\ORM\EntityManager;
 
 use PullUpDomain\Entity\Exercise;
+use PullUpDomain\Entity\User;
 use PullUpDomain\Repository\ExerciseRepositoryInterface;
 
 class ExerciseRepository extends AbstractRepository implements ExerciseRepositoryInterface
@@ -22,6 +23,23 @@ class ExerciseRepository extends AbstractRepository implements ExerciseRepositor
         $qb = $this->getEntityManager()->createQueryBuilder();
         $query = $qb->select('e')
             ->from('PullUpDomainEntity:Exercise', 'e')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    /**
+     * @param User $user
+     * @return Exercise[]
+     */
+    public function getListByUser(User $user)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $qb->select('e')
+            ->from('PullUpDomainEntity:Exercise', 'e')
+            ->where('e.createdBy IS NULL ')
+            ->orWhere('e.createdBy = :user')
+            ->setParameter('user', $user)
             ->getQuery();
 
         return $query->getResult();

@@ -3,6 +3,7 @@
 namespace PullUpDomain\Repository;
 
 use PullUpDomain\Entity\Exercise;
+use PullUpDomain\Entity\User;
 
 interface ExerciseRepositoryInterface
 {
@@ -10,6 +11,12 @@ interface ExerciseRepositoryInterface
      * @return Exercise[]
      */
     public function getList();
+
+    /**
+     * @param User $user
+     * @return Exercise[]
+     */
+    public function getListByUser(User $user);
 
     /**
      * @param string $string

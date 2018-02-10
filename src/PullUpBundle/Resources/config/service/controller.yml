@@ -30,6 +30,7 @@ services:
         class: PullUpBundle\Controller\ExerciseController
         arguments:
             - "@pullup.exercise.repository.doctrine"
+            - "@pullup.current_user"
             - "@pullup.command_bus"
 
     pullup.goal.controller:

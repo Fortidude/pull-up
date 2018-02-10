@@ -2,6 +2,7 @@
 
 namespace PullUpBundle\Controller;
 
+use PullUpDomain\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -17,6 +18,9 @@ class ExerciseController
     /** @var ExerciseRepository */
     protected $repository;
 
+    /** @var User */
+    protected $user;
+
     /** @var SimpleBus */
     protected $commandBus;
 
@@ -25,9 +29,10 @@ class ExerciseController
      * @param ExerciseRepository $repository
      * @param SimpleBus $commandBus
      */
-    public function __construct(ExerciseRepository $repository, SimpleBus $commandBus)
+    public function __construct(ExerciseRepository $repository, User $user, SimpleBus $commandBus)
     {
         $this->repository = $repository;
+        $this->user = $user;
         $this->commandBus = $commandBus;
     }
 
@@ -37,7 +42,7 @@ class ExerciseController
      */
     public function listAction()
     {
-        return $this->repository->getList();
+        return $this->repository->getListByUser($this->user);
     }
 
     /**
