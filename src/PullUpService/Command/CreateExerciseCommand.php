@@ -16,4 +16,9 @@ class CreateExerciseCommand
      */
     public $variantName;
 
+    /**
+     * @Type("boolean")
+     */
+    public $isCardio;
+
 }

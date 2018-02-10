@@ -21,6 +21,12 @@ PullUpDomain\Entity\Exercise:
             column: description
             type: text
 
+        isCardio:
+            column: is_cardio
+            type: boolean
+            options:
+                default: false
+
         createdAt:
             column: created_at
             type: datetime

@@ -210,6 +210,10 @@ class User extends BaseUser
 
     public function getTrainingCircuitByDate(\DateTime $dateTime)
     {
+        if ($dateTime < $this->createdAt) {
+            return null;
+        }
+
         foreach ($this->circuits as $circuit) {
             if ($circuit->isForDate($dateTime)) {
                 return $circuit;

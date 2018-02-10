@@ -9,6 +9,10 @@ PullUpDomain\Entity\Exercise:
             groups: [logger, exercise_item, exercise_list]
             expose: true
 
+        isCardio:
+            groups: [logger, exercise_item, exercise_list]
+            expose: true
+
         exerciseVariants:
             groups: [exercise_variant_list]
             expose: true

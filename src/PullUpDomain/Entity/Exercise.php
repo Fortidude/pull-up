@@ -10,6 +10,7 @@ class Exercise
 
     protected $name;
     protected $description;
+    protected $isCardio;
 
     protected $exerciseVariants;
 
@@ -31,13 +32,15 @@ class Exercise
     /**
      * @param string $name
      * @param string $description
+     * @param bool $isCardio
      * @return Exercise
      */
-    public static function create($name, $description)
+    public static function create(string $name, string $description, $isCardio = false)
     {
         $entity = new self();
         $entity->name = $name;
         $entity->description = $description;
+        $entity->isCardio = $isCardio;
 
         return $entity;
     }

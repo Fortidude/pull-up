@@ -69,11 +69,16 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
      */
     private function percentageAchievedGoals(array $goals, array $circuits = [])
     {
+
         $results = [
             'total_goals' => 0,
             'total_circuits' => 0,
             'goals' => [],
         ];
+
+        if (!$circuits || !($circuits[0] instanceof Circuit)) {
+            return $results;
+        }
 
         $uniqueCircuits = [];
         $totalGoals = 0;

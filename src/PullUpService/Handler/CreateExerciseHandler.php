@@ -35,7 +35,7 @@ class CreateExerciseHandler
     public function handle(CreateExerciseCommand $command)
     {
         if ($this->cachePath) {
-            //file_put_contents($this->cachePath . '/first_form.json', json_encode($data));
+            file_put_contents($this->cachePath . '/first_form.json', json_encode($command->isCardio));
         }
 
         $exerciseVariantSelected = strlen($command->variantName) > 0;
@@ -43,7 +43,7 @@ class CreateExerciseHandler
 
         $exerciseVariant = null;
         if (!$exercise) {
-            $exercise = Exercise::create($command->name, '');
+            $exercise = Exercise::create($command->name, '', $command->isCardio);
 
             if ($exerciseVariantSelected) {
                 $exercise->addExerciseVariant($command->variantName, '');
