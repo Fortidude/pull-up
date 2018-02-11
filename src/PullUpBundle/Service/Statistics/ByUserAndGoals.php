@@ -25,9 +25,9 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
         $currentCircuit = $user->getCurrentTrainingCircuit();
         $lastCircuit = $user->getTrainingCircuitByDate($currentCircuit->getStartAt()->sub(new \DateInterval("P1D")));
 
+        $percentageGoalsAchieved = $this->percentageAchievedGoals($allGoals, $user->getCircuits()->getValues());
         $currentCirclePercentageGoalsAchieved = $this->percentageAchievedGoals($allGoals, [$currentCircuit]);
         $lastCirclePercentageGoalsAchieved = $this->percentageAchievedGoals($allGoals, [$lastCircuit]);
-        $percentageGoalsAchieved = $this->percentageAchievedGoals($allGoals, $user->getCircuits()->getValues());
 
         $response = new GoalStatisticsResponse();
         $response->percentageExercisesUsage = $this->percentageExerciseUsage($allGoals);
@@ -41,7 +41,7 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
         $response->lastCirclePercentageGoalsAchieved = $lastCirclePercentageGoalsAchieved;
         $response->lastCirclePercentGoalsAchieved = $this->percentGoalsAchieved($lastCirclePercentageGoalsAchieved);
 
-        $response->achievedPerCircuit = $this->getAchievedPerCircuit();
+        $response->achievedPerCircuit = $this->getAchievedPerCircuit($user);
         return $response;
     }
 
@@ -254,7 +254,7 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
     /**
      * @return array
      */
-    private function getAchievedPerCircuit() {
+    private function getAchievedPerCircuit(User $user) {
         $results = [];
 
         foreach ($this->allGoals as $goal) {
@@ -276,6 +276,20 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
                 }
 
                 $circuits[$key] += $set->getValue();
+            }
+            foreach ($user->getCircuits() as $circuit) {
+                $key = $circuit->getStartAt()->format('Ymd');
+
+                $keys = array_keys($circuits);
+                if (array_key_exists(count($keys)-1, $keys)) {
+                    $lastKey = $keys[count($keys) - 1];
+                } else {
+                    $lastKey = 0;
+                }
+
+                if (!array_key_exists($key, $circuits) && $key > $lastKey) {
+                    $circuits[$key] = 0;
+                }
             }
 
             ksort($circuits);
