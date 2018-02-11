@@ -9,6 +9,7 @@ class GoalStatisticsResponse
 {
     /** @var array */
     public $percentageExercisesUsage = [];
+    public $percentageSetsUsage = [];
 
     /** @var array */
     public $percentageGoalsAchieved = [];
@@ -24,4 +25,7 @@ class GoalStatisticsResponse
 
     /** @var Goal[] */
     public $goalsNeverAchieved = [];
+
+    /** @var array */
+    public $achievedPerCircuit = [];
 }
