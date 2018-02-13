@@ -102,6 +102,27 @@ class CircuitRepository extends AbstractRepository implements CircuitRepositoryI
     }
 
     /**
+     * @return Circuit[]
+     */
+    public function getEndedYesterday()
+    {
+        $end = new \DateTime("yesterday");
+        $end->setTime(23, 59, 59);
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $qb->select('c, user, circuits')
+            ->from('PullUpDomainEntity:Circuit', 'c')
+            ->leftJoin('c.user', 'user')
+            ->leftJoin('user.circuits', 'circuits')
+            ->where('(c.endAt = :end OR c.endAt < :end) AND c.finished = false')
+            ->setParameter('end', $end)
+            ->getQuery();
+
+        return $query
+            ->getResult();
+    }
+
+    /**
      * @param Circuit $entity
      */
     public function add(Circuit $entity)

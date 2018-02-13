@@ -24,6 +24,11 @@ interface CircuitRepositoryInterface
     public function getAllFuture(User $user, $exceptIds = []);
     public function getCollisions(Circuit $circuit);
 
+    /**
+     * @return Circuit[]
+     */
+    public function getEndedYesterday();
+
     public function add(Circuit $entity);
     public function remove(Circuit $entity);
 

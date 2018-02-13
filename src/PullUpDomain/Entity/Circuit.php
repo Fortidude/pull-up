@@ -15,6 +15,8 @@ class Circuit
     protected $finished = false;
     protected $sets;
 
+    public $justCreated = false;
+
     public function __construct()
     {
         /**
@@ -32,6 +34,7 @@ class Circuit
     {
         $entity = new self();
         $entity->id = Uuid::uuid4();
+        $entity->justCreated = true;
         $entity->user = $user;
         $entity->days = $user->getDaysPerCircuit();
 
