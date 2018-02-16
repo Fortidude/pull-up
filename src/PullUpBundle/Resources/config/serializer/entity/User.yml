@@ -33,14 +33,14 @@ PullUpDomain\Entity\User:
             groups: [logger, user_item, user_list]
             expose: true
         facebookId:
-           groups: [logger, user_item, user_list]
-           expose: true
+            groups: [logger, user_item, user_list]
+            expose: true
         daysPerCircuit:
-           groups: [logger, user_item, user_list]
-           expose: true
+            groups: [logger, user_item, user_list]
+            expose: true
         plannerCustomMode:
-           groups: [logger, user_item, user_list]
-           expose: true
+            groups: [logger, user_item, user_list]
+            expose: true
 
     virtual_properties:
         getId:
@@ -64,5 +64,11 @@ PullUpDomain\Entity\User:
         isTrainingPullUpFirstFormFilled:
             serialized_name: first_form_finished
             type: boolean
+            groups: [logger, user_item, user_list]
+            expose: true
+
+        getCurrentTrainingCircuitLeft:
+            serialized_name: days_left_circuit
+            type: integer
             groups: [logger, user_item, user_list]
             expose: true

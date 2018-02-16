@@ -208,6 +208,17 @@ class User extends BaseUser
         return $circuit;
     }
 
+    /**
+     * @return integer
+     */
+    public function getCurrentTrainingCircuitLeft()
+    {
+        $endAt = $this->getCurrentTrainingCircuit()->getEndAt();
+        $now = new \DateTime();
+
+        return $endAt->diff($now)->days;
+    }
+
     public function getTrainingCircuitByDate(\DateTime $dateTime)
     {
         if ($dateTime < $this->createdAt) {
