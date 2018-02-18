@@ -68,7 +68,7 @@ class GoalController
      *  description="Goal planner list by user"
      * )
      *
-     * @Rest\View(serializerGroups={"goal_list", "exercise_item", "exercise_variant_item"})
+     * @Rest\View(serializerGroups={"goal_list", "exercise_item", "exercise_variant_item", "goal_set_list"})
      * @return array
      */
     public function plannerListAction()

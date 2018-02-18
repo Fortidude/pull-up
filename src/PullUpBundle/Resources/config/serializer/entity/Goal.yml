@@ -54,6 +54,12 @@ PullUpDomain\Entity\Goal:
             groups: [logger, goal_item, goal_list]
             expose: true
 
+        getSets:
+            serialized_name: sets
+            type: array
+            groups: [logger, goal_item, goal_list]
+            expose: true
+
         getRequiredAmount:
             serialized_name: required_amount
             type: string
