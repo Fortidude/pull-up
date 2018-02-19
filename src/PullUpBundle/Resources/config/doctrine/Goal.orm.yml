@@ -110,3 +110,5 @@ PullUpDomain\Entity\Goal:
             targetEntity: PullUpDomain\Entity\GoalSet
             mappedBy: goal
             cascade: [persist]
+            orderBy:
+                createdAt: ASC
