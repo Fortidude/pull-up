@@ -74,15 +74,20 @@ class GoalSet
             return $this->reps;
         }
 
-        if ($this->weight) {
-            return $this->weight;
-        }
-
         if ($this->time) {
             return $this->time;
         }
 
         return 1;
+    }
+
+    public function getWeight()
+    {
+        if ($this->weight) {
+            return $this->weight;
+        }
+
+        return 0;
     }
 
     public function getUser()

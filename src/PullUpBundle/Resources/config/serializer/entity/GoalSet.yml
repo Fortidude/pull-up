@@ -21,3 +21,9 @@ PullUpDomain\Entity\GoalSet:
             type: integer
             groups: [logger, goal_set_item, goal_set_list]
             expose: true
+
+        getWeight:
+            serialized_name: weight
+            type: integer
+            groups: [logger, goal_set_item, goal_set_list]
+            expose: true
