@@ -111,4 +111,4 @@ PullUpDomain\Entity\Goal:
             mappedBy: goal
             cascade: [persist]
             orderBy:
-                createdAt: ASC
+                createdAt: DESC
