@@ -97,13 +97,15 @@ class CreateGoalHandler
         );
 
 
-        $section = $this->sectionRepository->getByUserAndName($this->user, $command->section);
-        if (!$section) {
-            $section = Section::create($command->section, '', $this->user);
-            $this->sectionRepository->add($section);
-        }
+        if ($command->section) {
+            $section = $this->sectionRepository->getByUserAndName($this->user, $command->section);
+            if (!$section) {
+                $section = Section::create($command->section, '', $this->user);
+                $this->sectionRepository->add($section);
+            }
+            $entity->moveToSection($section);
 
-        $entity->moveToSection($section);
+        }
 
         $this->goalRepository->add($entity);
     }
