@@ -25,6 +25,10 @@ PullUpDomain\Entity\Goal:
             groups: [logger, goal_item, goal_list]
             expose: true
 
+        removed:
+            groups: [logger, goal_item, goal_list]
+            expose: true
+
         exercise:
             groups: [exercise_item]
             expose: true
