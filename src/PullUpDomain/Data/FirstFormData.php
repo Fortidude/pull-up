@@ -9,14 +9,14 @@ class FirstFormData
         return [
             [
                 'key' => 0,
-                'type' => 'input',
+                'type' => 'number',
                 'ref' => 'age',
                 'label' => 'Wiek',
                 'value' => '',
             ],
             [
                 'key' => 1,
-                'type' => 'input',
+                'type' => 'number',
                 'ref' => 'weight',
                 'label' => 'Waga (kg)',
                 'value' => ''

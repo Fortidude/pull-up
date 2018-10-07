@@ -35,11 +35,24 @@ interface TrainingPullUpRepositoryInterface
 
     /**
      * @param User $user
+     * @return integer
+     */
+    public function getLastFinishedRouteNumber(User $user);
+
+    /**
+     * @param User $user
      * @return TrainingPullUp
      */
     public function getLastDone(User $user);
+    /**
+     * @param User $user
+     * @param int $route
+     * @return TrainingPullUp
+     */
+    public function getFirstByRoute(User $user, $route);
 
     public function add(TrainingPullUp $entity);
-
     public function remove(TrainingPullUp $entity);
+
+    public function flush();
 }

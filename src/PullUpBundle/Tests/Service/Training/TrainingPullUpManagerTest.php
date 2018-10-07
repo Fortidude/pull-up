@@ -56,7 +56,7 @@ class TrainingPullUpManagerTest extends TestCase
         $this->assertNotEquals($trainingService->getFirst(), $current);
     }
 
-    public function testGetGetCurrentWhenItsLastOne()
+    public function testGetCurrentWhenItsLastOne()
     {
         $trainingService = new TrainingPullUpData();
         $user = User::createUserByFacebook('test@email.com', 'tester', 1234);
@@ -78,13 +78,17 @@ class TrainingPullUpManagerTest extends TestCase
         $trainingManager->setIntervalBetweenTraining(false);
 
         $current = $trainingManager->getCurrent($user);
+        $expected = $trainingService->getThird($tcEntityOne->getReps());
 
-        $this->assertEquals($trainingService->getThird($tcEntityOne->getReps()), $current);
+        $this->assertEquals($expected['texts'], $current['texts']);
+        $this->assertEquals($expected['series'], $current['series']);
+        $this->assertEquals($expected['form'], $current['form']);
+        $this->assertEquals('five', $current['type']);
         $this->assertNotEquals($trainingService->getFirst(), $current);
     }
 
 
-    public function testGetGetCurrentWhenIntervalIsUsed()
+    public function testGetCurrentWhenIntervalIsUsed()
     {
         $interval = new \DateInterval("PT50H");
 

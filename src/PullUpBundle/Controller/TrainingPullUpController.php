@@ -2,17 +2,19 @@
 
 namespace PullUpBundle\Controller;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use FOS\RestBundle\Controller\Annotations as Rest;
 
 use PullUpBundle\CommandBus\SimpleBus;
 use PullUpBundle\Service\Training\TrainingPullUpManager;
+use PullUpBundle\Service\Training\TrainingPullUpHistory;
 
 use PullUpDomain\Entity\User;
 use PullUpDomain\Data\FirstFormData;
 
 use PullUpService\Command\SubmitTrainingPullUpCommand;
-use PullUpService\Command\CreateFirstFormCommand;
+use PullUpService\Command\CreateTrainingPullUpFirstFormCommand;
 
 
 class TrainingPullUpController
@@ -23,19 +25,24 @@ class TrainingPullUpController
     /** @var TrainingPullUpManager */
     protected $trainingPullUpManager;
 
+    /** @var TrainingPullUpHistory */
+    protected $trainingPullUpHistory;
+
     /** @var SimpleBus */
     protected $commandBus;
 
     /**
-     * TrainingController constructor.
-     * @param User $user
+     * TrainingPullUpController constructor.
+     * @param UserInterface $user
      * @param TrainingPullUpManager $trainingPullUpManager
+     * @param TrainingPullUpHistory $trainingPullUpHistory
      * @param SimpleBus $commandBus
      */
-    public function __construct(User $user, TrainingPullUpManager $trainingPullUpManager, SimpleBus $commandBus)
+    public function __construct(UserInterface $user, TrainingPullUpManager $trainingPullUpManager, TrainingPullUpHistory $trainingPullUpHistory, SimpleBus $commandBus)
     {
         $this->user = $user;
         $this->trainingPullUpManager = $trainingPullUpManager;
+        $this->trainingPullUpHistory = $trainingPullUpHistory;
         $this->commandBus = $commandBus;
     }
 
@@ -50,11 +57,11 @@ class TrainingPullUpController
     /**
      * @ParamConverter("command", converter="validation_converter")
      *
-     * @param CreateFirstFormCommand $command
+     * @param CreateTrainingPullUpFirstFormCommand $command
      * @throws \Exception
      * @return array
      */
-    public function postFirstFormAction(CreateFirstFormCommand $command)
+    public function postFirstFormAction(CreateTrainingPullUpFirstFormCommand $command)
     {
         $this->commandBus->handle($command);
         return ['status' => true];
@@ -79,5 +86,15 @@ class TrainingPullUpController
     {
         $this->commandBus->handle($command);
         return ['status' => true];
+    }
+
+    /**
+     * @Rest\View(serializerGroups={"user_item", "profile", "pullup_list"})
+     *
+     * @return array
+     */
+    public function getHistoryAction()
+    {
+        return $this->trainingPullUpHistory->getHistory($this->user);
     }
 }

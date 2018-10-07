@@ -7,14 +7,22 @@ services:
         tags:
             - { name: command_handler, handles: PullUpService\Command\LoginByFacebookCommand }
 
-    pullup.create_first_form.handler:
-        class: PullUpService\Handler\CreateFirstFormHandler
+    pullup.register.handler:
+        class: PullUpService\Handler\RegisterHandler
         arguments:
-          - '@pullup.first_form.repository'
+            - "@pullup.profile_manager"
+            - "@pullup.profile_authentication_manager"
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\RegisterCommand }
+
+    pullup.create_first_form.handler:
+        class: PullUpService\Handler\CreateTrainingPullUpFirstFormHandler
+        arguments:
+          - '@pullup.training_pull_up_first_form.repository'
           - '@pullup.current_user'
           - '%kernel.logs_dir%'
         tags:
-            - { name: command_handler, handles: PullUpService\Command\CreateFirstFormCommand }
+            - { name: command_handler, handles: PullUpService\Command\CreateTrainingPullUpFirstFormCommand }
 
     pullup.submit_training_pull_up.handler:
         class: PullUpService\Handler\SubmitTrainingPullUpHandler
@@ -24,3 +32,83 @@ services:
           - '%kernel.logs_dir%'
         tags:
             - { name: command_handler, handles: PullUpService\Command\SubmitTrainingPullUpCommand }
+
+    pullup.create_goal.handler:
+        class: PullUpService\Handler\CreateGoalHandler
+        arguments:
+          - '@pullup.goal.repository'
+          - '@pullup.exercise.repository'
+          - '@pullup.section.repository'
+          - '@pullup.current_user'
+          - '%kernel.logs_dir%'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\CreateGoalCommand }
+
+    pullup.create_exercise.handler:
+        class: PullUpService\Handler\CreateExerciseHandler
+        arguments:
+          - '@pullup.exercise.repository'
+          - '@pullup.current_user'
+          - '%kernel.logs_dir%'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\CreateExerciseCommand }
+
+    pullup.update_goal.handler:
+        class: PullUpService\Handler\UpdateGoalHandler
+        arguments:
+          - '@pullup.goal.repository'
+          - '@pullup.current_user'
+          - '%kernel.logs_dir%'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\UpdateGoalCommand }
+
+    pullup.disable_goal.handler:
+        class: PullUpService\Handler\DisableGoalHandler
+        arguments:
+          - '@pullup.goal.repository'
+          - '@pullup.current_user'
+          - '%kernel.logs_dir%'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\DisableGoalCommand }
+
+    pullup.create_goal_set.handler:
+        class: PullUpService\Handler\CreateGoalSetHandler
+        arguments:
+          - '@pullup.goal.repository'
+          - '@pullup.goal_set.repository'
+          - '@pullup.current_user'
+          - "@event_bus"
+          - '%kernel.logs_dir%'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\CreateGoalSetCommand }
+
+    pullup.update_settings.handler:
+        class: PullUpService\Handler\UpdateSettingsHandler
+        arguments:
+          - '@pullup.user.repository'
+          - '@pullup.current_user'
+          - "@event_bus"
+          - '%kernel.logs_dir%'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\UpdateSettingsCommand }
+
+    pullup.create_section.handler:
+        class: PullUpService\Handler\CreateSectionHandler
+        arguments:
+          - '@pullup.section.repository'
+          - '@pullup.current_user'
+          - "@event_bus"
+          - '%kernel.logs_dir%'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\CreateSectionCommand }
+
+    pullup.move_goal_to_section.handler:
+        class: PullUpService\Handler\MoveGoalToSectionHandler
+        arguments:
+          - '@pullup.section.repository'
+          - '@pullup.goal.repository'
+          - '@pullup.current_user'
+          - "@event_bus"
+          - '%kernel.logs_dir%'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\MoveGoalToSectionCommand }

@@ -18,6 +18,15 @@ interface UserRepositoryInterface
      */
     public function findOneBy(array $params);
 
+    /**
+     * @param array $names
+     * @param array $excluded
+     * @return bool
+     */
+    public function checkIfExist(array $names, array $excluded = []): bool;
+
     public function add(User $user);
     public function remove(User $user);
+
+    public function flush();
 }

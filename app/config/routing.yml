@@ -6,9 +6,17 @@ api_login_check:
     defaults:
         domain: '%domain%'
 
-
 pullup_api:
     resource: "@PullUpBundle/Resources/config/routing.yml"
+    host: "{domain}"
+    requirements:
+        domain: "%domain%"
+    defaults:
+        domain: '%domain%'
+
+umowieni_api_doc:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /doc
     host: "{domain}"
     requirements:
         domain: "%domain%"

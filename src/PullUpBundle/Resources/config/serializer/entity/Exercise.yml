@@ -1,0 +1,25 @@
+PullUpDomain\Entity\Exercise:
+    exclusion_policy: ALL
+    properties:
+        name:
+            groups: [logger, exercise_item, exercise_list]
+            expose: true
+
+        description:
+            groups: [logger, exercise_item, exercise_list]
+            expose: true
+
+        isCardio:
+            groups: [logger, exercise_item, exercise_list]
+            expose: true
+
+        exerciseVariants:
+            groups: [exercise_variant_list]
+            expose: true
+
+    virtual_properties:
+        getId:
+            serialized_name: id
+            type: string
+            groups: [logger, exercise_item, exercise_list]
+            expose: true

@@ -1,27 +1,87 @@
 services:
-      pullup.user.repository.doctrine:
-          class: PullUpBundle\Repository\UserRepository
-          arguments:
-              - "@doctrine.orm.entity_manager"
-          public: false
+    pullup.user.repository.doctrine:
+        class: PullUpBundle\Repository\UserRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: false
 
-      pullup.user.repository:
-        alias: pullup.user.repository.doctrine
+    pullup.user.repository:
+      alias: pullup.user.repository.doctrine
 
-      pullup.first_form.repository.doctrine:
-          class: PullUpBundle\Repository\FirstFormRepository
-          arguments:
-              - "@doctrine.orm.entity_manager"
-          public: false
+    ######
 
-      pullup.first_form.repository:
-        alias: pullup.first_form.repository.doctrine
+    pullup.training_pull_up_first_form.repository.doctrine:
+        class: PullUpBundle\Repository\TrainingPullUpFirstFormRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: false
 
-      pullup.training_pull_up.repository.doctrine:
-          class: PullUpBundle\Repository\TrainingPullUpRepository
-          arguments:
-              - "@doctrine.orm.entity_manager"
-          public: false
+    pullup.training_pull_up_first_form.repository:
+      alias: pullup.training_pull_up_first_form.repository.doctrine
 
-      pullup.training_pull_up.repository:
-        alias: pullup.training_pull_up.repository.doctrine
+    ######
+
+    pullup.training_pull_up.repository.doctrine:
+        class: PullUpBundle\Repository\TrainingPullUpRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: false
+
+    pullup.training_pull_up.repository:
+      alias: pullup.training_pull_up.repository.doctrine
+
+    ######
+
+    pullup.exercise.repository.doctrine:
+        class: PullUpBundle\Repository\ExerciseRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: false
+
+    pullup.exercise.repository:
+      alias: pullup.exercise.repository.doctrine
+
+    ######
+
+    pullup.goal.repository.doctrine:
+        class: PullUpBundle\Repository\GoalRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@pullup.statistics.by_user_and_goals"
+        public: false
+
+    pullup.goal.repository:
+      alias: pullup.goal.repository.doctrine
+
+    ######
+
+    pullup.goal_set.repository.doctrine:
+        class: PullUpBundle\Repository\GoalSetRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: false
+
+    pullup.goal_set.repository:
+      alias: pullup.goal_set.repository.doctrine
+
+    ######
+
+    pullup.circuit.repository.doctrine:
+        class: PullUpBundle\Repository\CircuitRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: false
+
+    pullup.circuit.repository:
+      alias: pullup.circuit.repository.doctrine
+
+    ######
+
+    pullup.section.repository.doctrine:
+        class: PullUpBundle\Repository\SectionRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: false
+
+    pullup.section.repository:
+      alias: pullup.section.repository.doctrine

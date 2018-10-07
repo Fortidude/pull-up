@@ -2,10 +2,10 @@
 
 namespace PullUpDomain\Repository;
 
-use PullUpDomain\Entity\FirstForm;
+use PullUpDomain\Entity\TrainingPullUpFirstForm as FirstForm;
 use PullUpDomain\Entity\User;
 
-interface FirstFormRepositoryInterface
+interface TrainingPullUpFirstFormRepositoryInterface
 {
     /**
      * @param User $user
@@ -15,4 +15,6 @@ interface FirstFormRepositoryInterface
 
     public function add(FirstForm $entity);
     public function remove(FirstForm $entity);
+
+    public function flush();
 }

@@ -1,22 +1,24 @@
 imports:
     - { resource: config.yml }
 
-#doctrine:
-#    orm:
-#        metadata_cache_driver: apc
-#        result_cache_driver: apc
-#        query_cache_driver: apc
-
 monolog:
+    channels: ['command_process_circuits']
     handlers:
         main:
             type: fingers_crossed
             action_level: error
             handler: nested
+            channels: ['!command_process_circuits']
+        command_process_circuits:
+            level:    debug
+            type:     stream
+            path:     '%kernel.logs_dir%/command_process_circuits.log'
+            channels: ['command_process_circuits']
         nested:
             type: stream
             path: '%kernel.logs_dir%/%kernel.environment%.log'
             level: debug
+            channels: ['!command_process_circuits']
         console:
             type: console
             process_psr_3_messages: false

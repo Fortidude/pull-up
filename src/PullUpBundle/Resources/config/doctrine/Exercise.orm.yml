@@ -1,0 +1,58 @@
+PullUpDomain\Entity\Exercise:
+    type: entity
+    table: exercise
+    repositoryClass: PullUpBundle\Repository\ExerciseRepository
+    id:
+        id:
+            type: uuid
+            generator:
+                strategy: CUSTOM
+            customIdGenerator:
+                class: Ramsey\Uuid\Doctrine\UuidGenerator
+
+    fields:
+        name:
+            column: name
+            type: string
+            length: 255
+            unique: true
+
+        description:
+            column: description
+            type: text
+
+        isCardio:
+            column: is_cardio
+            type: boolean
+            options:
+                default: false
+
+        createdAt:
+            column: created_at
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+
+        updatedAt:
+            column: updated_at
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+
+    manyToOne:
+        createdBy:
+            targetEntity: PullUpDomain\Entity\User
+            joinColumn:
+                name: created_by
+                referencedColumnName: id
+            gedmo:
+                blameable:
+                    on: create
+
+    oneToMany:
+        exerciseVariants:
+            targetEntity: PullUpDomain\Entity\ExerciseVariant
+            mappedBy: exercise
+            cascade: [persist]

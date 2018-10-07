@@ -1,3 +1,8 @@
+pullup_index:
+    path:     /
+    defaults: { _controller: pullup.index.controller:indexAction, _format: 'json' }
+    methods: [GET]
+
 pullup_api_get_token:
     path:     /getToken
     defaults: { _controller: pullup.token.controller:getTokenAction }
@@ -14,4 +19,20 @@ pullup_api_training:
 pullup_api_profile:
     resource: "@PullUpBundle/Resources/config/routing/profile.yml"
     prefix:   /secured/profile
+
+pullup_api_exercise:
+    resource: "@PullUpBundle/Resources/config/routing/exercise.yml"
+    prefix:   /secured/exercise
+
+pullup_api_goal:
+    resource: "@PullUpBundle/Resources/config/routing/goal.yml"
+    prefix:   /secured/goal
+
+pullup_api_section:
+    resource: "@PullUpBundle/Resources/config/routing/section.yml"
+    prefix:   /secured/section
+
+pullup_api_settings:
+    resource: "@PullUpBundle/Resources/config/routing/settings.yml"
+    prefix:   /secured/settings
 

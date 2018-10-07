@@ -52,4 +52,23 @@ class UserController
 
         return ['status' => true];
     }
+
+    /**
+     * @ParamConverter("command", converter="validation_converter")
+     * @Rest\View(serializerGroups={})
+     *
+     * @param Command\RegisterCommand $command
+     * @return array
+     */
+    public function registerAction(Command\RegisterCommand $command)
+    {
+        $this->commandBus->handle($command);
+
+        return ['status' => true];
+    }
+
+    public function checkTokenAction()
+    {
+        return [];
+    }
 }

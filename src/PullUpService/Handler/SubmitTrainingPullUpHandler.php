@@ -32,14 +32,23 @@ class SubmitTrainingPullUpHandler
             file_put_contents($this->cachePath . '/training.json', json_encode($data));
         }
 
-        if (!$this->user->isFirstFormFilled()) {
-            throw new \Exception();
+        if (!$this->user->isTrainingPullUpFirstFormFilled()) {
+            throw new \Exception('DOMAIN.FIRST_FORM_NOT_FILLED');
         }
 
         $this->validate($data);
 
-        $maxRepsThisRoute = 10;
-        $route = 1;
+        $route = $this->calendarRepository->getLastFinishedRouteNumber($this->user) + 1;
+        if ($data['type'] === 'one' && isset($data['set_1'])) {
+            $maxRepsThisRoute = $data['set_1'];
+        } else {
+            $firstDone = $this->calendarRepository->getFirstByRoute($this->user, $route);
+            if (!$firstDone) {
+                throw new \Exception("DOMAIN.THIS_ROUTE_FIRST_TRAINING_MISSING");
+            }
+
+            $maxRepsThisRoute = $firstDone->getReps();
+        }
 
         $alreadyDone = $this->calendarRepository->isAlreadyDone($this->user, $route, $data['type']);
 

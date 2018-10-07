@@ -71,6 +71,16 @@ class TrainingPullUp
         return $this->level;
     }
 
+    public function getAdditionalInformation()
+    {
+        return json_encode(unserialize($this->additionalInformation));
+    }
+
+    public function getCreatedAtFormatted()
+    {
+        return $this->createdAt->format('Y-m-d H:i');
+    }
+
     /**
      * @param \DateInterval $interval
      * @return bool

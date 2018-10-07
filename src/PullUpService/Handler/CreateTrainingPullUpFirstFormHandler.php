@@ -2,12 +2,12 @@
 
 namespace PullUpService\Handler;
 
-use PullUpDomain\Entity\FirstForm;
+use PullUpDomain\Entity\TrainingPullUpFirstForm as FirstForm;
 use PullUpDomain\Entity\User;
-use PullUpDomain\Repository\FirstFormRepositoryInterface;
-use PullUpService\Command\CreateFirstFormCommand;
+use PullUpDomain\Repository\TrainingPullUpFirstFormRepositoryInterface as FirstFormRepositoryInterface;
+use PullUpService\Command\CreateTrainingPullUpFirstFormCommand as CreateFirstFormCommand;
 
-class CreateFirstFormHandler
+class CreateTrainingPullUpFirstFormHandler
 {
     /** @var FirstFormRepositoryInterface */
     protected $firstFormRepository;
@@ -32,10 +32,10 @@ class CreateFirstFormHandler
             //file_put_contents($this->cachePath . '/first_form.json', json_encode($data));
         }
 
-        if ($this->user->isFirstFormFilled()) {
+        if ($this->user->isTrainingPullUpFirstFormFilled()) {
             throw new \Exception("PULL_UP_ALREADY_FILLED");
         }
 
-        $this->user->fillFirstForm($data);
+        $this->user->fillTrainingPullUpFirstForm($data);
     }
 }

@@ -51,8 +51,12 @@ abstract class AbstractRepository
             $em->clear();
             gc_collect_cycles();
         } catch (UniqueConstraintViolationException $e) {
-
+            throw $e;
         }
+    }
+
+    public function flush() {
+        $this->getEntityManager()->flush();
     }
 
     protected function removeEntity($entity)

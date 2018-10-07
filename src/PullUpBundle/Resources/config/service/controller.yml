@@ -2,6 +2,9 @@ services:
     pullup.token.controller:
         class: PullUpBundle\Controller\TokenController
 
+    pullup.index.controller:
+        class: PullUpBundle\Controller\IndexController
+
     pullup.user.controller:
         class: PullUpBundle\Controller\UserController
         arguments:
@@ -20,4 +23,34 @@ services:
         arguments:
             - "@pullup.current_user"
             - "@pullup.training_pull_up.service"
+            - "@pullup.training_pull_up.service_history"
+            - "@pullup.command_bus"
+
+    pullup.exercise.controller:
+        class: PullUpBundle\Controller\ExerciseController
+        arguments:
+            - "@pullup.exercise.repository.doctrine"
+            - "@pullup.current_user"
+            - "@pullup.command_bus"
+
+    pullup.goal.controller:
+        class: PullUpBundle\Controller\GoalController
+        arguments:
+            - "@pullup.goal.repository.doctrine"
+            - "@pullup.goal_set.repository.doctrine"
+            - "@pullup.current_user"
+            - "@pullup.command_bus"
+
+    pullup.section.controller:
+        class: PullUpBundle\Controller\SectionController
+        arguments:
+            - "@pullup.section.repository"
+            - "@pullup.current_user"
+            - "@pullup.command_bus"
+
+    pullup.settings.controller:
+        class: PullUpBundle\Controller\SettingsController
+        arguments:
+            - "@pullup.profile_manager"
+            - "@pullup.current_user"
             - "@pullup.command_bus"

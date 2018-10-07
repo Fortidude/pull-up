@@ -1,1 +1,30 @@
 services:
+    goal_set_created_subscriber:
+        class: PullUpService\Subscriber\GoalSetCreatedSubscriber
+        arguments:
+            - "@pullup.goal_set.repository"
+            - "@pullup.circuit.repository"
+            - "@pullup.user.repository"
+            - '%kernel.logs_dir%'
+        tags:
+            - { name: event_subscriber, subscribes_to: PullUpService\Event\GoalSetCreatedEvent }
+
+    goal_set_pre_create_subscriber:
+        class: PullUpService\Subscriber\GoalSetPreCreateSubscriber
+        arguments:
+            - "@pullup.goal_set.repository"
+            - "@pullup.circuit.repository"
+            - "@pullup.user.repository"
+            - '%kernel.logs_dir%'
+        tags:
+            - { name: event_subscriber, subscribes_to: PullUpService\Event\GoalSetPreCreateEvent }
+
+    user_duration_per_circuit_changed_subscriber:
+        class: PullUpService\Subscriber\UserDurationPerCircuitChangedSubscriber
+        arguments:
+            - "@pullup.goal_set.repository"
+            - "@pullup.circuit.repository"
+            - "@pullup.user.repository"
+            - '%kernel.logs_dir%'
+        tags:
+            - { name: event_subscriber, subscribes_to: PullUpService\Event\UserDurationPerCircuitChangedEvent }

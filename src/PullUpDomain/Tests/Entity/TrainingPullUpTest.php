@@ -20,6 +20,8 @@ class TrainingPullUpTest extends TestCase
 
         $entity = TrainingPullUp::create($user, 1, 'three', 2, 10);
 
+        $this->assertFalse($entity->isNextAvailable($interval));
+
         sleep(1);
 
         $this->assertTrue($entity->isNextAvailable($interval));

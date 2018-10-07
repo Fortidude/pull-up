@@ -1,0 +1,114 @@
+PullUpDomain\Entity\Goal:
+    type: entity
+    table: goal
+    repositoryClass: PullUpBundle\Repository\GoalRepository
+    id:
+        id:
+            type: uuid
+            generator:
+                strategy: CUSTOM
+            customIdGenerator:
+                class: Ramsey\Uuid\Doctrine\UuidGenerator
+
+    fields:
+        name:
+            column: name
+            type: string
+            length: 255
+            unique: false
+
+        description:
+            column: description
+            type: text
+
+        requiredSets:
+            column: required_sets
+            type: integer
+            length: 10
+            nullable: true
+
+        requiredReps:
+            column: required_reps
+            type: integer
+            length: 10
+            nullable: true
+
+        requiredWeight:
+            column: required_weight
+            type: integer
+            length: 10
+            nullable: true
+
+        requiredTime:
+            column: required_time
+            type: integer
+            length: 10
+            nullable: true
+
+        noSpecifiedGoal:
+            column: no_specified_goal
+            type: boolean
+            options:
+                default: false
+
+        removed:
+            column: removed
+            type: boolean
+            options:
+                default: false
+
+        lastSetAdded:
+            column: last_set_added
+            type: datetime
+            nullable: true
+
+        createdAt:
+            column: created_at
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+
+        updatedAt:
+            column: updated_at
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+
+    manyToOne:
+        exercise:
+            targetEntity: PullUpDomain\Entity\Exercise
+            joinColumn:
+                name: exercise_id
+                referencedColumnName: id
+            cascade: [persist]
+            
+        exerciseVariant:
+            targetEntity: PullUpDomain\Entity\ExerciseVariant
+            joinColumn:
+                name: exercise_variant_id
+                referencedColumnName: id
+            cascade: [persist]
+
+        section:
+            targetEntity: PullUpDomain\Entity\Section
+            inversedBy: goals
+            joinColumn:
+                name: section_id
+                referencedColumnName: id
+            cascade: [persist]
+
+        user:
+            targetEntity: PullUpDomain\Entity\User
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+
+    oneToMany:
+        sets:
+            targetEntity: PullUpDomain\Entity\GoalSet
+            mappedBy: goal
+            cascade: [persist]
+            orderBy:
+                createdAt: DESC

@@ -4,10 +4,16 @@ namespace PullUpService\Command;
 
 use JMS\Serializer\Annotation\Type;
 
-class CreateFirstFormCommand
+class CreateSectionCommand
 {
     /**
      * @Type("string")
      */
-    public $data;
+    public $name;
+
+    /**
+     * @Type("string")
+     */
+    public $description;
+
 }

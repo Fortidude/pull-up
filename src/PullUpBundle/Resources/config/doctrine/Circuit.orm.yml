@@ -1,0 +1,43 @@
+PullUpDomain\Entity\Circuit:
+    type: entity
+    table: circuit
+    repositoryClass: PullUpBundle\Repository\CircuitRepository
+    id:
+        id:
+            type: uuid
+            generator:
+                strategy: CUSTOM
+            customIdGenerator:
+                class: Ramsey\Uuid\Doctrine\UuidGenerator
+
+    fields:
+        days:
+            column: days
+            type: integer
+            length: 3
+
+        finished:
+            column: finished
+            type: boolean
+
+        startAt:
+            column: start_at
+            type: datetime
+
+        endAt:
+            column: end_at
+            type: datetime
+
+    manyToOne:
+        user:
+            targetEntity: PullUpDomain\Entity\User
+            inversedBy: circuits
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+
+    oneToMany:
+        sets:
+            targetEntity: PullUpDomain\Entity\GoalSet
+            mappedBy: circuit
+            cascade: [persist]

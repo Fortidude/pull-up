@@ -4,9 +4,9 @@ namespace PullUpDomain\Tests\Entity;
 
 use PHPUnit\Framework\TestCase;
 
-use PullUpDomain\Entity\FirstForm;
+use PullUpDomain\Entity\TrainingPullUpFirstForm as FirstForm;
 
-class FirstFormTest extends TestCase
+class TrainingPullUpFirstFormTest extends TestCase
 {
     public function setUp()
     {

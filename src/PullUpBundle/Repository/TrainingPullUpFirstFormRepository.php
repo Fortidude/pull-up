@@ -5,10 +5,10 @@ namespace PullUpBundle\Repository;
 use Doctrine\ORM\EntityManager;
 
 use PullUpDomain\Entity\User;
-use PullUpDomain\Entity\FirstForm;
-use PullUpDomain\Repository\FirstFormRepositoryInterface;
+use PullUpDomain\Entity\TrainingPullUpFirstForm as FirstForm;
+use PullUpDomain\Repository\TrainingPullUpFirstFormRepositoryInterface;
 
-class FirstFormRepository extends AbstractRepository implements FirstFormRepositoryInterface
+class TrainingPullUpFirstFormRepository extends AbstractRepository implements TrainingPullUpFirstFormRepositoryInterface
 {
     public function __construct(EntityManager $em)
     {
@@ -23,7 +23,7 @@ class FirstFormRepository extends AbstractRepository implements FirstFormReposit
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $query = $qb->select('f')
-            ->from('PullUpDomainEntity:FirstForm', 'f')
+            ->from('PullUpDomainEntity:TrainingPullUpFirstForm', 'f')
             ->where('f.user = :userId')
             ->setParameter('userId', $user->getId())
             ->getQuery();

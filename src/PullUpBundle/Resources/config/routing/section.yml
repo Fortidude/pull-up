@@ -1,0 +1,9 @@
+pullup_api_sections:
+      path:     /list
+      defaults: { _controller: pullup.section.controller:listAction, _format: 'json'  }
+      methods: [GET]
+
+pullup_api_sections_create:
+      path:     /create
+      defaults: { _controller: pullup.section.controller:createAction, _format: 'json'  }
+      methods: [POST]

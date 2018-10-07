@@ -3,3 +3,8 @@ services:
         class: PullUpBundle\Service\Training\TrainingPullUpManager
         arguments:
             - "@pullup.training_pull_up.repository"
+
+    pullup.training_pull_up.service_history:
+        class: PullUpBundle\Service\Training\TrainingPullUpHistory
+        arguments:
+            - "@pullup.training_pull_up.repository"

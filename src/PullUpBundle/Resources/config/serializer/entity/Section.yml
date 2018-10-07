@@ -1,0 +1,31 @@
+PullUpDomain\Entity\Section:
+    exclusion_policy: ALL
+    properties:
+        name:
+            groups: [logger, section_item, section_list]
+            expose: true
+
+        description:
+            groups: [logger, section_item, section_list]
+            expose: true
+
+        createdAt:
+            groups: [logger, section_item, section_list]
+            expose: true
+            
+        updatedAt:
+            groups: [logger, section_item, section_list]
+            expose: true
+
+    virtual_properties:
+        getId:
+            serialized_name: id
+            type: string
+            groups: [logger, section_item, section_list]
+            expose: true
+
+        getGoals:
+            serialized_name: goals
+            type: array
+            groups: [logger, section_item, section_list]
+            expose: true

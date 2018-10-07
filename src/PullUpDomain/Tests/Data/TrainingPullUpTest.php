@@ -18,7 +18,7 @@ class TrainingPullUpTest extends TestCase
 
         $interval = new \DateInterval("P1D");
         $createdAt = new \DateTime('NOW');
-        $createdAt->sub(new \DateInterval("PT23H10M"));
+        $createdAt->sub(new \DateInterval("P1DT50M"));
 
         $currentResponse = $service->getNextIsNotAvailableYetCauseOfInterval($createdAt, $interval);
         $timeLeft = $currentResponse['texts'][1];

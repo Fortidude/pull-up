@@ -76,6 +76,15 @@ class ProfileManager extends BaseUserManager implements UserManagerInterface, Pr
     }
 
     /**
+     * @param array $usernames
+     * @return bool
+     */
+    public function checkIfExist(array $usernames): bool
+    {
+        return $this->getRepository()->checkIfExist($usernames);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function findUsers()

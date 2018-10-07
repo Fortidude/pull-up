@@ -17,3 +17,8 @@ pullup_api_training_pull_up_current_post:
       path:     /current
       defaults: { _controller: pullup.training_pull_up.controller:postCurrentTrainingAction, _format: 'json'  }
       methods: [POST]
+
+pullup_api_training_pull_up_history_get:
+      path:     /history
+      defaults: { _controller: pullup.training_pull_up.controller:getHistoryAction, _format: 'json'  }
+      methods: [GET]
