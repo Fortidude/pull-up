@@ -3,7 +3,6 @@
 namespace PullUpBundle\Repository;
 
 use Doctrine\ORM\EntityManager;
-
 use PullUpDomain\Entity\GoalSet;
 use PullUpDomain\Entity\User;
 use PullUpDomain\Repository\GoalSetRepositoryInterface;
@@ -38,7 +37,7 @@ class GoalSetRepository extends AbstractRepository implements GoalSetRepositoryI
             ->from('PullUpDomainEntity:GoalSet', 'g')
             ->leftJoin('g.goal', 'goal')
             ->leftJoin('goal.exercise', 'exercise')
-           // ->leftJoin('g.circuit', 'circuit')
+        // ->leftJoin('g.circuit', 'circuit')
             ->where('g.user = :user')
             ->setParameter('user', $user)
             ->orderBy('g.createdAt', 'DESC')
@@ -46,6 +45,32 @@ class GoalSetRepository extends AbstractRepository implements GoalSetRepositoryI
             ->getQuery();
 
         return $query->getOneOrNullResult();
+    }
+
+    /**
+     * @param User $user,
+     * @param \DateTime $fromDate
+     * @param \DateTime $toDate
+     * @return GoalSet[]
+     */
+    public function getByUserAndDatePeriod(User $user, \DateTime $fromDate, \DateTime $toDate)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $qb->select('g, goal, exercise, exerciseVariant, circuit')
+            ->from('PullUpDomainEntity:GoalSet', 'g')
+            ->leftJoin('g.goal', 'goal')
+            ->leftJoin('goal.exercise', 'exercise')
+            ->leftJoin('goal.exerciseVariant', 'exerciseVariant')
+            ->leftJoin('g.circuit', 'circuit')
+            ->where('g.user = :user')
+            ->andWhere('g.date BETWEEN :fromDate AND :toDate')
+            ->setParameter('user', $user)
+            ->setParameter('fromDate', $fromDate)
+            ->setParameter('toDate', $toDate)
+            ->orderBy('g.createdAt', 'DESC')
+            ->getQuery();
+
+        return $query->getResult();
     }
 
     /**

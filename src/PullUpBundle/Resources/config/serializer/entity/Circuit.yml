@@ -1,0 +1,29 @@
+PullUpDomain\Entity\Circuit:
+    exclusion_policy: ALL
+    properties:
+        user:
+            groups: [logger, circuit_item, circuit_list]
+            expose: true
+
+        days:
+            groups: [logger, circuit_item, circuit_list]
+            expose: true
+
+        finished:
+            groups: [logger, circuit_item, circuit_list]
+            expose: true
+
+        startAt:
+            groups: [logger, circuit_item, circuit_list]
+            expose: true
+
+        endAt:
+            groups: [logger, circuit_item, circuit_list]
+            expose: true
+
+    virtual_properties:
+        getId:
+            serialized_name: id
+            type: string
+            groups: [logger, circuit_item, circuit_list]
+            expose: true

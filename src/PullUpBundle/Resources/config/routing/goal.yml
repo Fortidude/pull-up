@@ -38,6 +38,11 @@ pullup_api_goal_set_last:
       defaults: { _controller: pullup.goal.controller:getLastSetByUserAction, _format: 'json'  }
       methods: [GET]
 
+pullup_api_goal_set_history:
+      path:     /set/history-period/{fromDate}/{toDate}
+      defaults: { _controller: pullup.goal.controller:getSetsHistoryByDatePeriodAction, _format: 'json'  }
+      methods: [GET]
+
 pullup_api_goal_statistics:
       path:     /statistics
       defaults: { _controller: pullup.goal.controller:getStatisticsAction, _format: 'json'  }

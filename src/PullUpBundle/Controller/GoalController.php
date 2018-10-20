@@ -2,19 +2,15 @@
 
 namespace PullUpBundle\Controller;
 
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use PullUpBundle\CommandBus\SimpleBus;
+use PullUpBundle\Repository\GoalRepository;
+use PullUpDomain\Entity\User;
 use PullUpDomain\Repository\GoalSetRepositoryInterface;
+use PullUpService\Command;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\User\UserInterface;
-
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations as Rest;
-
-use PullUpBundle\Repository\GoalRepository;
-use PullUpBundle\CommandBus\SimpleBus;
-
-use PullUpDomain\Entity\User;
-
-use PullUpService\Command;
 
 class GoalController
 {
@@ -38,10 +34,9 @@ class GoalController
      * @param SimpleBus $commandBus
      */
     public function __construct(GoalRepository $repository,
-                                GoalSetRepositoryInterface $goalSetRepository,
-                                UserInterface $user,
-                                SimpleBus $commandBus)
-    {
+        GoalSetRepositoryInterface $goalSetRepository,
+        UserInterface $user,
+        SimpleBus $commandBus) {
         $this->repository = $repository;
         $this->goalSetRepository = $goalSetRepository;
         $this->user = $user;
@@ -162,7 +157,7 @@ class GoalController
      * @param $command
      * @return array
      */
-    public function moveToSectionAction($goalId, Command\MoveGoalToSectionCommand $command )
+    public function moveToSectionAction($goalId, Command\MoveGoalToSectionCommand $command)
     {
         $command->goalId = $goalId;
 
@@ -173,5 +168,13 @@ class GoalController
     public function getStatisticsAction()
     {
         return $this->repository->getStatistics($this->user);
+    }
+
+    /**
+     * @Rest\View(serializerGroups={"goal_set_item", "goal_set_history", "exercise_item", "exercise_variant_item", "circuit_item"})
+     */
+    public function getSetsHistoryByDatePeriodAction(string $fromDate, string $toDate)
+    {
+        return $this->goalSetRepository->getByUserAndDatePeriod($this->user, new \DateTime($fromDate), new \DateTime($toDate));
     }
 }

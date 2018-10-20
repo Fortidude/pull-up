@@ -9,6 +9,10 @@ PullUpDomain\Entity\GoalSet:
             groups: [logger, goal_set_item]
             expose: true
 
+        circuit:
+            groups: [logger, circuit_item]
+            expose: true
+
     virtual_properties:
         getId:
             serialized_name: id

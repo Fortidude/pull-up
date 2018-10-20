@@ -2,60 +2,56 @@ PullUpDomain\Entity\Goal:
     exclusion_policy: ALL
     properties:
         name:
-            groups: [logger, goal_item, goal_list]
+            groups: [logger, goal_item, goal_list, "goal_set_history"]
             expose: true
 
         description:
-            groups: [logger, goal_item, goal_list]
+            groups: [logger, goal_item, goal_list, "goal_set_history"]
             expose: true
 
         requiredSets:
-            groups: [logger, goal_item, goal_list]
+            groups: [logger, goal_item, goal_list, "goal_set_history"]
             expose: true
 
         requiredReps:
-            groups: [logger, goal_item, goal_list]
+            groups: [logger, goal_item, goal_list, "goal_set_history"]
             expose: true
 
         requiredWeight:
-            groups: [logger, goal_item, goal_list]
-            expose: true
-
-        description:
-            groups: [logger, goal_item, goal_list]
+            groups: [logger, goal_item, goal_list, "goal_set_history"]
             expose: true
 
         removed:
-            groups: [logger, goal_item, goal_list]
+            groups: [logger, goal_item, goal_list, "goal_set_history"]
             expose: true
 
         exercise:
-            groups: [exercise_item]
+            groups: [exercise_item, "goal_set_history"]
             expose: true
 
         exerciseVariant:
-            groups: [exercise_variant_item]
+            groups: [exercise_variant_item, "goal_set_history"]
             expose: true
 
         createdAt:
-            groups: [logger, goal_item, goal_list]
+            groups: [logger, goal_item, goal_list, "goal_set_history"]
             expose: true
 
         updatedAt:
-            groups: [logger, goal_item, goal_list]
+            groups: [logger, goal_item, goal_list, "goal_set_history"]
             expose: true
 
     virtual_properties:
         getId:
             serialized_name: id
             type: string
-            groups: [logger, goal_item, goal_list]
+            groups: [logger, goal_item, goal_list, "goal_set_history"]
             expose: true
 
         getRequiredType:
             serialized_name: required_type
             type: string
-            groups: [logger, goal_item, goal_list]
+            groups: [logger, goal_item, goal_list, "goal_set_history"]
             expose: true
 
         getSets:
@@ -67,23 +63,23 @@ PullUpDomain\Entity\Goal:
         getRequiredAmount:
             serialized_name: required_amount
             type: string
-            groups: [logger, goal_item, goal_list]
+            groups: [logger, goal_item, goal_list, "goal_set_history"]
             expose: true
 
         getLastSetValue:
             serialized_name: last_set_value
             type: string
-            groups: [logger, goal_item, goal_list]
+            groups: [logger, goal_item, goal_list, "goal_set_history"]
             expose: true
 
         doneThisCircuit:
             serialized_name: done_this_circuit
             type: string
-            groups: [logger, goal_item, goal_list]
+            groups: [logger, goal_item, goal_list, "goal_set_history"]
             expose: true
 
         leftThisCircuit:
             serialized_name: left_this_circuit
             type: string
-            groups: [logger, goal_item, goal_list]
+            groups: [logger, goal_item, goal_list, "goal_set_history"]
             expose: true
