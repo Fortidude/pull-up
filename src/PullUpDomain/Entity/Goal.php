@@ -80,14 +80,10 @@ class Goal
         int $requiredTime = null
     )
     {
-        if (!$requiredSets && !$requiredReps && !$requiredWeight && !$requiredTime && $name !== self::NO_GOAL_SPECIFIED_NAME) {
-            throw new \Exception("none type were selected");
-        }
-
         $entity = new self();
 
         $entity->noSpecifiedGoal = false;
-        if ($name === self::NO_GOAL_SPECIFIED_NAME) {
+        if (!$requiredSets && !$requiredReps && !$requiredWeight && !$requiredTime && $name !== self::NO_GOAL_SPECIFIED_NAME) {
             $entity->noSpecifiedGoal = true;
         }
 
