@@ -17,3 +17,18 @@ pullup_api_user_check_token:
       path:     /secured/check_token
       defaults: { _controller: pullup.user.controller:checkTokenAction, _format: 'json'  }
       methods: [GET]
+
+pullup_api_user_password_remind:
+      path:     /password-remind
+      defaults: { _controller: pullup.user.controller:passwordRemindAction, _format: 'json'  }
+      methods: [POST]
+
+pullup_api_user_password_remind_key_validate:
+      path:     /password-remind/{email}/{key}
+      defaults: { _controller: pullup.user.controller:passwordRemindKeyValidateAction, _format: 'json'  }
+      methods: [GET]
+
+pullup_api_user_password_change:
+      path:     /password-change
+      defaults: { _controller: pullup.user.controller:passwordChangeAction, _format: 'json'  }
+      methods: [POST]

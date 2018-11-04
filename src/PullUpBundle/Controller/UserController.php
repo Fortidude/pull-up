@@ -2,14 +2,12 @@
 
 namespace PullUpBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\UserBundle\Model\UserManagerInterface;
-
 use PullUpBundle\CommandBus\SimpleBus;
-
 use PullUpService\Command;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class UserController
 {
@@ -64,6 +62,42 @@ class UserController
     {
         $this->commandBus->handle($command);
 
+        return ['status' => true];
+    }
+
+    /**
+     * @ParamConverter("command", converter="validation_converter")
+     * @Rest\View(serializerGroups={})
+     *
+     * @param Command\PasswordRemindCommand $command
+     * @return array
+     */
+    public function passwordRemindAction(Command\PasswordRemindCommand $command)
+    {
+        $this->commandBus->handle($command);
+        return ['status' => true];
+    }
+
+    public function passwordRemindKeyValidateAction(string $email, string $key)
+    {
+        $command = new Command\PasswordRemindKeyValidateCommand();
+        $command->email = $email;
+        $command->key = $key;
+
+        $this->commandBus->handle($command);
+        return new RedirectResponse("pullup://passwordreset/{$key}");
+    }
+
+    /**
+     * @ParamConverter("command", converter="validation_converter")
+     * @Rest\View(serializerGroups={})
+     *
+     * @param Command\PasswordChangeCommand $command
+     * @return array
+     */
+    public function passwordChangeAction(Command\PasswordChangeCommand $command)
+    {
+        $this->commandBus->handle($command);
         return ['status' => true];
     }
 

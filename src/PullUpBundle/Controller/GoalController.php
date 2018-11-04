@@ -4,11 +4,13 @@ namespace PullUpBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+
 use PullUpBundle\CommandBus\SimpleBus;
 use PullUpBundle\Repository\GoalRepository;
 use PullUpDomain\Entity\User;
 use PullUpDomain\Repository\GoalSetRepositoryInterface;
 use PullUpService\Command;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
