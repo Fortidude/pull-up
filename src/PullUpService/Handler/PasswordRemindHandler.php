@@ -43,7 +43,7 @@ class PasswordRemindHandler
             ->setBody(
                 $this->templating->render(
                     // app/Resources/views/Emails/registration.html.twig
-                    'Emails/password_reminder.html.twig',
+                    'emails/password_reminder.html.twig',
                     [
                         'token' => $token,
                         'email' => $user->getEmail(),
