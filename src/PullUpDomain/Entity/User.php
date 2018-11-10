@@ -221,7 +221,7 @@ class User extends BaseUser
 
     public function getCurrentTrainingCircuitExpiredDate()
     {
-        $endAt = $this->getCurrentTrainingCircuit()->getEndAt();
+        return $this->getCurrentTrainingCircuit()->getEndAt();
     }
 
     public function getTrainingCircuitByDate(\DateTime $dateTime)
