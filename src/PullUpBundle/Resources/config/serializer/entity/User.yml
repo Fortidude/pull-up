@@ -74,7 +74,7 @@ PullUpDomain\Entity\User:
             expose: true
 
         getCurrentTrainingCircuitExpiredDate:
-            serialized_name: days_circuit_expired_date
+            serialized_name: current_circuit_expired_date
             type: integer
             groups: [logger, user_item, user_list]
             expose: true
