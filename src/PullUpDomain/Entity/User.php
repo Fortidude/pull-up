@@ -53,7 +53,7 @@ class User extends BaseUser
      */
     public function getId()
     {
-        return (string)$this->id;
+        return (string) $this->id;
     }
 
     /**
@@ -213,10 +213,15 @@ class User extends BaseUser
      */
     public function getCurrentTrainingCircuitLeft()
     {
-        $endAt = $this->getCurrentTrainingCircuit()->getEndAt();
+        $endAt = $this->getCurrentTrainingCircuitExpiredDate();
         $now = new \DateTime();
 
         return $endAt->diff($now)->days;
+    }
+
+    public function getCurrentTrainingCircuitExpiredDate()
+    {
+        $endAt = $this->getCurrentTrainingCircuit()->getEndAt();
     }
 
     public function getTrainingCircuitByDate(\DateTime $dateTime)
