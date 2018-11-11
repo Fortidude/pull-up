@@ -126,7 +126,10 @@ class Goal
         $set = GoalSet::create($this, $this->user, $date, $reps ?: 0, $weight ?: 0, $time ?: 0);
         $this->sets[] = $set;
 
-        $this->lastSetAdded = new \DateTime("now");
+        if ($this->lastSetAdded < $set->getDate()) {
+            $this->lastSetAdded = $set->getDate();
+        }
+        
         return $set;
     }
 
