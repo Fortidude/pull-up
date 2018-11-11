@@ -41,6 +41,10 @@ PullUpDomain\Entity\Goal:
             groups: [logger, goal_item, goal_list, "goal_set_history"]
             expose: true
 
+        lastSetAdded:
+            groups: [logger, goal_item, goal_list, "goal_set_history"]
+            expose: true
+
     virtual_properties:
         getId:
             serialized_name: id
