@@ -67,6 +67,12 @@ PullUpDomain\Entity\User:
             groups: [logger, user_item, user_list]
             expose: true
 
+        getCurrentTrainingCircuit:
+            serialized_name: current_circuit
+            type: PullUpDomain\Entity\Circuit
+            groups: [logger, user_item, user_list]
+            expose: true
+
         getCurrentTrainingCircuitLeft:
             serialized_name: days_left_circuit
             type: integer

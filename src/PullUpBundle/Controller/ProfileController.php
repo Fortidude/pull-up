@@ -38,7 +38,7 @@ class ProfileController
     }
 
     /**
-     * @Rest\View(serializerGroups={"user_item", "profile"})
+     * @Rest\View(serializerGroups={"user_item", "profile", "circuit_item"})
      * @return User
      */
     public function currentAction()
