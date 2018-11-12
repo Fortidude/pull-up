@@ -53,6 +53,7 @@ class CreateGoalSetHandler
         }
 
         $dateTime = new \DateTime($command->date);
+        throw new \Exception($dateTime->format('tzcorrection'));
 
         $event = new GoalSetPreCreateEvent($this->user->getId(), $dateTime);
         $this->eventBus->handle($event);

@@ -38,6 +38,7 @@ services:
         arguments:
             - "@pullup.goal.repository.doctrine"
             - "@pullup.goal_set.repository.doctrine"
+            - "@pullup.section.repository.doctrine"
             - "@pullup.current_user"
             - "@pullup.command_bus"
 

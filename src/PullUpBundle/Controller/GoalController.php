@@ -7,8 +7,9 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use PullUpBundle\CommandBus\SimpleBus;
 use PullUpBundle\Repository\GoalRepository;
-use PullUpDomain\Entity\User;
+use PullUpBundle\Repository\SectionRepository;
 use PullUpDomain\Repository\GoalSetRepositoryInterface;
+use PullUpDomain\Entity\User;
 use PullUpService\Command;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -22,6 +23,9 @@ class GoalController
     /** @var GoalSetRepositoryInterface */
     protected $goalSetRepository;
 
+    /** @var SectionRepository */
+    protected $sectionRepository;
+
     /** @var User */
     protected $user;
 
@@ -32,15 +36,18 @@ class GoalController
      * GoalController constructor.
      * @param GoalRepository $repository
      * @param GoalSetRepositoryInterface $goalSetRepository
+     * @param SectionRepository $sectionRepository
      * @param UserInterface $user
      * @param SimpleBus $commandBus
      */
     public function __construct(GoalRepository $repository,
         GoalSetRepositoryInterface $goalSetRepository,
+        SectionRepository $sectionRepository,
         UserInterface $user,
         SimpleBus $commandBus) {
         $this->repository = $repository;
         $this->goalSetRepository = $goalSetRepository;
+        $this->sectionRepository = $sectionRepository;
         $this->user = $user;
         $this->commandBus = $commandBus;
     }
@@ -65,13 +72,14 @@ class GoalController
      *  description="Goal planner list by user"
      * )
      *
-     * @Rest\View(serializerGroups={"goal_list", "exercise_item", "exercise_variant_item", "goal_set_list"})
+     * @Rest\View(serializerGroups={"section_list", "goal_list", "exercise_item", "exercise_variant_item", "goal_set_list"})
      * @return array
      */
     public function plannerListAction()
     {
         if ($this->user->isPlannerCustomMode()) {
-            return $this->repository->getPlannerByUser($this->user);
+            return $this->sectionRepository->getByUser($this->user);
+            //return $this->repository->getPlannerByUser($this->user);
         }
 
         return $this->repository->getCalendarPlannerByUser($this->user);
