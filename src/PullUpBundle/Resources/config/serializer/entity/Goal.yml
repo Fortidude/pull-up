@@ -87,3 +87,9 @@ PullUpDomain\Entity\Goal:
             type: string
             groups: [logger, goal_item, goal_list, "goal_set_history"]
             expose: true
+
+        getSectionName:
+            serialized_name: traning_name
+            type: string
+            groups: [logger, goal_item, goal_list, "goal_set_history"]
+            expose: true
