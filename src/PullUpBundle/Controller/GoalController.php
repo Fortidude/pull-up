@@ -78,8 +78,8 @@ class GoalController
     public function plannerListAction()
     {
         if ($this->user->isPlannerCustomMode()) {
-            return $this->sectionRepository->getByUser($this->user);
-            //return $this->repository->getPlannerByUser($this->user);
+            //return $this->sectionRepository->getByUser($this->user);
+            return $this->repository->getPlannerByUser($this->user);
         }
 
         return $this->repository->getCalendarPlannerByUser($this->user);

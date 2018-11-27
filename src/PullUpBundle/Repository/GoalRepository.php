@@ -73,7 +73,9 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
             $other[] = $entity;
         }
 
-        $results['other'] = $other;
+        if ($other) {
+            $results['other'] = $other;
+        }
 
         return $results;
     }
