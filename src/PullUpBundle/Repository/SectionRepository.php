@@ -74,23 +74,15 @@ class SectionRepository extends AbstractRepository implements SectionRepositoryI
      */
     public function getByUser(User $user)
     {
-        $results = [];
-
         /** @var Section[] $entities */
         $entities = $this->getBaseQueryBuilderWithJoins()
             ->where('s.user = :userId')
             ->andWhere('s.removed = false')
             ->setParameter('userId', $user->getId())
-            ->addOrderBy('g.lastSetAdded', 'DESC')
-            ->addOrderBy('g.updatedAt', 'DESC')
             ->getQuery()
             ->getResult();
 
-        foreach ($entities as $entity) {
-            $results[$entity->getName()] = $entity->getGoals();
-        }
-
-        return $results;
+        return $entities;
     }
 
     /**

@@ -23,9 +23,3 @@ PullUpDomain\Entity\Section:
             type: string
             groups: [logger, section_item, section_list]
             expose: true
-
-        getGoals:
-            serialized_name: goals
-            type: array
-            groups: [logger, section_item, section_list]
-            expose: true

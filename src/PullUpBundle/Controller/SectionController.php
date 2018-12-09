@@ -44,7 +44,7 @@ class SectionController
      *  description="Sections of Goals"
      * )
      *
-     * @Rest\View(serializerGroups={"section_list", "goal_list", "exercise_item", "exercise_variant_item"})
+     * @Rest\View(serializerGroups={"section_list"})
      * @return array
      */
     public function listAction()
