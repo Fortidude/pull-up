@@ -9,6 +9,10 @@ PullUpDomain\Entity\GoalSet:
             groups: [logger, goal_set_item, goal_set_list]
             expose: true
 
+        difficultyLevel:
+            groups: [logger, goal_set_item, goal_set_list]
+            expose: true
+
         goal:
             groups: [logger, goal_set_item]
             expose: true
