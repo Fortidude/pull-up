@@ -18,6 +18,8 @@ class GoalSet
     protected $weight;
     protected $time;
 
+    protected $difficultyLevel;
+
     protected $date;
 
     protected $createdAt;
@@ -35,9 +37,10 @@ class GoalSet
      * @param int $reps
      * @param int $weight
      * @param int $time
+     * @param bool $difficultyLevel
      * @return GoalSet
      */
-    public static function create(Goal $goal, User $user, \DateTime $date, int $reps, int $weight, int $time) : GoalSet
+    public static function create(Goal $goal, User $user, \DateTime $date, int $reps, int $weight, int $time, int $difficultyLevel) : GoalSet
     {
         $entity = new self();
         $entity->goal = $goal;
@@ -48,6 +51,8 @@ class GoalSet
         $entity->reps = $reps;
         $entity->weight = $weight;
         $entity->time = $time;
+
+        $entity->difficultyLevel = $difficultyLevel;
 
         $entity->circuit = $user->getTrainingCircuitByDate($entity->date);
 

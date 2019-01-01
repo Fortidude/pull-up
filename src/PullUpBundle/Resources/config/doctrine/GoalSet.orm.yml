@@ -29,6 +29,12 @@ PullUpDomain\Entity\GoalSet:
             length: 10
             nullable: true
 
+        difficultyLevel:
+            column: difficulty_level
+            type: integer
+            length: 1
+            nullable: true
+
         date:
             column: date
             type: datetime

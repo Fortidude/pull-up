@@ -211,6 +211,10 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
 
     public function checkIfDuplicate(User $user, Exercise $exercise, ExerciseVariant $variant = null)
     {
+        if ((!$exercise || !$exercise->getId()) || (!$variant || !$variant->getId())) {
+            return null;
+        }
+
         $qb = $this->getEntityManager()
             ->createQueryBuilder()
             ->select('g, e')

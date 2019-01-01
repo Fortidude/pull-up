@@ -63,7 +63,7 @@ class CreateGoalSetHandler
             throw new \Exception("Unable to find Goal with ID = \"{$command->goal}\"", 404);
         }
 
-        $set = $goal->addSet($dateTime, $command->reps, $command->weight, $command->time);
+        $set = $goal->addSet($dateTime, $command->difficultyLevel, $command->reps, $command->weight, $command->time);
 
         $this->goalSetRepository->add($set);
 

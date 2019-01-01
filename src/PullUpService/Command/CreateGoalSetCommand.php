@@ -30,4 +30,9 @@ class CreateGoalSetCommand
      * @Type("int")
      */
     public $time;
+
+    /**
+     * @Type("int")
+     */
+    public $difficultyLevel;
 }
