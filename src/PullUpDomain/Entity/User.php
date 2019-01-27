@@ -142,6 +142,12 @@ class User extends BaseUser
         $this->amazonArn = $amazonArn;
     }
 
+    public function removeDeviceId()
+    {
+        $this->deviceId = '';
+        $this->amazonArn = null;
+    }
+
     public function isPlannerCustomMode()
     {
         return $this->plannerCustomMode;

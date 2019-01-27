@@ -6,9 +6,13 @@ use Aws\Credentials\Credentials;
 use Aws\Sns\SnsClient;
 use PullUpDomain\Entity\User;
 use PullUpService\Command\UpdateUserDeviceIdCommand;
+use PullUpDomain\Repository\UserRepositoryInterface;
 
 class UpdateUserDeviceIdHandler
 {
+    /** @var UserRepositoryInterface */
+    protected $userRepository;
+
     /** @var User */
     protected $user;
 
@@ -18,8 +22,9 @@ class UpdateUserDeviceIdHandler
     /** @var string */
     protected $awsSecret;
 
-    public function __construct(User $user, string $awsKey, string $awsSecret)
+    public function __construct(UserRepositoryInterface $userRepository, User $user, string $awsKey, string $awsSecret)
     {
+        $this->userRepository = $userRepository;
         $this->user = $user;
         $this->awsKey = $awsKey;
         $this->awsSecret = $awsSecret;
@@ -27,8 +32,13 @@ class UpdateUserDeviceIdHandler
 
     public function handle(UpdateUserDeviceIdCommand $command)
     {
-        if ($command->deviceId === $this->user->getDeviceId()) {
-            return;
+       if ($command->deviceId === $this->user->getDeviceId()) {
+           return;
+       }
+
+        $userAssignedToThisDevice = $this->userRepository->findOneBy(['deviceId' => $command->deviceId]);
+        if ($userAssignedToThisDevice) {
+            $userAssignedToThisDevice->removeDeviceId();
         }
 
         $credentials = new Credentials($this->awsKey, $this->awsSecret);

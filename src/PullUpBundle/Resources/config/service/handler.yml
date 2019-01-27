@@ -141,6 +141,7 @@ services:
     pullup.update_user_device_id.handler:
         class: PullUpService\Handler\UpdateUserDeviceIdHandler
         arguments:
+          - '@pullup.user.repository'
           - '@pullup.current_user'
           - '%aws_key%'
           - '%aws_secret%'
