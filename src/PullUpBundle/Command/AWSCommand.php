@@ -19,7 +19,7 @@ class AWSCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $credentials = new Credentials($this->getContainer()->getParameter('aws_token'), $this->getContainer()->getParameter('aws_secret'));
+        $credentials = new Credentials($this->getContainer()->getParameter('aws_key'), $this->getContainer()->getParameter('aws_secret'));
         $client = new SnsClient([
             'version' => 'latest',
             'region' => 'eu-west-1',

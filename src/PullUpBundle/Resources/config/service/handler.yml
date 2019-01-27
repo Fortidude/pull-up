@@ -142,5 +142,7 @@ services:
         class: PullUpService\Handler\UpdateUserDeviceIdHandler
         arguments:
           - '@pullup.current_user'
+          - '%aws_key%'
+          - '%aws_secret%'
         tags:
             - { name: command_handler, handles: PullUpService\Command\UpdateUserDeviceIdCommand }

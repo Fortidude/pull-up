@@ -122,6 +122,11 @@ class User extends BaseUser
         $this->avatar = $avatar;
     }
 
+    public function getDeviceId()
+    {
+        return $this->deviceId;
+    }
+
     public function changeDeviceId(string $deviceId)
     {
         $this->deviceId = $deviceId;

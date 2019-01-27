@@ -2,25 +2,36 @@
 
 namespace PullUpService\Handler;
 
-use PullUpDomain\Entity\User;
-use PullUpService\Command\UpdateUserDeviceIdCommand;
-
 use Aws\Credentials\Credentials;
 use Aws\Sns\SnsClient;
+use PullUpDomain\Entity\User;
+use PullUpService\Command\UpdateUserDeviceIdCommand;
 
 class UpdateUserDeviceIdHandler
 {
     /** @var User */
     protected $user;
 
-    public function __construct(User $user)
+    /** @var string */
+    protected $awsKey;
+
+    /** @var string */
+    protected $awsSecret;
+
+    public function __construct(User $user, string $awsKey, string $awsSecret)
     {
         $this->user = $user;
+        $this->awsKey = $awsKey;
+        $this->awsSecret = $awsSecret;
     }
 
     public function handle(UpdateUserDeviceIdCommand $command)
     {
-        $credentials = new Credentials('AKIAJ23QMET7332KMEIQ', 'LHN2QNZSn6JxfW757dGhN6sOsO3hc5ABYPXNCEMr');
+        if ($command->deviceId === $this->user->getDeviceId()) {
+            return;
+        }
+
+        $credentials = new Credentials($this->awsKey, $this->awsSecret);
         $client = new SnsClient([
             'version' => 'latest',
             'region' => 'eu-west-1',
@@ -30,7 +41,7 @@ class UpdateUserDeviceIdHandler
         $currentUserArn = $this->user->getAmazonArn();
         if ($currentUserArn) {
             $client->deleteEndpoint([
-                'EndpointArn' => $currentUserArn
+                'EndpointArn' => $currentUserArn,
             ]);
         };
 
@@ -44,7 +55,7 @@ class UpdateUserDeviceIdHandler
 
         $userARN = $response['EndpointArn'];
 
-        $this->user->changeDeviceId($command->deviceId);   
+        $this->user->changeDeviceId($command->deviceId);
         $this->user->changeAmazonArn($userARN);
     }
 }
