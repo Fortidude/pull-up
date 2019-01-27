@@ -19,7 +19,7 @@ class AWSCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $credentials = new Credentials('AKIAJ23QMET7332KMEIQ', 'LHN2QNZSn6JxfW757dGhN6sOsO3hc5ABYPXNCEMr');
+        $credentials = new Credentials($this->getContainer()->getParameter('aws_token'), $this->getContainer()->getParameter('aws_secret'));
         $client = new SnsClient([
             'version' => 'latest',
             'region' => 'eu-west-1',
@@ -38,8 +38,6 @@ class AWSCommand extends ContainerAwareCommand
 
         $userARN = $response['EndpointArn'];
         
-dump($userARN); 
-
         //$arn = "arn:aws:sns:eu-west-1:453467083820:endpoint/APNS_SANDBOX/Pullup/48b4d3f6-56a0-3d96-9cc2-f1b4c235a1ee";
         //  $results = $SnSclient->listEndpointsByPlatformApplication(['PlatformApplicationArn' => $arn]);
         $client->publish([

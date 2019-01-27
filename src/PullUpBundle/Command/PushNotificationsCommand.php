@@ -21,13 +21,6 @@ class PushNotificationsCommand extends ContainerAwareCommand
 
     protected function configure()
     {
-        $credentials = new Credentials('AKIAJ23QMET7332KMEIQ', 'LHN2QNZSn6JxfW757dGhN6sOsO3hc5ABYPXNCEMr');
-        $this->client = new SnsClient([
-            'version' => 'latest',
-            'region' => 'eu-west-1',
-            'credentials' => $credentials,
-        ]);
-
         $this
             ->setName('app:push:notifications')
             ->setDescription('...');
@@ -35,6 +28,14 @@ class PushNotificationsCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $credentials = new Credentials($this->getContainer()->getParameter('aws_token'), $this->getContainer()->getParameter('aws_secret'));
+        $this->client = new SnsClient([
+            'version' => 'latest',
+            'region' => 'eu-west-1',
+            'credentials' => $credentials,
+        ]);
+
+        dump($credentials = new Credentials($this->getContainer()->getParameter('aws_token'), $this->getContainer()->getParameter('aws_secret'))); die;
         /**
          * UserRepositoryInterface $userRepository
          */
