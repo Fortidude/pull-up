@@ -63,7 +63,7 @@ class PushNotificationsCommand extends ContainerAwareCommand
                 "TargetArn" => $user->getAmazonArn(),
                 "Message" => json_encode([
                     "default" => $message,
-                    "APNS_SANDBOX" => json_encode([
+                    "APNS" => json_encode([
                         "aps" => [
                             "alert" => [
                                 "body" => $message,
@@ -90,7 +90,7 @@ class PushNotificationsCommand extends ContainerAwareCommand
             "TargetArn" => $user->getAmazonArn(),
             "Message" => json_encode([
                 "default" => $message,
-                "APNS_SANDBOX" => json_encode([
+                "APNS" => json_encode([
                     "aps" => [
                         "alert" => [
                             "title" => $title,

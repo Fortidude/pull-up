@@ -55,11 +55,12 @@ class UpdateUserDeviceIdHandler
             ]);
         };
 
-        $applicationARN = "arn:aws:sns:eu-west-1:453467083820:app/APNS_SANDBOX/Pullup";
+        $applicationARNDev = "arn:aws:sns:eu-west-1:453467083820:app/APNS_SANDBOX/Pullup";
+        $applicationARNProd = "arn:aws:sns:eu-west-1:453467083820:app/APNS/Pull-and-push";
         $response = $client->createPlatformEndpoint([
             'Attributes' => [],
             'CustomUserData' => 'some_data',
-            'PlatformApplicationArn' => $applicationARN, // REQUIRED
+            'PlatformApplicationArn' => $applicationARNProd, // REQUIRED
             'Token' => $command->deviceId, // REQUIRED
         ]);
 
