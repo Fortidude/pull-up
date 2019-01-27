@@ -22,6 +22,19 @@ PullUpDomain\Entity\User:
             type: string
             length: 24
 
+        deviceId:
+            column: device_id
+            type: string
+            length: 64    
+
+        amazonArn:
+            column: amazon_arn
+            type: string
+            length: 140
+            nullable: true
+            options:
+                default: NULL
+
         avatar:
             column: avatar
             type: text

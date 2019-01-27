@@ -25,6 +25,11 @@ interface UserRepositoryInterface
      */
     public function checkIfExist(array $names, array $excluded = []): bool;
 
+    /**
+     * @return User[]
+     */
+    public function getUsersWithNotifications();
+
     public function add(User $user);
     public function remove(User $user);
 

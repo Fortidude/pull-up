@@ -9,7 +9,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\UserBundle\Model\UserManagerInterface;
 
 use PullUpBundle\CommandBus\SimpleBus;
-
+use PullUpService\Command;
 use PullUpDomain\Entity\User;
 
 
@@ -44,5 +44,17 @@ class ProfileController
     public function currentAction()
     {
         return $this->user;
+    }
+
+    /**
+     * @ParamConverter("command", converter="validation_converter")
+     *
+     * @param Command\UpdateUserDeviceIdCommand $command
+     * @return array
+     */
+    public function changeUserDeviceIdAction(Command\UpdateUserDeviceIdCommand $command)
+    {
+        $this->commandBus->handle($command);
+        return ['status' => true];
     }
 }

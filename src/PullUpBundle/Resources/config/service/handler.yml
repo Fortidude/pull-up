@@ -137,3 +137,10 @@ services:
           - '%kernel.logs_dir%'
         tags:
             - { name: command_handler, handles: PullUpService\Command\MoveGoalToSectionCommand }
+
+    pullup.update_user_device_id.handler:
+        class: PullUpService\Handler\UpdateUserDeviceIdHandler
+        arguments:
+          - '@pullup.current_user'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\UpdateUserDeviceIdCommand }

@@ -3,7 +3,6 @@
 namespace PullUpBundle\Repository;
 
 use Doctrine\ORM\EntityManager;
-
 use PullUpDomain\Entity\User;
 use PullUpDomain\Repository\UserRepositoryInterface;
 
@@ -24,7 +23,7 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
         $query = $qb->select('u')
             ->from('PullUpDomainEntity:User', 'u')
             ->where('u.id = :id')
-            //->andWhere('u.enabled = 1')
+        //->andWhere('u.enabled = 1')
             ->setParameter('id', $id)
             ->getQuery();
 
@@ -58,6 +57,21 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
 
         return $query
             ->getOneOrNullResult();
+    }
+
+    public function getUsersWithNotifications()
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb = $qb->select('u')
+            ->from('PullUpDomainEntity:User', 'u')
+            ->where('u.enabled = 1')
+            ->andWhere('u.amazonArn IS NOT NULL');
+
+        $query = $qb
+            ->getQuery();
+
+        return $query
+            ->getResult();
     }
 
     /**

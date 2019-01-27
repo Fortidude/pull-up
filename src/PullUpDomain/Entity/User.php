@@ -37,6 +37,9 @@ class User extends BaseUser
 
     protected $facebookId;
 
+    protected $deviceId;
+    protected $amazonArn;
+
     public function __construct()
     {
         parent::__construct();
@@ -117,6 +120,21 @@ class User extends BaseUser
     {
         $this->name = $name;
         $this->avatar = $avatar;
+    }
+
+    public function changeDeviceId(string $deviceId)
+    {
+        $this->deviceId = $deviceId;
+    }
+
+    public function getAmazonArn()
+    {
+        return $this->amazonArn;
+    }
+
+    public function changeAmazonArn(string $amazonArn)
+    {
+        $this->amazonArn = $amazonArn;
     }
 
     public function isPlannerCustomMode()
