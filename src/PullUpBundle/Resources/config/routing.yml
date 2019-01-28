@@ -3,6 +3,11 @@ pullup_index:
     defaults: { _controller: pullup.index.controller:indexAction, _format: 'json' }
     methods: [GET]
 
+pullup_privacy_policy:
+    path:     /privacy-policy
+    defaults: { _controller: pullup.index.controller:privacyPolicyAction, _format: 'html' }
+    methods: [GET]
+
 pullup_api_get_token:
     path:     /getToken
     defaults: { _controller: pullup.token.controller:getTokenAction }

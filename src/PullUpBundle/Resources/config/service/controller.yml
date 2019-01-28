@@ -4,6 +4,8 @@ services:
 
     pullup.index.controller:
         class: PullUpBundle\Controller\IndexController
+        arguments:
+            - "@templating"
 
     pullup.user.controller:
         class: PullUpBundle\Controller\UserController
