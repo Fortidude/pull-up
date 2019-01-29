@@ -32,7 +32,7 @@ class MockGoal extends Goal
         int $requiredReps = null,
         int $requiredWeight = null,
         int $requiredTime = null
-    ) : MockGoal
+    ): MockGoal
     {
         if (!$requiredSets && !$requiredReps && !$requiredWeight && !$requiredTime && $name !== self::NO_GOAL_SPECIFIED_NAME) {
             throw new \Exception("none type were selected");
@@ -63,6 +63,11 @@ class MockGoal extends Goal
         $entity->lastSetAdded = new \DateTime("now");
 
         return $entity;
+    }
+
+    public function getId()
+    {
+        return $this->name . $this->getExerciseName();
     }
 
     public function setCreatedAt(\DateTime $dateTime)

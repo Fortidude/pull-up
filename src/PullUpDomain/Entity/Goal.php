@@ -121,7 +121,7 @@ class Goal
         $this->requiredTime = $requiredTime;
     }
 
-    public function addSet(\DateTime $date, int $difficultyLevel, int $reps = null, int $weight = null, int $time = null)
+    public function addSet(\DateTime $date, int $difficultyLevel = 2, int $reps = null, int $weight = null, int $time = null)
     {
         $set = GoalSet::create($this, $this->user, $date, $reps ?: 0, $weight ?: 0, $time ?: 0, $difficultyLevel);
         $this->sets[] = $set;

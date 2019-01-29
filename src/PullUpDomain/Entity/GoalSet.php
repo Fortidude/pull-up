@@ -37,10 +37,10 @@ class GoalSet
      * @param int $reps
      * @param int $weight
      * @param int $time
-     * @param bool $difficultyLevel
+     * @param int $difficultyLevel
      * @return GoalSet
      */
-    public static function create(Goal $goal, User $user, \DateTime $date, int $reps, int $weight, int $time, int $difficultyLevel) : GoalSet
+    public static function create(Goal $goal, User $user, \DateTime $date, int $reps, int $weight, int $time, int $difficultyLevel = 2) : GoalSet
     {
         $entity = new self();
         $entity->goal = $goal;

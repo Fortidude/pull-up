@@ -17,18 +17,6 @@ class GoalTest extends TestCase
     {
     }
 
-    public function testCreateWithException()
-    {
-        $name = 'test';
-        $description = 'test';
-        $userMock = $this->createMock(User::class);
-        $exerciseMock = $this->createMock(Exercise::class);
-        $exerciseVariantMock = $this->createMock(ExerciseVariant::class);
-
-        $this->expectException(\Exception::class);
-        Goal::create($name, $description, $userMock, $exerciseMock, $exerciseVariantMock);
-    }
-
     public function testCreate()
     {
         $name = 'test';
@@ -76,10 +64,11 @@ class GoalTest extends TestCase
         $entityReps = GoalSet::create($goalEntity, $userMock, new \DateTime(), $reps, 0, 0);
         $this->assertEquals($reps, $entityReps->getValue());
 
-        $entityTime = GoalSet::create($goalEntity, $userMock, new \DateTime(), 0, $time, 0);
+        $entityTime = GoalSet::create($goalEntity, $userMock, new \DateTime(), 0, 0, $time);
         $this->assertEquals($time, $entityTime->getValue());
 
-        $entityWeight = GoalSet::create($goalEntity, $userMock, new \DateTime(), 0, 0, $weight);
-        $this->assertEquals($weight, $entityWeight->getValue());
+        $entityWeight = GoalSet::create($goalEntity, $userMock, new \DateTime(), 10, $weight, 0);
+        $this->assertEquals(10, $entityWeight->getValue());
+        $this->assertEquals($weight, $entityWeight->getWeight());
     }
 }

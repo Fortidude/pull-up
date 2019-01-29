@@ -17,6 +17,7 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
      * @param User $user
      * @param Goal[] $allGoals
      * @return GoalStatisticsResponse
+     * @throws \Exception
      */
     public function get(User $user, array $allGoals): GoalStatisticsResponse
     {
@@ -74,6 +75,7 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
 
         $results = [
             'total_goals' => 0,
+            'total_goals_achieved' => 0,
             'total_circuits' => 0,
             'goals' => [],
         ];
@@ -84,6 +86,7 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
 
         $uniqueCircuits = [];
         $totalGoals = 0;
+        $totalGoalsAchieved = 0;
         $goalsParsed = [];
 
         foreach ($circuits as $circuit) {
@@ -114,6 +117,7 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
                     $byCircuits[$circuitId] = $set->getValue();
                 }
             }
+
             foreach ($byCircuits as $key => $byCircuit) {
                 $percentage = (int)($byCircuit / $requiredAmount * 100);
                 if ($percentage >= 100) {
@@ -128,8 +132,8 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
                     $totalCircuits++;
                 }
             }
-
             $totalGoals++;
+            $totalGoalsAchieved += $achievedAmount;
             $goalsParsed[$goal->getId()] = $goal->getId();
 
             $results['goals'][] = [
@@ -142,6 +146,7 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
 
         $results['total_circuits'] = count($uniqueCircuits);
         $results['total_goals'] = count($goalsParsed);
+        $results['total_goals_achieved'] = $totalGoalsAchieved;
 
         if ($totalGoals !== count($this->allGoals)) {
             foreach ($this->allGoals as $goal) {
@@ -252,6 +257,7 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
     }
 
     /**
+     * @param User $user
      * @return array
      */
     private function getAchievedPerCircuit(User $user) {

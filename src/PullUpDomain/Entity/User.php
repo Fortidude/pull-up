@@ -60,10 +60,11 @@ class User extends BaseUser
     }
 
     /**
-     * @param string $email
-     * @param string $name
-     * @param string $facebookId
+     * @param $email
+     * @param $name
+     * @param $facebookId
      * @return User
+     * @throws \Exception
      */
     public static function createUserByFacebook($email, $name, $facebookId)
     {
@@ -88,6 +89,7 @@ class User extends BaseUser
      * @param string $username
      * @param string $password
      * @return User
+     * @throws \Exception
      */
     public static function createByClassicRegister(string $email, string $username, string $password): User
     {
@@ -238,7 +240,8 @@ class User extends BaseUser
     }
 
     /**
-     * @return integer
+     * @return mixed
+     * @throws \Exception
      */
     public function getCurrentTrainingCircuitLeft()
     {
