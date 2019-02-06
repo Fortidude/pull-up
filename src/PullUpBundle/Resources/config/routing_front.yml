@@ -1,0 +1,9 @@
+pullup_privacy_policy:
+    path:     /privacy-policy
+    defaults: { _controller: pullup.front.index.controller:privacyPolicyAction, _format: 'html' }
+    methods: [GET]
+
+pullup_front_index:
+    path:     /{anything}
+    defaults: { _controller: pullup.front.index.controller:indexAction, _format: 'html', anything: null }
+    methods: [GET]

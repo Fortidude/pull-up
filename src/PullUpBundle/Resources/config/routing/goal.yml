@@ -1,49 +1,49 @@
 pullup_api_goal_list:
       path:     /list
-      defaults: { _controller: pullup.goal.controller:listAction, _format: 'json'  }
+      defaults: { _controller: pullup.api.goal.controller:listAction, _format: 'json'  }
       methods: [GET]
 
 pullup_api_goal_planner:
       path:     /planner/list
-      defaults: { _controller: pullup.goal.controller:plannerListAction, _format: 'json'  }
+      defaults: { _controller: pullup.api.goal.controller:plannerListAction, _format: 'json'  }
       methods: [GET]
 
 pullup_api_goal_create:
       path:     /create
-      defaults: { _controller: pullup.goal.controller:createAction, _format: 'json'  }
+      defaults: { _controller: pullup.api.goal.controller:createAction, _format: 'json'  }
       methods: [POST]
 
 pullup_api_goal_update:
       path:     /{id}/update
-      defaults: { _controller: pullup.goal.controller:updateAction, _format: 'json'  }
+      defaults: { _controller: pullup.api.goal.controller:updateAction, _format: 'json'  }
       methods: [PUT]
 
 pullup_api_goal_move_to_section:
       path:     /{goalId}/move-to-section
-      defaults: { _controller: pullup.goal.controller:moveToSectionAction, _format: 'json'  }
+      defaults: { _controller: pullup.api.goal.controller:moveToSectionAction, _format: 'json'  }
       methods: [POST]
 
 pullup_api_goal_disable:
       path:     /{id}/disable
-      defaults: { _controller: pullup.goal.controller:disableAction, _format: 'json'  }
+      defaults: { _controller: pullup.api.goal.controller:disableAction, _format: 'json'  }
       methods: [POST]
 
 pullup_api_goal_set_create:
       path:     /set/create
-      defaults: { _controller: pullup.goal.controller:createSetAction, _format: 'json'  }
+      defaults: { _controller: pullup.api.goal.controller:createSetAction, _format: 'json'  }
       methods: [POST]
 
 pullup_api_goal_set_last:
       path:     /set/last
-      defaults: { _controller: pullup.goal.controller:getLastSetByUserAction, _format: 'json'  }
+      defaults: { _controller: pullup.api.goal.controller:getLastSetByUserAction, _format: 'json'  }
       methods: [GET]
 
 pullup_api_goal_set_history:
       path:     /set/history-period/{fromDate}/{toDate}
-      defaults: { _controller: pullup.goal.controller:getSetsHistoryByDatePeriodAction, _format: 'json'  }
+      defaults: { _controller: pullup.api.goal.controller:getSetsHistoryByDatePeriodAction, _format: 'json'  }
       methods: [GET]
 
 pullup_api_goal_statistics:
       path:     /statistics
-      defaults: { _controller: pullup.goal.controller:getStatisticsAction, _format: 'json'  }
+      defaults: { _controller: pullup.api.goal.controller:getStatisticsAction, _format: 'json'  }
       methods: [GET]

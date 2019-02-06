@@ -1,0 +1,16 @@
+ <html>
+     <head>
+         <meta charset="UTF-8">
+         <title>Pull front</title>
+         {% block stylesheets %}{% endblock %}
+     </head>
+     <body>
+         {% block body %}{% endblock %}
+         {% block javascripts %}
+         
+         <!-- Include the compiled script-->
+             <script type="text/javascript" src="{{ asset('build/app.js') }}"></script>
+             
+         {% endblock %}
+     </body>
+ </html>

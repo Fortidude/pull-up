@@ -48,6 +48,21 @@ class Exercise
     /**
      * @param $name
      * @param $description
+     * @param $isCardio
+     * @return $this
+     */
+    public function update($name, $description, $isCardio)
+    {
+        $this->name = $name;
+        $this->description = $description;
+        $this->isCardio = $isCardio;
+
+        return $this;
+    }
+
+    /**
+     * @param $name
+     * @param $description
      * @return $this
      */
     public function addExerciseVariant($name, $description)

@@ -78,6 +78,14 @@ services:
         tags:
             - { name: command_handler, handles: PullUpService\Command\CreateExerciseCommand }
 
+    pullup.update_exercise.handler:
+        class: PullUpService\Handler\UpdateExerciseHandler
+        arguments:
+          - '@pullup.exercise.repository'
+          - '@pullup.current_user'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\UpdateExerciseCommand }
+
     pullup.update_goal.handler:
         class: PullUpService\Handler\UpdateGoalHandler
         arguments:

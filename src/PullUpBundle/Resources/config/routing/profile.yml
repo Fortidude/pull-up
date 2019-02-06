@@ -1,9 +1,9 @@
 pullup_api_profile_current:
       path:     /current
-      defaults: { _controller: pullup.profile.controller:currentAction, _format: 'json'  }
+      defaults: { _controller: pullup.api.profile.controller:currentAction, _format: 'json'  }
       methods: [GET]
 
 pullup_api_profile_device_id_change:
       path:     /change-device-id
-      defaults: { _controller: pullup.profile.controller:changeUserDeviceIdAction, _format: 'json'  }
+      defaults: { _controller: pullup.api.profile.controller:changeUserDeviceIdAction, _format: 'json'  }
       methods: [PUT]

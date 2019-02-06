@@ -1,14 +1,22 @@
 api_login_check:
-    host: "{domain}"
+    host: "api.{domain}"
     path: /login_check
     requirements:
         domain: "%domain%"
     defaults:
         domain: '%domain%'
 
-pullup_api:
-    resource: "@PullUpBundle/Resources/config/routing.yml"
+pullup_front:
+    resource: "@PullUpBundle/Resources/config/routing_front.yml"
     host: "{domain}"
+    requirements:
+        domain: "%domain%"
+    defaults:
+        domain: '%domain%'
+
+pullup_api:
+    resource: "@PullUpBundle/Resources/config/routing_api.yml"
+    host: "api.{domain}"
     requirements:
         domain: "%domain%"
     defaults:
@@ -17,7 +25,7 @@ pullup_api:
 umowieni_api_doc:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /doc
-    host: "{domain}"
+    host: "api.{domain}"
     requirements:
         domain: "%domain%"
     defaults:

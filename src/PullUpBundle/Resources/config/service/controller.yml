@@ -1,42 +1,47 @@
 services:
     pullup.token.controller:
-        class: PullUpBundle\Controller\TokenController
+        class: PullUpBundle\Controller\Api\TokenController
 
-    pullup.index.controller:
-        class: PullUpBundle\Controller\IndexController
+    pullup.front.index.controller:
+        class: PullUpBundle\Controller\Front\IndexController
         arguments:
             - "@templating"
 
-    pullup.user.controller:
-        class: PullUpBundle\Controller\UserController
+    pullup.api.index.controller:
+        class: PullUpBundle\Controller\Api\IndexController
+        arguments:
+            - "@templating"
+
+    pullup.api.user.controller:
+        class: PullUpBundle\Controller\Api\UserController
         arguments:
             - "@pullup.profile_manager"
             - "@pullup.command_bus"
 
-    pullup.profile.controller:
-        class: PullUpBundle\Controller\ProfileController
+    pullup.api.profile.controller:
+        class: PullUpBundle\Controller\Api\ProfileController
         arguments:
             - "@pullup.profile_manager"
             - "@pullup.current_user"
             - "@pullup.command_bus"
 
-    pullup.training_pull_up.controller:
-        class: PullUpBundle\Controller\TrainingPullUpController
+    pullup.api.training_pull_up.controller:
+        class: PullUpBundle\Controller\Api\TrainingPullUpController
         arguments:
             - "@pullup.current_user"
             - "@pullup.training_pull_up.service"
             - "@pullup.training_pull_up.service_history"
             - "@pullup.command_bus"
 
-    pullup.exercise.controller:
-        class: PullUpBundle\Controller\ExerciseController
+    pullup.api.exercise.controller:
+        class: PullUpBundle\Controller\Api\ExerciseController
         arguments:
             - "@pullup.exercise.repository.doctrine"
             - "@pullup.current_user"
             - "@pullup.command_bus"
 
-    pullup.goal.controller:
-        class: PullUpBundle\Controller\GoalController
+    pullup.api.goal.controller:
+        class: PullUpBundle\Controller\Api\GoalController
         arguments:
             - "@pullup.goal.repository.doctrine"
             - "@pullup.goal_set.repository.doctrine"
@@ -44,15 +49,15 @@ services:
             - "@pullup.current_user"
             - "@pullup.command_bus"
 
-    pullup.section.controller:
-        class: PullUpBundle\Controller\SectionController
+    pullup.api.section.controller:
+        class: PullUpBundle\Controller\Api\SectionController
         arguments:
             - "@pullup.section.repository"
             - "@pullup.current_user"
             - "@pullup.command_bus"
 
-    pullup.settings.controller:
-        class: PullUpBundle\Controller\SettingsController
+    pullup.api.settings.controller:
+        class: PullUpBundle\Controller\Api\SettingsController
         arguments:
             - "@pullup.profile_manager"
             - "@pullup.current_user"
