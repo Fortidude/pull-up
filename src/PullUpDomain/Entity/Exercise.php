@@ -48,12 +48,38 @@ class Exercise
     /**
      * @param $name
      * @param $description
+     * @param $isCardio
+     * @return $this
+     */
+    public function update($name, $description, $isCardio)
+    {
+        $this->name = $name;
+        $this->description = $description;
+        $this->isCardio = $isCardio;
+
+        return $this;
+    }
+
+    /**
+     * @param $name
+     * @param $description
      * @return $this
      */
     public function addExerciseVariant($name, $description)
     {
         $entity = ExerciseVariant::create($name, $description, $this);
         $this->exerciseVariants[] = $entity;
+
+        return $this;
+    }
+
+    /**
+     * @param ExerciseVariant $exerciseVariant
+     * @return $this
+     */
+    public function removeExerciseVariant(ExerciseVariant $exerciseVariant)
+    {
+        $this->exerciseVariants->removeElement($exerciseVariant);
 
         return $this;
     }

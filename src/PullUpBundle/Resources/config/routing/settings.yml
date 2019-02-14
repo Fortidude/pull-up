@@ -1,4 +1,4 @@
 pullup_api_update_settings:
       path:     /update
-      defaults: { _controller: pullup.settings.controller:updateAction, _format: 'json'  }
+      defaults: { _controller: pullup.api.settings.controller:updateAction, _format: 'json'  }
       methods: [POST]

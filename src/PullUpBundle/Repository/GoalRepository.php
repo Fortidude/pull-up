@@ -80,6 +80,38 @@ class GoalRepository extends AbstractRepository implements GoalRepositoryInterfa
         return $results;
     }
 
+    /**
+     * @param ExerciseVariant $exerciseVariant
+     * @return array|Goal[]
+     */
+    public function getByExerciseVariant(ExerciseVariant $exerciseVariant): array
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $qb->select('g')
+            ->from('PullUpDomainEntity:Goal', 'g')
+            ->where('g.exerciseVariant = :exercise')
+            ->setParameter('exercise', $exerciseVariant)
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    /**
+     * @param Exercise $exercise
+     * @return array|Goal[]
+     */
+    public function getByExercise(Exercise $exercise): array
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $query = $qb->select('g')
+            ->from('PullUpDomainEntity:Goal', 'g')
+            ->where('g.exercise = :exercise')
+            ->setParameter('exercise', $exercise)
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
     public function getCalendarPlannerByUser(User $user) : array
     {
         $results = [

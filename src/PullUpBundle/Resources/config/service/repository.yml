@@ -43,6 +43,17 @@ services:
 
     ######
 
+    pullup.exercise_variant.repository.doctrine:
+        class: PullUpBundle\Repository\ExerciseVariantRepository
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: false
+
+    pullup.exercise_variant.repository:
+        alias: pullup.exercise_variant.repository.doctrine
+
+    ######
+
     pullup.goal.repository.doctrine:
         class: PullUpBundle\Repository\GoalRepository
         arguments:
