@@ -1,4 +1,4 @@
-const host = "http://api.test.local:8000";
+const host = "http://api.pullup.online";
 
 export const login = (username, password) => {
     let object = {
