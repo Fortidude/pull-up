@@ -22,7 +22,7 @@ class ExerciseRepository extends AbstractRepository implements ExerciseRepositor
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $query = $qb->select('e')
-            ->from('PullUpDomainEntity:Exercise', 'e')
+            ->from('PullUpDomainEntity:Exercise', 'e, ev')
             ->getQuery();
 
         return $query->getResult();
@@ -35,11 +35,14 @@ class ExerciseRepository extends AbstractRepository implements ExerciseRepositor
     public function getListByUser(User $user)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $query = $qb->select('e')
+        $query = $qb->select('e, ev')
             ->from('PullUpDomainEntity:Exercise', 'e')
-            ->where('e.createdBy IS NULL ')
-            ->orWhere('e.createdBy = :user')
+            ->leftJoin('e.exerciseVariants', 'ev', \Doctrine\ORM\Query\Expr\Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('ev.removed', ':removed')
+            ))
+            ->andWhere('(e.createdBy IS NULL OR e.createdBy = :user)')
             ->setParameter('user', $user)
+            ->setParameter('removed', false)
             ->getQuery();
 
         return $query->getResult();
@@ -48,8 +51,9 @@ class ExerciseRepository extends AbstractRepository implements ExerciseRepositor
     /**
      * @param string $name
      * @return Exercise
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getByName(string $name) : Exercise
+    public function getByName(string $name): Exercise
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $query = $qb->select('e, ev')
@@ -64,7 +68,8 @@ class ExerciseRepository extends AbstractRepository implements ExerciseRepositor
 
     /**
      * @param string $string
-     * @return Exercise
+     * @return mixed|Exercise
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getByNameOrId(string $string)
     {
@@ -81,6 +86,7 @@ class ExerciseRepository extends AbstractRepository implements ExerciseRepositor
 
     /**
      * @param Exercise $entity
+     * @throws \Doctrine\DBAL\Exception\UniqueConstraintViolationException
      */
     public function add(Exercise $entity)
     {

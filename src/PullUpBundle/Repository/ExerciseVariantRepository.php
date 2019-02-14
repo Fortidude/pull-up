@@ -47,6 +47,7 @@ class ExerciseVariantRepository extends AbstractRepository implements ExerciseVa
 
     /**
      * @param ExerciseVariant $entity
+     * @throws \Doctrine\DBAL\Exception\UniqueConstraintViolationException
      */
     public function add(ExerciseVariant $entity)
     {

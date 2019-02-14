@@ -12,3 +12,23 @@ pullup_api_update_exercise:
       path:     /{id}/update
       defaults: { _controller: pullup.api.exercise.controller:updateAction, _format: 'json'  }
       methods: [PUT]
+
+pullup_api_remove_exercise:
+      path:     /{id}/delete
+      defaults: { _controller: pullup.api.exercise.controller:removeAction, _format: 'json'  }
+      methods: [DELETE]
+
+pullup_api_create_exercise_variant:
+      path:     /{id}/variant/create
+      defaults: { _controller: pullup.api.exercise.controller:createVariantAction, _format: 'json'  }
+      methods: [POST]
+
+pullup_api_update_exercise_variant:
+      path:     /{id}/variant/{variantId}/update
+      defaults: { _controller: pullup.api.exercise.controller:updateVariantAction, _format: 'json'  }
+      methods: [PUT]
+
+pullup_api_remove_exercise_variant:
+      path:     /{id}/variant/{variantId}/delete
+      defaults: { _controller: pullup.api.exercise.controller:removeVariantAction, _format: 'json'  }
+      methods: [DELETE]

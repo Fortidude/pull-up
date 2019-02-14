@@ -3,9 +3,10 @@ import { Button, Modal } from 'antd';
 import { withRouter } from 'react-router-dom';
 
 import Exercise from './../../Components/SingleExercise';
-import { fetchExercises, createExercise, updateExercise } from '../../api';
+import { fetchExercises, createExercise, updateExercise, removeExercise } from '../../api';
 import AddExerciseModal from '../../Components/AddExerciseModal';
 import UpdateExerciseModal from '../../Components/UpdateExerciseModal';
+import ExerciseVariantsModal from '../../Components/ExerciseVariantsModal';
 
 class List extends React.Component {
     constructor(props) {
@@ -14,6 +15,7 @@ class List extends React.Component {
         this.state = {
             exercises: [],
             edit: null,
+            variantsModalExercise: null,
             lastCreatedName: ""
         }
     }
@@ -27,6 +29,8 @@ class List extends React.Component {
      */
     loadList = () => {
         fetchExercises().then(exercises => {
+            const editName = this.state.edit ? this.state.edit.name.toLocaleLowerCase() : null;
+            const exerciseName = this.state.variantsModalExercise ? this.state.variantsModalExercise.name.toLocaleLowerCase() : null;
             exercises.sort((a, b) => {
                 const nameA = a.name.toUpperCase();
                 const nameB = b.name.toUpperCase();
@@ -42,7 +46,18 @@ class List extends React.Component {
                 return nameA > nameB;
             });
 
-            this.setState({ exercises });
+            let edit = null;
+            let variantsModalExercise = null;
+            exercises.forEach((exercise) => {
+                if (editName && exercise.name.toLocaleLowerCase() === editName) {
+                    edit = exercise;
+                }
+                if (exerciseName && exercise.name.toLocaleLowerCase() === exerciseName) {
+                    variantsModalExercise = exercise;
+                }
+            })
+
+            this.setState({ exercises, edit, variantsModalExercise });
         })
             .catch(error => {
                 if (error.toString() == "Error: Unauthorized") {
@@ -74,6 +89,14 @@ class List extends React.Component {
         this.setState({ edit: exercise });
     }
 
+    onVariants = (exercise) => {
+        this.setState({ variantsModalExercise: exercise });
+    }
+
+    onRemove = (exercise) => {
+        removeExercise(exercise.id).then(this.loadList)
+    }
+
     render() {
         return (
             <div className="ExerciseList">
@@ -81,6 +104,8 @@ class List extends React.Component {
                     <Exercise
                         key={exercise.id}
                         onEdit={this.onEdit}
+                        onVariants={this.onVariants}
+                        onRemove={this.onRemove}
                         exercise={exercise} />
                 )}
 
@@ -89,7 +114,13 @@ class List extends React.Component {
 
                 <UpdateExerciseModal
                     exercise={this.state.edit}
-                    onSuccess={this.handleUpdateExercise} />
+                    onSuccess={this.handleUpdateExercise}
+                    onClose={() => this.setState({ edit: null })} />
+
+                <ExerciseVariantsModal
+                    exercise={this.state.variantsModalExercise}
+                    onChange={this.loadList}
+                    onClose={() => this.setState({ variantsModalExercise: null })} />
             </div>
         )
     }

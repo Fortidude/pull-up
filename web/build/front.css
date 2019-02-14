@@ -22122,6 +22122,12 @@ button.ant-switch.large {
   width: 140px;
 }
 
+.ant-modal-close > span.ant-modal-close-x {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
 .ant-modal-body .exerciseVariants > div {
   height: 50px;
   align-items: center;
@@ -22156,8 +22162,12 @@ button.ant-switch.large {
   display: inline;
 }
 
-.ant-modal-body .newVariant > button {
+.ant-modal-body .newVariant > button:first-child {
   margin-right: 10px;
+}
+
+.ant-modal-body .newVariant > button.cancel {
+  margin-left: 10px;
 }
 
 .ant-modal-body .newVariant > .ant-input-affix-wrapper {

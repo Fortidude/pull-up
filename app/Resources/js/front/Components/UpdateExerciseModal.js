@@ -36,13 +36,14 @@ class UpdateExerciseModal extends React.Component {
 
     cancel = () => {
         this.setState({ id: null, name: "", description: "", isCardio: false, visible: false });
+        this.props.onClose && this.props.onClose();
     }
 
     render() {
         return (
             <React.Fragment>
                 <Modal
-                    title="Create exercise"
+                    title="Update exercise"
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.cancel}

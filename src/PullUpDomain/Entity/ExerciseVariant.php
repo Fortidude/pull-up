@@ -16,6 +16,8 @@ class ExerciseVariant
 
     protected $updatedAt;
 
+    protected $removed;
+
     public function getId()
     {
         return (string)$this->id;
@@ -33,6 +35,7 @@ class ExerciseVariant
         $entity->name = $name;
         $entity->description = $description;
         $entity->exercise = $exercise;
+        $entity->removed = false;
 
         return $entity;
     }
@@ -43,5 +46,21 @@ class ExerciseVariant
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param $name
+     */
+    public function update($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     *
+     */
+    public function remove()
+    {
+        $this->removed = true;
     }
 }

@@ -74,6 +74,17 @@ class Exercise
     }
 
     /**
+     * @param ExerciseVariant $exerciseVariant
+     * @return $this
+     */
+    public function removeExerciseVariant(ExerciseVariant $exerciseVariant)
+    {
+        $this->exerciseVariants->removeElement($exerciseVariant);
+
+        return $this;
+    }
+
+    /**
      * @return ArrayCollection|ExerciseVariant[]
      */
     public function getExerciseVariants()

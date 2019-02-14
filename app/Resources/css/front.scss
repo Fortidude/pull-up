@@ -78,6 +78,13 @@ button.ant-switch {
     }
 }
 
+.ant-modal-close {
+    >span.ant-modal-close-x {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
+}
 .ant-modal-body {
     .exerciseVariants {
         > div {
@@ -116,8 +123,15 @@ button.ant-switch {
 
     .newVariant {
         display: inline;
+        
         >button {
-            margin-right: 10px;
+            &:first-child {
+                margin-right: 10px;
+            }
+
+            &.cancel {
+                margin-left: 10px;
+            }
         }
 
         >.ant-input-affix-wrapper {

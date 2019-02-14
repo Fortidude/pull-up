@@ -54,6 +54,18 @@ interface GoalRepositoryInterface
      */
     public function getStatistics(User $user) : GoalStatisticsResponse;
 
+    /**
+     * @param ExerciseVariant $exerciseVariant
+     * @return Goal[]
+     */
+    public function getByExerciseVariant(ExerciseVariant $exerciseVariant) : array;
+
+    /**
+     * @param Exercise $exercise
+     * @return Goal[]
+     */
+    public function getByExercise(Exercise $exercise) : array;
+
     public function add(Goal $entity);
     public function remove(Goal $entity);
 

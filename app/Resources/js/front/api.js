@@ -87,7 +87,7 @@ export const createExercise = (name, isCardio) => {
     return _fetch('/secured/exercise/create', object);
 }
 
-export const updateExercise = (id, name, description, isCardio) => {
+export const updateExercise = (exerciseId, name, description, isCardio) => {
     let token = window.localStorage.getItem('_t');
     let object = {
         method: "PUT",
@@ -103,5 +103,67 @@ export const updateExercise = (id, name, description, isCardio) => {
         })
     };
 
-    return _fetch('/secured/exercise/' + id + '/update', object);
+    return _fetch('/secured/exercise/' + exerciseId + '/update', object);
+}
+
+export const removeExercise = (exerciseId) => {
+    let token = window.localStorage.getItem('_t');
+    let object = {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        }
+    };
+
+    return _fetch('/secured/exercise/' + exerciseId + '/delete', object);
+}
+
+export const createExerciseVariant = (exerciseId, name) => {
+    let token = window.localStorage.getItem('_t');
+    let object = {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name: name
+        })
+    };
+
+    return _fetch('/secured/exercise/' + exerciseId + '/variant/create', object);
+}
+
+export const removeExerciseVariant = (exerciseId, variantId) => {
+    let token = window.localStorage.getItem('_t');
+    let object = {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        }
+    };
+
+    return _fetch('/secured/exercise/' + exerciseId + '/variant/' + variantId + '/delete', object);
+}
+
+export const updateExerciseVariant = (exerciseId, variantId, name) => {
+    let token = window.localStorage.getItem('_t');
+    let object = {
+        method: "PUT",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name: name
+        })
+    };
+
+    return _fetch('/secured/exercise/' + exerciseId + '/variant/' + variantId + '/update', object);
 }

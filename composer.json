@@ -20,7 +20,7 @@
         ]
     },
     "require": {
-        "php": ">=7.1",
+        "php": ">=7.2",
         "aws/aws-sdk-php": "^3.87",
         "behat/transliterator": "v1.2.0",
         "bernard/bernard": "1.0.*@dev",

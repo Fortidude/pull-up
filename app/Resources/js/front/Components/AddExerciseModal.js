@@ -12,6 +12,12 @@ class AddExerciseModal extends React.Component {
         }
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.state.name !== nextState.name
+        || this.state.isCardio !== nextState.isCardio
+        || this.state.visible !== nextState.visible;
+    }
+
     handleOk = () => {
         this.props.onSuccess(this.state.name, this.state.isCardio);
         this.cancel();

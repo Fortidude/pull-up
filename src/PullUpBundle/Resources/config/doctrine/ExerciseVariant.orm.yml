@@ -20,6 +20,12 @@ PullUpDomain\Entity\ExerciseVariant:
             column: description
             type: text
 
+        removed:
+            column: removed
+            type: boolean
+            options:
+                default: false
+
         createdAt:
             column: created_at
             type: datetime
