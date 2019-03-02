@@ -9,6 +9,8 @@ use PullUpDomain\Repository\UserRepositoryInterface;
 use PullUpDomain\Service\TrainingPlanManagerInterface;
 use PullUpDomain\Entity\Goal;
 
+use PullUpBundle\Exception\BadRequest;
+
 class TrainingPlanManager implements TrainingPlanManagerInterface
 {
     /** @var UserRepositoryInterface */
@@ -34,7 +36,7 @@ class TrainingPlanManager implements TrainingPlanManagerInterface
     {
         $goalExistings = $this->goalRepository->getListByUser($user);
         if (!empty($goalExistings)) {
-            throw new \Exception("User have a goals", 400);
+            throw new BadRequest("User have a goals");
         }
 
         switch ($plan) {
@@ -45,6 +47,9 @@ class TrainingPlanManager implements TrainingPlanManagerInterface
             case "intermediate":
                 $this->assignIntermediatePlan($user);
                 break;
+
+            default:
+                throw new BadRequest("Invalid plan name");
         }
     }
 

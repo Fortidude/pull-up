@@ -34,7 +34,6 @@ class AssignUserToPlanHandler
 
     public function handle(AssignUserToPlanCommand $command)
     {
-        
         $this->trainingPlanManager->assignUserToPlan($command->plan, $this->user);
     }
 }
