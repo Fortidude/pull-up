@@ -1,0 +1,2 @@
+phpunit -c ./
+codecept run

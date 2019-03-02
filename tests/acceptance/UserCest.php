@@ -1,6 +1,6 @@
 <?php
 
-class AuthCest
+class UserCest
 {
     public function _before(AcceptanceTester $I)
     {
