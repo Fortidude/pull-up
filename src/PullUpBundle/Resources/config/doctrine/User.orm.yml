@@ -25,7 +25,10 @@ PullUpDomain\Entity\User:
         deviceId:
             column: device_id
             type: string
-            length: 64    
+            length: 64   
+            nullable: true 
+            options:
+                default: NULL
 
         amazonArn:
             column: amazon_arn

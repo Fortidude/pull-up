@@ -29,7 +29,7 @@ class ExerciseController
      * @param ExerciseRepository $repository
      * @param SimpleBus $commandBus
      */
-    public function __construct(ExerciseRepository $repository, User $user, SimpleBus $commandBus)
+    public function __construct(ExerciseRepository $repository, UserInterface $user, SimpleBus $commandBus)
     {
         $this->repository = $repository;
         $this->user = $user;
