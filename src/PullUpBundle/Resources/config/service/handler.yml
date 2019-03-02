@@ -199,3 +199,11 @@ services:
           - '%aws_secret%'
         tags:
             - { name: command_handler, handles: PullUpService\Command\UpdateUserDeviceIdCommand }
+
+    pullup.assign_user_to_plan.handler:
+        class: PullUpService\Handler\AssignUserToPlanHandler
+        arguments:
+          - '@pullup.current_user'
+          - '@pullup.training.plan_manager'
+        tags:
+            - { name: command_handler, handles: PullUpService\Command\AssignUserToPlanCommand }

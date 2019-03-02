@@ -62,3 +62,9 @@ services:
             - "@pullup.profile_manager"
             - "@pullup.current_user"
             - "@pullup.command_bus"
+
+    pullup.api.training_plan.controller:
+        class: PullUpBundle\Controller\Api\TrainingPlanController
+        arguments:
+            - "@pullup.current_user"
+            - "@pullup.command_bus"

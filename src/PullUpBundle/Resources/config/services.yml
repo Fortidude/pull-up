@@ -43,3 +43,10 @@ services:
 
     pullup.statistics.by_user_and_goals:
         class: PullUpBundle\Service\Statistics\ByUserAndGoals
+
+    pullup.training.plan_manager:
+        class: PullUpBundle\Service\Training\TrainingPlanManager
+        arguments: 
+            - "@pullup.user.repository"
+            - "@pullup.goal.repository"
+            - "@pullup.exercise.repository"

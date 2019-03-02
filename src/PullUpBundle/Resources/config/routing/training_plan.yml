@@ -1,0 +1,4 @@
+pullup_api_training_plan_assign_user:
+      path:     /assaing-to-plan/{plan}
+      defaults: { _controller: pullup.api.training_plan.controller:assignUserToTrainingPlanAction, _format: 'json'  }
+      methods: [POST]
