@@ -13,7 +13,6 @@ modules:
             password: ''
             dump: 'tests/_data/dump.sql'
             populate: true
-            reconnect: tru
         - Asserts
         - \Helper\Acceptance
         #  - WebDriver:
@@ -22,8 +21,8 @@ modules:
 
 
         - REST:
-           depends: PhpBrowser
-           url: http://api.test.local:8000/
+            depends: PhpBrowser
+            url: http://api.test.local:8000/
 
         - PhpBrowser:
             url: http://api.test.local:8000/

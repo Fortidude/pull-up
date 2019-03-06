@@ -38,8 +38,8 @@ class UserCest
         $I->wantTo('test register');
 
         $I->sendPOST('register', [
-            "email" => "test200@test.com",
-            "username" => "testowy",
+            "email" => "test201@test.com",
+            "username" => "testowy201",
             "password" => "reksio",
         ]);
 

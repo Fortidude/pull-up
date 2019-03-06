@@ -49,4 +49,5 @@ services:
         arguments: 
             - "@pullup.user.repository"
             - "@pullup.goal.repository"
+            - "@pullup.section.repository"
             - "@pullup.exercise.repository"

@@ -82,7 +82,7 @@ class ExerciseCest
         $I->assertTrue($variantFound);
         $I->assertFalse($isCardio);
 
-        $updatedExerciseName = "just the updated name";
+        $updatedExerciseName = "just the updated name 2";
 
         /**
          * 

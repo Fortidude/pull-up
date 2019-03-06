@@ -40,5 +40,18 @@ class TrainingPlanCest
         $I->seeResponseContains('{"status":true}');
 
         // @TODO VERIFY
+
+        $I->sendGET('secured/goal/planner/list');
+        $I->seeResponseIsJson();
+        $response = json_decode($I->grabResponse(), true);
+    
+        $I->assertNotEmpty($response);
+        
+        $firstKey = array_keys($response)[0];
+
+        $I->assertNotEmpty($response[$firstKey]);
+        $I->assertArrayHasKey('exercise', $response[$firstKey][0]);
+        $I->assertArrayHasKey('traning_name', $response[$firstKey][0]);
+        $I->assertFalse($response[$firstKey][0]['removed']);
     }
 }

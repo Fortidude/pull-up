@@ -47,8 +47,8 @@ abstract class AbstractRepository
 
         try {
             $em->persist($entity);
-            $em->flush();
-            $em->clear();
+          //  $em->flush();
+          //  $em->clear();
             gc_collect_cycles();
         } catch (UniqueConstraintViolationException $e) {
             throw $e;

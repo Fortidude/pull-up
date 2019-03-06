@@ -50,6 +50,7 @@ class Section
         $entity->removed = false;
 
         foreach ($goals as $goal) {
+            $goal->moveToSection($entity);
             $entity->goals->add($goal);
         }
 
