@@ -4,10 +4,7 @@ namespace PullUpBundle\Tests\Service\Statistics;
 
 use PHPUnit\Framework\TestCase;
 use PullUpBundle\Service\Statistics\ByUserAndGoals;
-use PullUpDomain\Entity\Circuit;
 use PullUpDomain\Entity\Exercise;
-use PullUpDomain\Entity\ExerciseVariant;
-use PullUpDomain\Entity\Goal;
 use PullUpDomain\Entity\User;
 
 class ByUserAndGoalsTest extends TestCase
@@ -241,7 +238,7 @@ class ByUserAndGoalsTest extends TestCase
         $exerciseOne->addExerciseVariant('variant_one', '');
         $exerciseOne->addExerciseVariant('variant_two', '');
 
-        $goal = MockGoal::create('goal_1', '', $user, $exerciseOne, null, $requiredReps);
+        $goal = MockGoal::create('goal_1', '', $user, $exerciseOne, null, null, $requiredReps);
         $goal->setCreatedAt($twoDaysAgo);
         $goal->addSet($twoDaysAgo, 2, 4);
         $goal->addSet($twoDaysAgo, 2, 6);
@@ -276,7 +273,7 @@ class ByUserAndGoalsTest extends TestCase
         $exerciseOne->addExerciseVariant('variant_one', '');
         $exerciseOne->addExerciseVariant('variant_two', '');
 
-        $goal = MockGoal::create('goal_1', '', $user, $exerciseOne, null, $requiredReps);
+        $goal = MockGoal::create('goal_1', '', $user, $exerciseOne, null, null, $requiredReps);
         $goal->setCreatedAt($fiveDaysAgo);
         $goal->addSet($fiveDaysAgo, 2, 4);
 
@@ -355,64 +352,110 @@ class ByUserAndGoalsTest extends TestCase
         $this->assertEquals(25, $statistics->percentageGoalsAchieved['goals'][3]['percentage']);
     }
 
+    public function testByCircuitsAndMultipleGoalsForTheSameExercise()
+    {
+        $user = User::createByClassicRegister('test@test.com', 'test_user', 'password1234');
+        $user->changeDaysAmountPerCircuit(4);
+
+        $now = new \DateTime();
+        $user->getTrainingCircuitByDate($now);
+
+        $tenDaysAgo = clone $now;
+        $tenDaysAgo->sub(new \DateInterval('P10D'));
+
+        $exerciseOne = Exercise::create('name_exercise_one', '');
+        $exerciseOne->addExerciseVariant('variant_one', '');
+
+        $exerciseTwo = Exercise::create('name_exercise_two', '');
+        $exerciseTwo->addExerciseVariant('variant_two', '');
+
+        $goalOne = MockGoal::create('goal_1', '', $user, $exerciseOne, null, 3);
+        $goalOne->setCreatedAt($tenDaysAgo);
+        $goalOne->addSet($now, 2, 3);
+
+        $goalTwo = MockGoal::create('goal_2', '', $user, $exerciseTwo, $exerciseTwo->getExerciseVariants()[0], null, 10);
+        $goalTwo->setCreatedAt($tenDaysAgo);
+        $goalTwo->addSet($now, 2, 1);
+
+        $goalThree = MockGoal::create('goal_3', '', $user, $exerciseOne, null, null, 10);
+        $goalThree->setCreatedAt($tenDaysAgo);
+        $goalThree->addSet($now, 2, 4);
+
+        $goalFour = MockGoal::create('goal_4', '', $user, $exerciseOne, null, 10);
+        $goalFour->setCreatedAt($tenDaysAgo);
+        $goalFour->addSet($now, 2, 4);
+        $goalFour->addSet($now, 2, 40);
+
+        $service = new ByUserAndGoals();
+        $statistics = $service->get($user, [$goalOne, $goalTwo, $goalThree, $goalFour]);
+
+        $this->assertEquals(4, $statistics->currentCirclePercentageGoalsAchieved['total_goals']);
+        $this->assertEquals(0, $statistics->currentCirclePercentageGoalsAchieved['total_goals_achieved']);
+        $this->assertEquals(33, $statistics->currentCirclePercentageGoalsAchieved['goals'][0]['percentage']);
+        $this->assertEquals(10, $statistics->currentCirclePercentageGoalsAchieved['goals'][1]['percentage']);
+        $this->assertEquals(40, $statistics->currentCirclePercentageGoalsAchieved['goals'][2]['percentage']);
+        $this->assertEquals(20, $statistics->currentCirclePercentageGoalsAchieved['goals'][3]['percentage']);
+    }
+
     /**
      * @throws \Exception
      *
      * @TODO BROKEN TEST
      */
-//    public function testByCircuitsAndMultipleGoalsAchieved100Percent()
-//    {
-//        $user = User::createByClassicRegister('test@test.com', 'test_user', 'password1234');
-//        $user->changeDaysAmountPerCircuit(4);
-//
-//        $now = new \DateTime();
-//        $user->getTrainingCircuitByDate($now);
-//
-//        $twoDaysAgo = clone $now;
-//        $twoDaysAgo->sub(new \DateInterval('P6D'));
-//        $user->getTrainingCircuitByDate($twoDaysAgo);
-//
-//        $sixDaysAgo = clone $now;
-//        $sixDaysAgo->sub(new \DateInterval('P6D'));
-//        $user->getTrainingCircuitByDate($sixDaysAgo);
-//
-//        $tenDaysAgo = clone $now;
-//        $tenDaysAgo->sub(new \DateInterval('P10D'));
-//        $user->getTrainingCircuitByDate($tenDaysAgo);
-//
-//        $exerciseOne = Exercise::create('name_exercise_one', '');
-//        $exerciseOne->addExerciseVariant('variant_one', '');
-//
-//        $exerciseTwo = Exercise::create('name_exercise_two', '');
-//        $exerciseTwo->addExerciseVariant('variant_two', '');
-//
-//        $goalOne = MockGoal::create('goal_1', '', $user, $exerciseOne, null, null, 10);
-//        $goalOne->setCreatedAt($tenDaysAgo);
-//        $goalOne->addSet($now, 2, 4);
-//        $goalOne->addSet($twoDaysAgo, 2, 4);
-//        $goalOne->addSet($sixDaysAgo, 2, 4);
-//        $goalOne->addSet($tenDaysAgo, 2, 4);
-//
-//        $goalTwo = MockGoal::create('goal_2', '', $user, $exerciseOne, $exerciseOne->getExerciseVariants()[0], null, 10);
-//        $goalTwo->setCreatedAt($tenDaysAgo);
-//        $goalTwo->addSet($now, 2, 10);
-//        $goalTwo->addSet($twoDaysAgo, 2, 10);
-//        $goalTwo->addSet($sixDaysAgo, 2, 2, 10);
-//        $goalTwo->addSet($tenDaysAgo, 2, 10);
-//
-//        $service = new ByUserAndGoals();
-//        $statistics = $service->get($user, [$goalOne, $goalTwo]);
-//        $this->assertEquals(2, $statistics->percentageGoalsAchieved['total_goals']);
-//        $this->assertEquals(4, $statistics->percentageGoalsAchieved['total_circuits']);
-//
-//        $this->assertEquals(70, $statistics->currentCirclePercentGoalsAchieved);
-//        $this->assertEquals(70, $statistics->lastCirclePercentGoalsAchieved);
-//        $this->assertEquals(60, $statistics->percentGoalsAchieved);
-//
-//        $this->assertEquals($goalOne->getExerciseName(), $statistics->percentageGoalsAchieved['goals'][0]['name']);
-//        $this->assertEquals($goalTwo->getExerciseName(), $statistics->percentageGoalsAchieved['goals'][1]['name']);
-//
-//        $this->assertEquals(40, $statistics->percentageGoalsAchieved['goals'][0]['percentage']);
-//        $this->assertEquals(100, $statistics->percentageGoalsAchieved['goals'][1]['percentage']);
-//    }
+    public function testByCircuitsAndMultipleGoalsAchieved100Percent()
+    {
+        $user = User::createByClassicRegister('test@test.com', 'test_user', 'password1234');
+        $user->changeDaysAmountPerCircuit(4);
+
+        $now = new \DateTime();
+        $user->getTrainingCircuitByDate($now);
+
+        $twoDaysAgo = clone $now;
+        $twoDaysAgo->sub(new \DateInterval('P2D'));
+        $user->getTrainingCircuitByDate($twoDaysAgo);
+
+        $sixDaysAgo = clone $now;
+        $sixDaysAgo->sub(new \DateInterval('P6D'));
+        $user->getTrainingCircuitByDate($sixDaysAgo);
+
+        $tenDaysAgo = clone $now;
+        $tenDaysAgo->sub(new \DateInterval('P10D'));
+        $user->getTrainingCircuitByDate($tenDaysAgo);
+
+        $exerciseOne = Exercise::create('name_exercise_one', '');
+        $exerciseOne->addExerciseVariant('variant_one', '');
+
+        $exerciseTwo = Exercise::create('name_exercise_two', '');
+        $exerciseTwo->addExerciseVariant('variant_two', '');
+
+        $goalOne = MockGoal::create('goal_1', '', $user, $exerciseOne, null, null, 20);
+        $goalOne->setCreatedAt($tenDaysAgo);
+        $goalOne->addSet($now, 2, 4);
+        $goalOne->addSet($twoDaysAgo, 2, 3);
+        $goalOne->addSet($sixDaysAgo, 2, 2);
+        $goalOne->addSet($tenDaysAgo, 2, 1);
+
+        $goalTwo = MockGoal::create('goal_2', '', $user, $exerciseOne, $exerciseOne->getExerciseVariants()[0], null, 10);
+        $goalTwo->setCreatedAt($tenDaysAgo);
+        $goalTwo->addSet($now, 2, 10);
+        $goalTwo->addSet($twoDaysAgo, 2, 10);
+        $goalTwo->addSet($sixDaysAgo, 2, 2, 10);
+        $goalTwo->addSet($tenDaysAgo, 2, 10);
+
+        $service = new ByUserAndGoals();
+        $statistics = $service->get($user, [$goalOne, $goalTwo]);
+
+        $this->assertEquals(2, $statistics->percentageGoalsAchieved['total_goals']);
+        $this->assertEquals(4, $statistics->percentageGoalsAchieved['total_circuits']);
+
+        $this->assertEquals(60, $statistics->currentCirclePercentGoalsAchieved);
+        $this->assertEquals(57, $statistics->lastCirclePercentGoalsAchieved);
+        $this->assertEquals(46, $statistics->percentGoalsAchieved);
+
+        $this->assertEquals($goalOne->getExerciseName(), $statistics->percentageGoalsAchieved['goals'][0]['name']);
+        $this->assertEquals($goalTwo->getExerciseName(), $statistics->percentageGoalsAchieved['goals'][1]['name']);
+
+        $this->assertEquals(12, $statistics->percentageGoalsAchieved['goals'][0]['percentage']);
+        $this->assertEquals(80, $statistics->percentageGoalsAchieved['goals'][1]['percentage']);
+    }
 }

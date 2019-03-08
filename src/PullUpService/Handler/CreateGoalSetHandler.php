@@ -66,6 +66,7 @@ class CreateGoalSetHandler
         $set = $goal->addSet($dateTime, $command->difficultyLevel, $command->reps, $command->weight, $command->time);
 
         $this->goalSetRepository->add($set);
+        $this->goalSetRepository->flush();
 
         $event = new GoalSetCreatedEvent($set->getId());
         $this->eventBus->handle($event);

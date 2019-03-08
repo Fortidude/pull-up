@@ -111,10 +111,11 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
                     continue;
                 }
 
+                $setValue = $goal->isRequiredSetType() ? 1 : $set->getValue();
                 if (array_key_exists($circuitId, $byCircuits)) {
-                    $byCircuits[$circuitId] += $set->getValue();
+                    $byCircuits[$circuitId] += $setValue;
                 } else {
-                    $byCircuits[$circuitId] = $set->getValue();
+                    $byCircuits[$circuitId] = $setValue;
                 }
             }
 
@@ -132,11 +133,13 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
                     $totalCircuits++;
                 }
             }
+
             $totalGoals++;
             $totalGoalsAchieved += $achievedAmount;
             $goalsParsed[$goal->getId()] = $goal->getId();
 
             $results['goals'][] = [
+                'id' => $goal->getId(),
                 'name' => $goal->getExerciseName(),
                 'variant_name' => $goal->getExerciseVariantName(),
                 'percentage' => $totalCircuits > 0 ? (int)($goalPercentage / $totalCircuits) : 0,
@@ -152,6 +155,7 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
             foreach ($this->allGoals as $goal) {
                 if (!array_key_exists($goal->getId(), $goalsParsed) && $goal->getRequiredType() !== 'none') {
                     $results['goals'][] = [
+                        'id' => $goal->getId(),
                         'name' => $goal->getExerciseName(),
                         'variant_name' => $goal->getExerciseVariantName(),
                         'percentage' => 0,
