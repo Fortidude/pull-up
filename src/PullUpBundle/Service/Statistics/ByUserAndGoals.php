@@ -142,8 +142,9 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
                 'id' => $goal->getId(),
                 'name' => $goal->getExerciseName(),
                 'variant_name' => $goal->getExerciseVariantName(),
+                'section_name' => $goal->getSectionName(),
                 'percentage' => $totalCircuits > 0 ? (int)($goalPercentage / $totalCircuits) : 0,
-                'achieved_amount' => $achievedAmount
+                'achieved_amount' => $achievedAmount,
             ];
         }
 
@@ -158,6 +159,7 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
                         'id' => $goal->getId(),
                         'name' => $goal->getExerciseName(),
                         'variant_name' => $goal->getExerciseVariantName(),
+                        'section_name' => $goal->getSectionName(),
                         'percentage' => 0,
                         'achieved_amount' => 0
                     ];
