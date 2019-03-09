@@ -177,7 +177,7 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
     private function percentageExerciseUsage(array $goals)
     {
         $exerciseUsage = [];
-        $total = count($goals);
+        $exerciseAmount = 0;
 
         foreach ($goals as $goal) {
             $name = $goal->getExercise()->getName();
@@ -190,12 +190,12 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
                     'percentage' => 0
                 ];
             }
-
-
         }
 
+        $exerciseAmount = count($exerciseUsage);
+
         foreach ($exerciseUsage as $key => $data) {
-            $exerciseUsage[$key]['percentage'] = (int)($exerciseUsage[$key]['amount'] / $total * 100);
+            $exerciseUsage[$key]['percentage'] = (int)($exerciseUsage[$key]['amount'] / $exerciseAmount * 100);
         }
 
         usort($exerciseUsage, function ($first, $second) {
@@ -204,7 +204,7 @@ class ByUserAndGoals// implements StatisticsByUserAndGoalsInterface
 
         return [
             'usage' => $exerciseUsage,
-            'total' => $total
+            'total' => $exerciseAmount
         ];
     }
 
