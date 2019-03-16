@@ -150,6 +150,16 @@ class User extends BaseUser
         $this->amazonArn = null;
     }
 
+    public function removeAvatar()
+    {
+        $this->avatar = null;
+    }
+
+    public function removeFacebookId()
+    {
+        $this->facebookId = null;
+    }
+
     public function isPlannerCustomMode()
     {
         return $this->plannerCustomMode;

@@ -105,4 +105,17 @@ class UserController
     {
         return [];
     }
+
+    /**
+     * @Rest\View(serializerGroups={})
+     *
+     * @return array
+     */
+    public function deleteAction()
+    {
+        $command = new Command\RemoveUserCommand();
+        $this->commandBus->handle($command);
+        
+        return [];
+    }
 }

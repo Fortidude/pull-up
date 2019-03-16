@@ -206,4 +206,11 @@ services:
           - '@pullup.current_user'
           - '@pullup.training.plan_manager'
         tags:
-            - { name: command_handler, handles: PullUpService\Command\AssignUserToPlanCommand }
+          - { name: command_handler, handles: PullUpService\Command\AssignUserToPlanCommand }
+
+    pullup.remove_user.handler:
+        class: PullUpService\Handler\RemoveUserHandler
+        arguments:
+          - '@pullup.current_user'
+        tags:
+          - { name: command_handler, handles: PullUpService\Command\RemoveUserCommand }

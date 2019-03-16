@@ -3,6 +3,11 @@ pullup_api_user_list:
       defaults: { _controller: pullup.api.user.controller:listAction, _format: 'json'  }
       methods: [GET]
 
+pullup_api_user_delete:
+      path:     /secured/user/delete
+      defaults: { _controller: pullup.api.user.controller:deleteAction, _format: 'json'  }
+      methods: [DELETE]
+
 pullup_api_user_login_by_facebook:
       path:     /login/facebook
       defaults: { _controller: pullup.api.user.controller:loginByFacebookAction, _format: 'json'  }
