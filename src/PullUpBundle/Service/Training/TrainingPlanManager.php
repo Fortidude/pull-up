@@ -245,6 +245,105 @@ class TrainingPlanManager implements TrainingPlanManagerInterface
         ],
     ];
 
+    const BASIC_PUSH_PULL_CONFIG = [
+        [
+            "name" => "Push",
+            "description" => "",
+            "goals" => [
+                [
+                    // Barbell Bench Press / medium grip
+                    "exercise_id" => "5154325f-584b-405d-9204-f9a7ef8a8bb7",
+                    "variant_id" => "61e86f65-1811-4424-b1f9-c432e28b6085",
+                    "sets" => 3,
+                ],
+                [
+                    // push ups, traditional
+                    "exercise_id" => "273a7542-0b16-4771-9924-1dc53ddc6a47",
+                    "variant_id" => "9b5581fa-f48d-45fa-a821-28c711aa2075",
+                    "sets" => 3,
+                ],
+                [
+                    // barbell Shoulder Press
+                    "exercise_id" => "216b04df-e923-4aa8-95f5-09f2a411adb1",
+                    "variant_id" => "4c3ef8f6-2c39-4570-a336-eb717bbc96d7",
+                    "sets" => 3,
+                ],
+                [
+                    // Dips
+                    "exercise_id" => "ce402b0b-6145-41fd-9d35-6d433a93fc5e",
+                    "variant_id" => null,
+                    "sets" => 3,
+                ],
+                [
+                    // Triceps Pushdown
+                    "exercise_id" => "5efc7358-6af7-4bc0-aa6c-d93c1c656762",
+                    "variant_id" => "f2248c44-f67a-49a2-8e31-6f0d1cbb7d11",
+                    "sets" => 3,
+                ]
+            ]
+        ],
+        [
+            "name" => "Pull",
+            "description" => "",
+            "goals" => [
+                [
+                    // Pull up / Traditional
+                    "exercise_id" => "3fe8dfa8-f3aa-4425-aec1-f793a210dbd1",
+                    "variant_id" => "de69f477-9f60-417c-8b5b-8928cd629a6e",
+                    "sets" => 3,
+                ],
+                [
+                    // Pull up / Australian
+                    "exercise_id" => "3fe8dfa8-f3aa-4425-aec1-f793a210dbd1",
+                    "variant_id" => "5bf10419-8f50-482e-b908-d2af29d6c544",
+                    "sets" => 4,
+                ],
+                [
+                    // Lat Pulldown / Wide-Grip
+                    "exercise_id" => "a9208542-0db3-4127-8c65-c0453074a2b1",
+                    "variant_id" => "0a5eca6a-3ab6-4078-9c89-83005595d5ee",
+                    "sets" => 4,
+                ],
+                [
+                    // Biceps curl / barbell
+                    "exercise_id" => "03e5c879-79cb-4930-bfdb-de0b45675099",
+                    "variant_id" => "5f2433ab-a64d-48fb-b2dd-4c40120c6e12",
+                    "sets" => 3,
+                ],
+            ]
+        ],
+        [
+            "name" => "Legs",
+            "description" => "",
+            "goals" => [
+                [
+                    // Squats
+                    "exercise_id" => "8cf01b8c-effc-4942-8b96-7ee8f706a2bc",
+                    "variant_id" => null,
+                    "sets" => 3,
+                ],
+                [
+                    // Lunge
+                    "exercise_id" => "8cf01b8c-effc-4942-8b96-7ee8f706a2bc",
+                    "variant_id" => null,
+                    "sets" => 3,
+                ],
+                [
+                    // Deadlift
+                    "exercise_id" => "d50069af-fa08-40b0-9f59-c8bdb7df355b",
+                    "variant_id" => "",
+                    "sets" => 4,
+                ],
+                [
+                    // Standing Calf Raises
+                    "exercise_id" => "bac9fd1f-8568-4353-9935-d120cf365f90",
+                    "variant_id" => null,
+                    "sets" => 3,
+                ],
+            ]
+        ]
+    ];
+
     const INTERMEDIATE_CONFIG = [
         [
             "name" => "Poniedziałek",
@@ -284,6 +383,10 @@ class TrainingPlanManager implements TrainingPlanManagerInterface
                 $this->assignBasicPlan($user);
                 break;
 
+            case "basic-push-pull":
+                $this->assignBasicPushPullPlan($user);
+                break;
+
             case "intermediate":
                 $this->assignIntermediatePlan($user);
                 break;
@@ -296,6 +399,11 @@ class TrainingPlanManager implements TrainingPlanManagerInterface
     protected function assignBasicPlan(User $user): void
     {
         $this->assign(self::BASIC_CONFIG, $user);
+    }
+
+    protected function assignBasicPushPullPlan(User $user): void
+    {
+        $this->assign(self::BASIC_PUSH_PULL_CONFIG, $user);
     }
 
     protected function assignIntermediatePlan(User $user): void
