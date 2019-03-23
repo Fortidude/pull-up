@@ -41,6 +41,10 @@ PullUpDomain\Entity\Exercise:
                 timestampable:
                     on: update
 
+        translations:
+            column: translations
+            type: json_array
+
     manyToOne:
         createdBy:
             targetEntity: PullUpDomain\Entity\User

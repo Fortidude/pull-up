@@ -1,0 +1,14 @@
+PullUpDomain\Entity\Translations\ExerciseVariantTranslation:
+    exclusion_policy: ALL
+    properties:
+        name:
+            groups: [logger, exercise_item, exercise_list]
+            expose: true
+
+        description:
+            groups: [logger, exercise_item, exercise_list]
+            expose: true
+
+        locale:
+            groups: [logger, exercise_item, exercise_list]
+            expose: true

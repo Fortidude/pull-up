@@ -10,6 +10,8 @@ class ExerciseVariant
     protected $description;
 
     protected $exercise;
+    
+    protected $translations;
 
     protected $createdAt;
     protected $createdBy;
@@ -62,5 +64,24 @@ class ExerciseVariant
     public function remove()
     {
         $this->removed = true;
+    }
+
+    /**
+     * @return Translations\ExerciseVariantTranslation[]
+     */
+    public function getTranslations()
+    {
+        if ($this->translations === 'null' || !$this->translations) {
+            return [];
+        }
+
+        $collection = [];
+        foreach ($this->translations as $locale => $translation) {
+            $name = $translation['name'];
+            $description = array_key_exists("description", $translation) ? $translation['description'] : "";
+            $collection[] = new Translations\ExerciseVariantTranslation($name, $description, $locale);
+        }
+
+        return $collection;
     }
 }

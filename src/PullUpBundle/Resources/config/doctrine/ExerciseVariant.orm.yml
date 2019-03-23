@@ -26,6 +26,10 @@ PullUpDomain\Entity\ExerciseVariant:
             options:
                 default: false
 
+        translations:
+            column: translations
+            type: json_array
+
         createdAt:
             column: created_at
             type: datetime

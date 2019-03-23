@@ -13,5 +13,11 @@ PullUpDomain\Entity\ExerciseVariant:
         getId:
             serialized_name: id
             type: string
-            groups: [logger, exercise_item, exercise_list]
+            groups: [logger, exercise_variant_item, exercise_variant_list]
+            expose: true
+
+        getTranslations:
+            serialized_name: translations
+            type: array
+            groups: [exercise_variant_item, exercise_variant_list]
             expose: true

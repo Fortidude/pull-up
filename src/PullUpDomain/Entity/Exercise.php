@@ -14,6 +14,8 @@ class Exercise
 
     protected $exerciseVariants;
 
+    protected $translations;
+
     protected $createdAt;
     protected $createdBy;
 
@@ -26,7 +28,7 @@ class Exercise
 
     public function getId()
     {
-        return (string)$this->id;
+        return (string) $this->id;
     }
 
     /**
@@ -95,5 +97,24 @@ class Exercise
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return Translations\ExerciseTranslation[]
+     */
+    public function getTranslations()
+    {
+        if ($this->translations === 'null' || !$this->translations) {
+            return [];
+        }
+
+        $collection = [];
+        foreach ($this->translations as $locale => $translation) {
+            $name = $translation['name'];
+            $description = array_key_exists("description", $translation) ? $translation['description'] : "";
+            $collection[] = new Translations\ExerciseTranslation($name, $description, $locale);
+        }
+
+        return $collection;
     }
 }

@@ -99,6 +99,9 @@ jms_serializer:
             Entity:
                 namespace_prefix: "PullUpDomain\\Entity"
                 path: "@PullUpBundle/Resources/config/serializer/entity"
+            Translations:
+                namespace_prefix: "PullUpDomain\\Entity\\Translations"
+                path: "@PullUpBundle/Resources/config/serializer/entity"
 
 fos_rest:
     body_converter:

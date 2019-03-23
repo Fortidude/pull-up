@@ -23,3 +23,9 @@ PullUpDomain\Entity\Exercise:
             type: string
             groups: [logger, exercise_item, exercise_list]
             expose: true
+
+        getTranslations:
+            serialized_name: translations
+            type: array
+            groups: [exercise_item, exercise_list]
+            expose: true
